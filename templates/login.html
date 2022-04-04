@@ -1,0 +1,18 @@
+{%  extends "base.html"  %}
+{% block title %}Log In
+{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block body %}
+<h1>Inicia sesión para acceder a nuestros servicios</h1>
+<h3>{{mensaje}}</h3>
+<form action="" method="POST">
+    <label for="user">Username:</label>
+    <input type="text" id="username" name="username"  ><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" ><br>
+    <input type="submit" name="enviar" value="Enviar">
+</form>
+
+{% endblock %}
