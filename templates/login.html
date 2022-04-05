@@ -5,6 +5,7 @@
 {{ super() }}
 {% endblock %}
 {% block body %}
+<div class="container-fluid">
 <h1>Inicia sesión para acceder a nuestros servicios</h1>
 <h3>{{mensaje}}</h3>
 <form action="" method="POST">
@@ -14,5 +15,6 @@
     <input type="password" id="password" name="password" ><br>
     <input type="submit" name="enviar" value="Enviar">
 </form>
+</div>
 
 {% endblock %}
