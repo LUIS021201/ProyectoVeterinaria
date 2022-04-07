@@ -14,9 +14,11 @@ html, body {
 
 a {
 	text-decoration: none;
-	color:darkgray;
+	color:darkgray !important;
 	font-weight: 300;
 }
+
+
 
 a:hover {
 	color: #aacbfa !important;
@@ -25,8 +27,8 @@ a:hover {
 .navbar {
 	padding: 1.5rem 3.5rem;
 	height: 0rem;
-	min-height: 12vh;
-	box-shadow: 2px 1px 3px 0px darkgrey;
+	min-height: 83px;
+	box-shadow: 2px 1px 3px 0px darkgray;
 }
 
 .navbar .navbar-brand a {
@@ -42,7 +44,7 @@ a:hover {
 } 
 
 .navbar-brand img {
-	margin-top: -10px;
+	margin-top: -7px;
 }
 .navbar-toggler {
 	background-color: white;
@@ -73,17 +75,13 @@ a:hover {
 	width: 22px;
 }
 
-.navbar-expand-lg .navbar-nav .nav-link {
-	padding: 2rem 1rem;
+.navbar-expand-md .navbar-nav .nav-link {
+	padding: 1rem 1rem;
 	font-size: 1rem;
-	width: 100%;
 	background-color: white;
 	position: relative;
 }
 
-.last-item {
-	margin-right: 30px;
-}
 
 .navbar-nav button {
 	padding: 1.2rem 0;
@@ -92,13 +90,40 @@ a:hover {
 .navbar-nav .btn {
 	background-color: #aacbfa;
 	color: white;
-	border-radius: 0;
+	border-radius: 15px;
 	font-weight: 500;
-	padding: 0.5rem 1.5rem;
+	padding: 1rem 1.5rem;
 	font-size: 1rem;
-	margin-top: -10px;
+	margin-left: 20px;
 }
 
 .navbar-nav .btn:hover {
 	background-color: #6398e3;
 }
+
+@media only screen and (max-width: 767px)  {
+	
+	.navbar-nav .btn {
+		border-radius: 0;
+		padding: 1rem 1rem;
+		margin-left: 0px;
+		width: 100%;
+		text-align: center;
+
+	}
+	.navbar-expand-md .navbar-nav .nav-link {
+		border-bottom: 1px solid rgba(0,0,0,.03);
+
+	}
+	.nav-link:hover {
+		background-color: rgba(0,0,0,.03) !important;
+		transition: all .3s ease-in-out;
+
+	}
+	.navbar-expand-md .navbar-nav {
+		padding: 5%;
+		background-color: white;
+	}
+
+	
+  }
