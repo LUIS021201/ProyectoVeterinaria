@@ -60,7 +60,7 @@ def usuarios():
         if session['logged_in']:
             accesos = diccionario_accesos[session['type']]
             usuario = diccionario_usuarios[session['username']]
-            lista_usuarios = get_lista_usuarios()
+            lista_usuarios = get_dicc_usuarios()
             return render_template("lista_usuarios.html", accesos=accesos, log=['Log Out', '/logout'], usuario=usuario,
                                     lista_usuarios=lista_usuarios)
         else:

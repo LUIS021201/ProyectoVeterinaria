@@ -10,6 +10,7 @@
 <div class="contenido">
     <h3 class="titulo">Lista De Usuarios</h3>
     <div class="contenedor_main">
+        <div >
     <div class="contenedor_accesos">
         <ul class="list-group">
             {% for link,nombre in accesos.items() %}
@@ -24,13 +25,16 @@
             {% endif %}
             {% endfor %}
         </ul>
-    </div>
+    </div></div>
     <div class="contenedor_info">
         <ul class="listado">
-            {% for usuario in lista_usuarios %}
-            <li class="elemento_lista">{{usuario}}</li>
+            {% for id, dicc in lista_usuarios.items() %}
+            <li class="elemento_lista">{{dicc['nombre']}} | <a href="/mod_user/{{id}}" class="elemento_lista">Editar usuario</a></li>
             {% endfor %}
         </ul>
+        <div class="contenedor_btns">
+            <a href="" class="btn boton_pie">Agregar Usuario</a>
+        </div>
     </div>
 </div>
 </div>

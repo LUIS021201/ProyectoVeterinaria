@@ -237,9 +237,10 @@ a:hover {
     -moz-border-radius: 34px 34px 34px 34px;
     -webkit-border-radius: 34px 34px 34px 34px;
     background-color: white;
+    display: inline-block;
 }
 .contenedor_info {
-
+    border: 3rem solid #b9b8fb;
     border-radius: 34px 34px 34px 34px;
     -moz-border-radius: 34px 34px 34px 34px;
     -webkit-border-radius: 34px 34px 34px 34px;
@@ -250,15 +251,25 @@ a:hover {
     width: calc(70%);
     background-color: #b9b8fb;
 
+
 }
-.listado{
-    padding: 3rem;
-}
+/*.listado{*/
+/*    padding: 3rem;*/
+/*}*/
 .elemento_lista{
     color: #03164d;
     font-size: 1.5rem;
 }
+.boton_pie{
+    background-color: #1143cf;
+    color: white;
+    font-weight: 500;
+}
+.boton_pie:hover{
+    background-color: white;
+    color: #1143cf;
 
+}
 @media only screen and (max-width: 767px) {
 
     .navbar-nav .btn {

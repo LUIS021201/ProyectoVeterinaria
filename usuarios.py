@@ -1,4 +1,5 @@
-diccionario_usuarios = {'LuisHL': {'password': '123', 'nombre': 'Luis Hernandez', 'type': 'admin'}}
+from manejo_csv import lee_diccionario_de_csv
+diccionario_usuarios = lee_diccionario_de_csv('csv/usuarios.csv','email')
 diccionario_accesos = {'admin': {
     '/agendarCita': 'Agendar Cita',
     '/historial_recetas': 'Historial De Recetas',
@@ -38,6 +39,8 @@ diccionario_accesos = {'admin': {
 #     '/servicios': 'Servicios',
 #     '/informe_ventas': 'Informe De Ventas'
 # }
+
+
 
 def get_lista_usuarios():
     lista_usuarios = []
