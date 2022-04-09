@@ -43,6 +43,9 @@ def login():
             else:
                 mensaje = 'Usuario o contraseña incorrectos'
                 return render_template("login.html", mensaje=mensaje)
+        else:
+            mensaje = 'Usuario o contraseña incorrectos'
+            return render_template("login.html", mensaje=mensaje)
 
 
 @app.route("/logout", methods=['GET'])

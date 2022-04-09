@@ -27,7 +27,9 @@ a {
 a:hover {
     color: #aacbfa;
 }
-
+.no-border{
+    border: 0;
+}
 .navbar {
     padding: 1.5rem 3.5rem;
     height: 0rem;
@@ -226,16 +228,25 @@ a:hover {
     text-align: center;
     font-size: 3rem;
 }
-
+.contenedor_accesos{
+    padding: 1rem;
+    -webkit-box-shadow: 10px 10px 48px -1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 48px -1px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 48px -1px rgba(0, 0, 0, 0.75);
+    border-radius: 34px 34px 34px 34px;
+    -moz-border-radius: 34px 34px 34px 34px;
+    -webkit-border-radius: 34px 34px 34px 34px;
+    background-color: white;
+}
 .contenedor_info {
 
     border-radius: 34px 34px 34px 34px;
     -moz-border-radius: 34px 34px 34px 34px;
     -webkit-border-radius: 34px 34px 34px 34px;
-
-    -webkit-box-shadow: 10px 10px 48px -1px rgba(0, 0, 0, 0.75);
+-webkit-box-shadow: 10px 10px 48px -1px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 10px 10px 48px -1px rgba(0, 0, 0, 0.75);
     box-shadow: 10px 10px 48px -1px rgba(0, 0, 0, 0.75);
+
     width: calc(70%);
     background-color: #b9b8fb;
 

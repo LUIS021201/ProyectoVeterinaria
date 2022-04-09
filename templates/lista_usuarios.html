@@ -15,11 +15,11 @@
             {% for link,nombre in accesos.items() %}
             {% if nombre=='Usuarios' %}
             <a href="{{link}}">
-                <li class="list-group-item active" aria-current="true">{{nombre}}</li>
+                <li class="list-group-item active no-border" aria-current="true">{{nombre}}</li>
             </a>
             {% else %}
             <a href="{{link}}">
-                <li class="list-group-item" aria-current="true">{{nombre}}</li>
+                <li class="list-group-item no-border" aria-current="true">{{nombre}}</li>
             </a>
             {% endif %}
             {% endfor %}
@@ -29,7 +29,7 @@
         <ul class="listado">
             {% for usuario in lista_usuarios %}
             <li class="elemento_lista">{{usuario}}</li>
-            {% endfor%}
+            {% endfor %}
         </ul>
     </div>
 </div>
