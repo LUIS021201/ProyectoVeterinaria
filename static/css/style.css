@@ -260,16 +260,22 @@ a:hover {
     color: #03164d;
     font-size: 1.5rem;
 }
+
 .boton_pie{
-    background-color: #1143cf;
-    color: white;
     font-weight: 500;
 }
-.boton_pie:hover{
-    background-color: white;
-    color: #1143cf;
+
+.boton_pie,.elemento_accesos:hover {
+    background-color: #0d6efc;
+    color: white;
 
 }
+.boton_pie:hover, .elemento_accesos{
+    background-color: white;
+    color: #0d6efc;
+
+}
+.
 @media only screen and (max-width: 767px) {
 
     .navbar-nav .btn {

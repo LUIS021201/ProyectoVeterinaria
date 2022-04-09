@@ -6,24 +6,38 @@ app.secret_key = 'lwiu74dhn2SuF3j'
 diccionario_usuarios = get_dicc_usuarios()
 
 diccionario_accesos = get_dicc_accesos()
+mensaje = 'MENSAJE DE PRUEBA'
+mensaje2 = 'SEGUNDO MENSAJE DE PRUEBA'
 
 
-# @app.context_processor
-# def handle_context():
-
-
-@app.route("/")
-def index():
+@app.context_processor
+def handle_context():
     if 'logged_in' in session.keys():
         if session['logged_in']:
             accesos = diccionario_accesos[session['type']]
             usuario = diccionario_usuarios[session['username']]
 
-            return render_template("index.html", accesos=accesos, log=['Log Out', '/logout'], usuario=usuario)
+            #return render_template("index.html", accesos=accesos, log=['Log Out', '/logout'], usuario=usuario)
+            return {'accesos':accesos,'log':['Log Out', '/logout'],'usuario':usuario}
         else:
-            return render_template("index.html", log=['Log In', '/login'])
+            return {'log':['Log In', '/login']}
     else:
-        return render_template("index.html", log=['Log In', '/login'])
+        return {'log':['Log In', '/login']}
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+    # if 'logged_in' in session.keys():
+    #     if session['logged_in']:
+    #         accesos = diccionario_accesos[session['type']]
+    #         usuario = diccionario_usuarios[session['username']]
+    #
+    #         return render_template("index.html", accesos=accesos, log=['Log Out', '/logout'], usuario=usuario)
+    #     else:
+    #         return render_template("index.html", log=['Log In', '/login'])
+    # else:
+    #     return render_template("index.html", log=['Log In', '/login'])
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -51,7 +65,7 @@ def login():
 @app.route("/logout", methods=['GET'])
 def logout():
     session.clear()
-    return redirect("/")
+    return render_template("index.html")
 
 
 @app.route("/usuarios", methods=['GET', 'POST'])
@@ -62,16 +76,28 @@ def usuarios():
             usuario = diccionario_usuarios[session['username']]
             lista_usuarios = get_dicc_usuarios()
             return render_template("lista_usuarios.html", accesos=accesos, log=['Log Out', '/logout'], usuario=usuario,
-                                    lista_usuarios=lista_usuarios)
+                                   lista_usuarios=lista_usuarios)
         else:
             return render_template("index.html", log=['Log In', '/login'])
     else:
         return render_template("index.html", log=['Log In', '/login'])
-    # accesos = diccionario_accesos[session['type']]
-    # usuario = diccionario_usuarios[session['username']]
-    # lista_usuarios = get_lista_usuarios()
-    # return render_template("lista_usuarios.html", accesos=accesos, log=['Log Out', '/logout'], usuario=usuario,
-    #                        lista_usuarios=lista_usuarios)
+
+
+@app.route("/mod_usuarios", methods=['GET', 'POST'])
+def mod_usuarios():
+    if request.method == 'GET':
+        if 'logged_in' in session.keys():
+            if session['logged_in']:
+                accesos = diccionario_accesos[session['type']]
+                usuario = diccionario_usuarios[session['username']]
+                lista_usuarios = get_dicc_usuarios()
+                return render_template("agregar_usuario.html", accesos=accesos, log=['Log Out', '/logout'],
+                                       usuario=usuario,
+                                       lista_usuarios=lista_usuarios)
+            else:
+                return render_template("index.html", log=['Log In', '/login'])
+        else:
+            return render_template("index.html", log=['Log In', '/login'])
 
 
 if __name__ == '__main__':
