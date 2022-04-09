@@ -1,0 +1,42 @@
+{%  extends "base.html"  %}
+{%  set log = log %}
+{% block title %}Cartelera de Estrenos
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+
+<div class="contenido">
+    <h3 class="titulo">Lista De Usuarios</h3>
+    <div class="contenedor_main">
+    <div class="contenedor_accesos">
+        <ul class="list-group">
+            {% for link,nombre in accesos.items() %}
+            {% if nombre=='Usuarios' %}
+            <a href="{{link}}">
+                <li class="list-group-item active" aria-current="true">{{nombre}}</li>
+            </a>
+            {% else %}
+            <a href="{{link}}">
+                <li class="list-group-item" aria-current="true">{{nombre}}</li>
+            </a>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="contenedor_info">
+        <ul class="listado">
+            {% for usuario in lista_usuarios %}
+            <li class="elemento_lista">{{usuario}}</li>
+            {% endfor%}
+        </ul>
+    </div>
+</div>
+</div>
+
+
+
+{% endblock %}
+{% block footer %}
+{% endblock %}

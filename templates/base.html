@@ -13,6 +13,7 @@
     {% endblock %}
 </head>
 <body>
+{{hola_mundo}}
   <header class="header">
     <nav class="navbar navbar-expand-md navbar-light bg-white navbar-static-top">
       <div class="container-fluid">
@@ -26,7 +27,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">INICIO</a>
+              <a class="nav-link active" aria-current="page" href="/">INICIO</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">SOBRE NOSOTROS</a>
@@ -35,7 +36,7 @@
               <a class="nav-link last-item" href="#">SERVICIOS</a>
             </li>
             <li>
-              <button class="btn" type="submit">LOGIN</button>
+                <a href="{{log[1]}}"><button class="btn" type="submit">{{log[0]}}</button></a>
             </li>
           </ul>
           <!-- <ul class="navbar-nav ">
