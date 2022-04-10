@@ -1,4 +1,1 @@
-email,password,nombre,type
-LuisHL,123,Luis HernÃ¡ndez,admin
-andrea,123,Andrea Duarte,cliente
-david,123,David NuÃ±ez,usuario
+email,email,password,nombre,typeLuisHL,LuisHL,123,Luis Hernández,adminandrea,andrea,123,Andrea Duarte,clientedavid,david,123,David Nuñez,usuario

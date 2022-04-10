@@ -3,7 +3,7 @@ import csv
 def lee_diccionario_de_csv(archivo:str,llave_columna)->dict:
     diccionario = {}
     try:
-        with open(archivo,"r",encoding="utf-8") as fh: #fh: file handle
+        with open(archivo,"r",encoding="latin-1") as fh: #fh: file handle
             csv_reader = csv.DictReader(fh)
             for renglon in csv_reader:
                 llave = renglon[llave_columna]
@@ -19,17 +19,18 @@ def lee_diccionario_de_csv(archivo:str,llave_columna)->dict:
 
 
 def graba_diccionario_en_csv(diccionario: dict, llave_dict: str, archivo: str):
-    with open(archivo, 'w') as fh:
+    with open(archivo, 'w',encoding='latin-1') as fh:
 
         lista_campos = obtiene_llaves(diccionario, llave_dict)
         dw = csv.DictWriter(fh, lista_campos)
         dw.writeheader()
         rows = []
         for llave, valor_d in diccionario.items():
-            d = {'usuario': llave}  # aquí va llave_dict
+            d = {llave_dict: llave}  # aquí va llave_dict
             for key, value in valor_d.items():
                 d[key] = value
             rows.append(d)
+
         dw.writerows(rows)
 
 
@@ -51,5 +52,10 @@ def obtiene_llaves(diccionario: dict, llave_dicc: str) -> list:
 
 
 if __name__ == '__main__':
-    dicc_usuarios = lee_diccionario_de_csv('csv/usuarios.csv')
+    dicc = {'LuisHL': {'password': '123', 'nombre': 'Luis Hernández', 'type': 'admin'},
+            'andrea': {'password': '123', 'nombre': 'Andrea Duarte', 'type': 'cliente'},
+            'david': {'password': '123', 'nombre': 'David Nuñez', 'type': 'usuario'}}
+    dicc_usuarios = lee_diccionario_de_csv('csv/usuarios.csv','email')
     print(dicc_usuarios)
+    dicc_usuarios['david'] ={'email':'david','password':'123','nombre':'David Nuñez','type':'usuario'}
+    graba_diccionario_en_csv(dicc,'email','csv/usuarios.csv')

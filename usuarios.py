@@ -1,5 +1,6 @@
-from manejo_csv import lee_diccionario_de_csv
-diccionario_usuarios = lee_diccionario_de_csv('csv/usuarios.csv','email')
+from manejo_csv import lee_diccionario_de_csv, graba_diccionario_en_csv
+
+diccionario_usuarios = lee_diccionario_de_csv('csv/usuarios.csv', 'email')
 diccionario_accesos = {'admin': {
     '/agendarCita': 'Agendar Cita',
     '/historial_recetas': 'Historial De Recetas',
@@ -39,7 +40,9 @@ diccionario_accesos = {'admin': {
 #     '/servicios': 'Servicios',
 #     '/informe_ventas': 'Informe De Ventas'
 # }
-
+# dicc={'LuisHL': { 'password': '123', 'nombre': 'Luis Hernández', 'type': 'admin'}, 'andrea': { 'password': '123', 'nombre': 'Andrea Duarte', 'type': 'cliente'}, 'david': { 'password': '123', 'nombre': 'David Nuñez', 'type': 'usuario'}}
+def grabar_dicc_usuarios(dicc: dict):
+    graba_diccionario_en_csv(dicc, 'email', 'csv/usuarios.csv')
 
 
 def get_lista_usuarios():
