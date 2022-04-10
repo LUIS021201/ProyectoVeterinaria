@@ -157,13 +157,13 @@ a:hover {
 }
 
 .campo_login {
-    margin: 2%;
+    margin: 1%;
 
 }
 
 .label_login {
     text-align: start;
-
+    font-size: 1.2rem;
 }
 
 .input_login {
@@ -171,9 +171,9 @@ a:hover {
     background-color: #c0cdf1;
     border: 0px;
     border-radius: 5px;
-
-    width: 17rem;
-    height: 2.5rem;
+    font-size: 1rem;
+    width: 20rem;
+    height: 3rem;
 }
 
 .contenedor_campo {
