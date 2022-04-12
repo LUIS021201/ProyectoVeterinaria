@@ -1,4 +1,11 @@
-email,email,password,nombre,type
-luis@gmail.com,luis@gmail.com,$5$rounds=535000$656MRtarbYnV5bBM$1kwFoigovLgyRQz/Q/UL0wn61L34fFOhHPkKiZiig62,Luis Hernández,admin
-andrea@gmail.com,andrea@gmail.com,$5$rounds=535000$EYe.HMkSqVL.Uo7n$Uv5uOW7GrXjRW/Ror5TfnmmTmoTWZtuT2nNWT/zzUMA,Andrea Duarte,admin
-david@gmail.com,david@gmail.com,$5$rounds=535000$H.ipALBoQpQo0B3W$3jYfd7Z6LjEQqbQO0tTNndbxmFFq0pNYQaMktdhjDgB,David Nuñez,admin
+email,username,password,nombre,type
+
+luis@gmail.com,luis,$5$rounds=535000$656MRtarbYnV5bBM$1kwFoigovLgyRQz/Q/UL0wn61L34fFOhHPkKiZiig62,Luis Hernï¿½ndez,admin
+
+andrea@gmail.com,andrea,$5$rounds=535000$EYe.HMkSqVL.Uo7n$Uv5uOW7GrXjRW/Ror5TfnmmTmoTWZtuT2nNWT/zzUMA,Andrea Duarte,cliente
+
+david@gmail.com,david,$5$rounds=535000$H.ipALBoQpQo0B3W$3jYfd7Z6LjEQqbQO0tTNndbxmFFq0pNYQaMktdhjDgB,David Nuï¿½ez,adminemail,email,username,password,nombre,type
+luis@gmail.com,luis@gmail.com,luis,$5$rounds=535000$656MRtarbYnV5bBM$1kwFoigovLgyRQz/Q/UL0wn61L34fFOhHPkKiZiig62,Luis Hernï¿½ndez,admin
+andrea@gmail.com,andrea@gmail.com,andrea,$5$rounds=535000$EYe.HMkSqVL.Uo7n$Uv5uOW7GrXjRW/Ror5TfnmmTmoTWZtuT2nNWT/zzUMA,Andrea Duarte,cliente
+david@gmail.com,david@gmail.com,david,$5$rounds=535000$H.ipALBoQpQo0B3W$3jYfd7Z6LjEQqbQO0tTNndbxmFFq0pNYQaMktdhjDgB,David Nuï¿½ez,admin
+usuario@gmail.com,usuario@gmail.com,user1,$5$rounds=535000$/QDu5l97ABlHCb2N$75LAs6vjS5FnHM3EmSwWwRcK4UNaYKAdctNrehGOCH/,userr,2

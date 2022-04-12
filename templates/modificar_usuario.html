@@ -8,7 +8,7 @@
 {% block body %}
 
 <div class="contenido">
-    <h3 class="titulo">Agregar Nuevo Usuario</h3>
+    <h3 class="titulo">Modificar Usuario</h3>
     <div class="contenedor_main">
         <div>
             <div class="contenedor_accesos">
@@ -35,11 +35,15 @@
                     <label for="disabledInput">Email</label>
                 </div>
                 <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="username" name="username" value="{{dicc_usuario['username']}}">
+                    <label for="username">Username</label>
+                </div>
+                <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="password" name="password" >
                     <label for="password">Contraseña</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text"class="form-control" id="validationServer03" required placeholder="Nombre" name="nombre" value="{{dicc_usuario['nombre']}}">
+                    <input type="text"class="form-control" id="validationServer03" required placeholder="Nombre" name="nombre" value="{{dicc_usuario['name']}}">
                     <label for="validationServer03">Nombre</label>
                 </div>
                 <select class="form-select form-select-lg mb-3 form-floating" aria-label=".form-select-lg example" id="tipo" name="tipo">

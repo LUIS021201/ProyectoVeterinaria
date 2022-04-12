@@ -1,0 +1,28 @@
+{%  extends "base.html"  %}
+{%  set log = log %}
+{% block title %}Cartelera de Estrenos
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+
+<div class="contenido">
+    <h3 class="titulo">Hola, {{usuario['nombre']}}</h3>
+    <div class="contenedor_main" >
+        <div class="contenedor_accesos">
+            <ul class="list-group">
+                {% for link,nombre in accesos.items() %}
+                <a href="{{link}}"><li class="list-group-item no-border elemento_accesos" aria-current="true">{{nombre}}</li></a>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="contenedor_info">
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+{% endblock %}

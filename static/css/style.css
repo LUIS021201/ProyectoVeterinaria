@@ -27,6 +27,7 @@ a {
 a:hover {
     color: #aacbfa;
 }
+
 .no-border{
     border: 0;
 }
@@ -176,6 +177,7 @@ a:hover {
     height: 3rem;
 }
 
+
 .contenedor_campo {
     display: flex;
     flex-direction: column;
@@ -280,6 +282,30 @@ a:hover {
     justify-content: space-between;
     align-items: center;
 }
+
+
+.navbar .nav-item:hover .nav-link {
+    color: #a9caf9;
+}
+
+.dropdown-menu {
+    background-color: white;
+    border: 0px;
+    font-size: 1rem;
+}
+
+.dropdown-item {
+    color: darkgrey;
+    margin: 3px 0;
+
+}
+
+.dropdown-item:hover {
+    background-color: #c0cdf154 !important;
+    color: #6398e3;
+    transition: all .3s ease-in-out;
+}
+
 @media only screen and (max-width: 767px) {
 
     .navbar-nav .btn {
@@ -307,5 +333,32 @@ a:hover {
         background-color: white;
     }
 
+}
 
+@media only screen and (min-width: 992px) {
+    .navbar .nav-item .dropdown-menu {
+        display: block;
+        opacity: 0;
+        visibility: hidden;
+        transition: .3s;
+        margin-top: 0;
+    }
+
+    .navbar .dropdown-menu.fade-down {
+        top: 80%;
+        transform: rotateX(-75deg);
+        transform-origin: 0% 0%;
+    }
+
+    .navbar .dropdown-menu.fade-up {
+        top: 180%;
+    }
+
+    .navbar .nav-item:hover .dropdown-menu {
+        transition: .3s;
+        opacity: 1;
+        visibility: visible;
+        top: 100%;
+        transform: rotateX(0deg);
+    }
 }
