@@ -116,7 +116,7 @@ def new_password():
             nueva_contraseña=sha256_crypt.hash(password1)
             diccionario_usuarios[session['usuario_codigo']]['password']= nueva_contraseña
             print(nueva_contraseña)
-            #grabar_dicc_usuarios()
+            grabar_dicc_usuarios(diccionario_usuarios)
             return redirect('/password_changed')
         else:
             mensaje = 'Contraseñas no concuerdan, intente de nuevo'

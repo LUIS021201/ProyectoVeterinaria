@@ -1,1 +1,5 @@
-email,email,password,nombre,type,codigoluis@gmail.com,luis@gmail.com,$5$rounds=535000$656MRtarbYnV5bBM$1kwFoigovLgyRQz/Q/UL0wn61L34fFOhHPkKiZiig62,Luis Hernández,admin,0andrea@gmail.com,andrea@gmail.com,$5$rounds=535000$EYe.HMkSqVL.Uo7n$Uv5uOW7GrXjRW/Ror5TfnmmTmoTWZtuT2nNWT/zzUMA,Andrea Duarte,admin,0davidnunez635@gmail.com,davidnunez635@gmail.com,$5$rounds=535000$H.ipALBoQpQo0B3W$3jYfd7Z6LjEQqbQO0tTNndbxmFFq0pNYQaMktdhjDgB,David Nuñez,admin,0PetVetReal@gmail.com,PetVetReal@gmail.com,..:Phi3GcAzJGwJ,admin,0
+email,email,password,nombre,type,codigo
+luis@gmail.com,luis@gmail.com,$5$rounds=535000$656MRtarbYnV5bBM$1kwFoigovLgyRQz/Q/UL0wn61L34fFOhHPkKiZiig62,Luis Hernández,admin,0
+andrea@gmail.com,andrea@gmail.com,$5$rounds=535000$EYe.HMkSqVL.Uo7n$Uv5uOW7GrXjRW/Ror5TfnmmTmoTWZtuT2nNWT/zzUMA,Andrea Duarte,admin,0
+davidnunez635@gmail.com,davidnunez635@gmail.com,$5$rounds=535000$bnchHeLyG.hYB3Oj$oAWu99ITN9ikshHW8GF.JuFrcsQ4VDNsGBNs7k7efD2,David Nuñez,admin,0
+PetVetReal@gmail.com,PetVetReal@gmail.com,..:Phi3GcAzJGwJ,admin,0,
