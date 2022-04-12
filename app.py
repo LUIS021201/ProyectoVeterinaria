@@ -1,9 +1,9 @@
 from random import *
-import smtplib
-from email.message import EmailMessage
+
 from flask import Flask, redirect, render_template, request, session
-from usuarios import get_dicc_usuarios, get_dicc_accesos, grabar_dicc_usuarios
+
 from funciones import mandar_correo_codigo
+from usuarios import get_dicc_usuarios, get_dicc_accesos, grabar_dicc_usuarios
 from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
@@ -13,7 +13,8 @@ diccionario_usuarios = get_dicc_usuarios()
 diccionario_accesos = get_dicc_accesos()
 mensaje = 'MENSAJE DE PRUEBA'
 mensaje2 = 'SEGUNDO MENSAJE DE PRUEBA'
-message = EmailMessage()
+
+
 
 @app.context_processor
 def handle_context():
@@ -122,6 +123,7 @@ def new_password():
             mensaje = 'Contraseñas no concuerdan, intente de nuevo'
             return render_template("new_password.html", mensaje=mensaje)
 @app.route("/password_changed", methods=['GET', 'POST'])
+
 def password_changed():
     if request.method == 'GET':
         return render_template("password_changed.html")
