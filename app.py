@@ -56,10 +56,10 @@ def login():
                 session['type'] = usr['type']
                 return redirect("/dashboard")
             else:
-                mensaje = 'Usuario o contraseña incorrectos'
+                mensaje = 'Contraseña incorrecta'
                 return render_template("login.html", mensaje=mensaje)
         else:
-            mensaje = 'Usuario o contraseña incorrectos'
+            mensaje = 'Ese correo no esta registrado'
             return render_template("login.html", mensaje=mensaje)
 
 
@@ -74,20 +74,19 @@ def forgot_password():
     if request.method == 'GET':
         return render_template("forgot_password.html")
     elif request.method == 'POST':
-        username = request.form['email']
-        if username in diccionario_usuarios and username != 'PetVetReal@gmail.com':
-            password = diccionario_usuarios[username]['password']
-            mensaje = f'Se envió un código para cambiar la contraseña a su correo ({username})'
-            digitos = [n for n in range(0, 10)]
+        usuarios = get_dicc_usuarios(get_lista_usuarios())
+        email = request.form['email']
+        if email in usuarios and email != 'PetVetReal@gmail.com':
+            mensaje = f'Se envió un código para cambiar la contraseña a su correo ({email})'
             codigo = ''
             for i in range(4):
                 numero = randint(0, 9)
                 codigo += str(numero)
             print(codigo)
-            session['usuario_codigo']=username
+            session['usuario_codigo']=email
             session['codigo']=codigo
             # MANDAR CODIGO POR CORREO DE LA PERSONA
-            mandar_correo_codigo('PetVetReal@gmail.com',username,diccionario_usuarios['PetVetReal@gmail.com']['password'],codigo)
+            mandar_correo_codigo('PetVetReal@gmail.com',email,'..:Phi3GcAzJGwJ',codigo)
             return redirect('/reset_code')
         else:
             mensaje = 'name de usuario desconocido'
@@ -121,7 +120,7 @@ def new_password():
             nueva_contraseña=sha256_crypt.hash(password1)
             diccionario_usuarios[session['usuario_codigo']]['password']= nueva_contraseña
             print(nueva_contraseña)
-            actualizar_usuario(session['email'], 'password', nueva_contraseña)
+            actualizar_usuario(session['usuario_codigo'], 'password', nueva_contraseña)
             return redirect('/password_changed')
         else:
             mensaje = 'Contraseñas no concuerdan, intente de nuevo'
