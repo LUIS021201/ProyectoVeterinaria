@@ -31,16 +31,12 @@
         <div class="contenedor_info">
             <form class="needs-validation" action="" method="POST">
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="disabledInput" name="email1" value="{{dicc_usuario['email']}}" disabled>
-                    <label for="disabledInput">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{dicc_usuario['email']}}" required>
+                    <label for="email">Email</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="username" name="username" value="{{dicc_usuario['username']}}">
+                    <input type="text" class="form-control" id="username" required name="username" value="{{dicc_usuario['username']}}">
                     <label for="username">Username</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="password" name="password" >
-                    <label for="password">Contraseña</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input type="text"class="form-control" id="validationServer03" required placeholder="Nombre" name="nombre" value="{{dicc_usuario['name']}}">

@@ -149,6 +149,7 @@ a:hover {
     background-color: #a9caf9;
     color: #000000;
     padding: 0.7rem 3rem;
+    width: 150px;
     font-size: 1.1rem;
 }
 
@@ -306,6 +307,32 @@ a:hover {
     transition: all .3s ease-in-out;
 }
 
+.cards {
+    background-color: #cbddf7 !important;
+    margin: 35px;
+    padding: 20px 15px 30px 15px;
+    border-radius: 30px;
+}
+.item {
+    margin-top: 10px;
+}
+
+.item i{
+    font-size: 3rem;
+    font-weight: 900;
+    padding: 1.5rem;
+    color:#6398e3;
+    border: 2px solid #6398e300;
+    border-radius: 50%;
+    transition: all 0.4s ease-in-out;
+
+}
+
+.item i:hover{
+    background-color: #a9caf9;
+    color: white;
+}
+
 @media only screen and (max-width: 767px) {
 
     .navbar-nav .btn {
@@ -334,6 +361,7 @@ a:hover {
     }
 
 }
+
 
 @media only screen and (min-width: 992px) {
     .navbar .nav-item .dropdown-menu {

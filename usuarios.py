@@ -1,10 +1,10 @@
-from manejo_csv import lee_diccionario_de_csv, graba_diccionario_en_csv
+
 from bd import obtener_conexion
 
 
 # diccionario_usuarios = lee_diccionario_de_csv('csv/usuarios.csv', 'email')
 diccionario_accesos = {'admin': {
-    '/agendarCita': 'Agendar Cita',
+    '/agendar': 'Agendar Cita',
     '/historial_recetas': 'Historial De Recetas',
     '/historial_atencion': 'Historial De Atención',
     '/agregar_receta': 'Agregar Una Receta',
@@ -15,13 +15,13 @@ diccionario_accesos = {'admin': {
     '/informe_ventas': 'Informe De Ventas'
 },
     'cliente': {
-        '/agendarCita': 'Agendar Cita',
+        '/agendar': 'Agendar Cita',
         '/historial_recetas': 'Historial De Recetas',
         '/historial_atencion': 'Historial De Atención'
 
     },
     'usuario': {
-        '/agendarCita': 'Agendar Cita',
+        '/agendar': 'Agendar Cita',
         '/historial_recetas': 'Historial De Recetas',
         '/historial_atencion': 'Historial De Atención',
         '/agregar_receta': 'Agregar Una Receta',
@@ -64,16 +64,16 @@ def get_dicc_accesos():
 def insertar_usuario(email,username,password,nombre,type):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("INSERT INTO users (email,username,password,name,type) VALUES (%s, %s, %s, %s, %s)", 
+        cursor.execute("INSERT INTO users (email,username,name,type) VALUES (%s, %s, %s, %s, %s)", 
                        (email,username,password,nombre,type))
     conexion.commit()
     conexion.close()
 
-def actualizar_todo_usuario(email,username,password,nombre,type):
+def actualizar_todo_usuario(email,username,nombre,type, id):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("UPDATE users SET username = %s, password = %s, name = %s, type = %s WHERE email = %s", 
-                       (username,password,nombre,type, email))
+        cursor.execute("UPDATE users SET username = %s, name = %s, type = %s, email = %s WHERE id =%s", 
+                       (username,nombre,type, email, id))
     conexion.commit()
     conexion.close()
 
@@ -93,15 +93,26 @@ def eliminar_usuario(usr_email:str):
     conexion.commit()
     conexion.close()
     
-def buscar_usuario_por_email(column:str, usr_email:str):
+def buscar_usuario(column:str, valor:str):
     conexion = obtener_conexion()
-    query = "SELECT "+column+" FROM users WHERE email=%s"
+    query = "SELECT * FROM users WHERE "+column+"=%s"
     with conexion.cursor() as cursor:
-        cursor.execute(query, (usr_email))
+        cursor.execute(query, (valor))
         usuario = cursor.fetchone()
     conexion.commit()
     conexion.close()
     return usuario
+
+def usuario_existe(column:str, valor:str):
+    conexion = obtener_conexion()
+    query = "SELECT * FROM users WHERE "+column+"=%s"
+    with conexion.cursor() as cursor:
+        cursor.execute(query, (valor))
+        if cursor.fetchone() is None:
+            return False
+    conexion.commit()
+    conexion.close()
+    return True
 
 def get_lista_usuarios()->list:
     conexion = obtener_conexion()
@@ -121,10 +132,12 @@ def get_dicc_usuarios(lista_usrs:list)->dict:
             usuarios[usr['email']] = usr
     return usuarios
 
+        
+
 if __name__=="__main__":
-    #eliminar_usuario("luis@gmail.com")
-    #insertar_usuario("luis@gmail.com","luis","$5$rounds=535000$656MRtarbYnV5bBM$1kwFoigovLgyRQz/Q/UL0wn61L34fFOhHPkKiZiig62","Luis Hernández","admin")
-    #actualizar_usuario("usuario@gmail.com","username","holaaaa")
-    #print(buscar_usuario_por_email('*', 'luis@gmail.com'))
-    lista = get_lista_usuarios()
-    print(get_dicc_usuarios(lista))
+#     eliminar_usuario("luis@gmail.com")
+    insertar_usuario("luis@gmail.com","luis","$5$rounds=535000$656MRtarbYnV5bBM$1kwFoigovLgyRQz/Q/UL0wn61L34fFOhHPkKiZiig62","Luis Hernández","admin")
+#     actualizar_usuario("usuario@gmail.com","username","holaaaa")
+#     print(buscar_usuario_por_email('*', 'luis@gmail.com'))
+#     lista = get_lista_usuarios()
+    print(usuario_existe('email','luis@gmail.com'))

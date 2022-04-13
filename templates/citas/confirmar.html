@@ -1,0 +1,58 @@
+{%  extends "base.html"  %}
+{%  set log = log %}
+{% block title %}Cartelera de Estrenos
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+
+<div class="contenido">
+    <h3 class="titulo">Agendar Cita</h3>
+        <div class="contenedor_info container-sm">
+            <form class="needs-validation" action="" method="POST">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="validationServer01"  {% if type=='cliente' %} value="{{dicc_usuario['email']}}" disabled {% endif %} required name="email">
+                    <label for="validationServer01">Email</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="validationServer02" required name="nombre"
+                    {% if type=='cliente' %} value="{{dicc_usuario['name']}}" disabled {% endif %}>
+                    <label for="validationServer02">Nombre del dueño</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="validationServer03" name="mascota">
+                    <label for="validationServer03">Nombre de mascota</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="validationServer03" name="tipo_mascota">
+                    <label for="validationServer03">Tipo de mascota</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="date" class="form-control" id="validationServer04" required name="fecha" value="{{fecha}}" disabled>
+                    <label for="validationServer04">Fecha</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="validationServer04" required name="hora" value="{{hora}}" disabled>
+                    <label for="validationServer04">Hora</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="validationServer04" required name="servicio" value="{{tipo}}" disabled>
+                    <label for="validationServer04">Servicio</label>
+                </div>
+                <div class="contenedor_btns">
+                    <input class="btn boton_pie" type="submit" name="enviar" value="Confirmar cita"> <h6 style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
+                </div>  
+            </form>
+            <a href="/agendar"><button class="btn boton_pie mt-3">Cambiar cita</button>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+{% endblock %}
+{% block footer %}
+{% endblock %}
