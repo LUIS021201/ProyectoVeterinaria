@@ -1,5 +1,4 @@
 from cmath import log
-from crypt import methods
 from flask import Flask, redirect, render_template, request, session, url_for
 from usuarios import *
 from citas import *
@@ -45,14 +44,16 @@ def login():
     if request.method == 'GET':
         return render_template("login.html")
     elif request.method == 'POST':
-        username = request.form['email']
+        email = request.form['email']
         password = request.form['password']
-        if username in diccionario_usuarios:
-            if sha256_crypt.verify(password, diccionario_usuarios[username]['password']):
-                session['email'] = username
-                session['name'] = diccionario_usuarios[username]['name']
+        usuarios = get_dicc_usuarios(get_lista_usuarios())
+        if email in usuarios:
+            usr = usuarios[email]
+            if sha256_crypt.verify(password, usr['password']):
+                session['email'] = email
+                session['name'] = usr['name']
                 session['logged_in'] = True
-                session['type'] = diccionario_usuarios[username]['type']
+                session['type'] = usr['type']
                 return redirect("/dashboard")
             else:
                 mensaje = 'Usuario o contraseña incorrectos'
