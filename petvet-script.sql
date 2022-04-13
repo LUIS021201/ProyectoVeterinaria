@@ -1,6 +1,5 @@
 CREATE database petvet;
 use petvet;
-DROP TABLE USERS;
 CREATE TABLE users(
 	id int AUTO_INCREMENT NOT NULL,
 	email varchar(150) NOT NULL UNIQUE,
@@ -11,7 +10,6 @@ CREATE TABLE users(
 	PRIMARY KEY(id)
 ) ENGINE=MyISAM default char set=latin1;
 
-drop table citas;
 CREATE TABLE citas(
 	email varchar(150) NOT NULL,
 	nombre_dueno varchar(150) NOT NULL,

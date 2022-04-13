@@ -1,19 +1,19 @@
+from cmath import log
 from crypt import methods
 from flask import Flask, redirect, render_template, request, session, url_for
 from usuarios import *
 from citas import *
 from random import *
-#from funciones import mandar_correo_codigo
+from funciones import mandar_correo_codigo
 from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
 app.secret_key = 'lwiu74dhn2SuF3j'
-diccionario_usuarios = get_dicc_usuarios()
+diccionario_usuarios = get_dicc_usuarios(get_lista_usuarios())
 
 diccionario_accesos = get_dicc_accesos()
 mensaje = 'MENSAJE DE PRUEBA'
 mensaje2 = 'SEGUNDO MENSAJE DE PRUEBA'
-
 
 
 @app.context_processor
@@ -24,11 +24,11 @@ def handle_context():
             usuario = buscar_usuario('email',session['email'])
 
             # return render_template("index.html", accesos=accesos, log=['Log Out', '/logout'], usuario=usuario)
-            return {'accesos': accesos, 'log': ['Log Out', '/logout'], 'usuario': usuario}
+            return {'accesos': accesos, 'logged': 'yes', 'usuario': usuario}
         else:
-            return {'log': ['Log In', '/login']}
+            return {'logged': 'no'}
     else:
-        return {'log': ['Log In', '/login']}
+        return {'logged': 'no'}
 
 
 @app.route("/")
@@ -50,10 +50,10 @@ def login():
         if username in diccionario_usuarios:
             if sha256_crypt.verify(password, diccionario_usuarios[username]['password']):
                 session['email'] = username
-                session['nombre'] = diccionario_usuarios[username]['nombre']
+                session['name'] = diccionario_usuarios[username]['name']
                 session['logged_in'] = True
                 session['type'] = diccionario_usuarios[username]['type']
-                return redirect("/")
+                return redirect("/dashboard")
             else:
                 mensaje = 'Usuario o contraseña incorrectos'
                 return render_template("login.html", mensaje=mensaje)
@@ -86,10 +86,10 @@ def forgot_password():
             session['usuario_codigo']=username
             session['codigo']=codigo
             # MANDAR CODIGO POR CORREO DE LA PERSONA
-            # mandar_correo_codigo('PetVetReal@gmail.com',username,diccionario_usuarios['PetVetReal@gmail.com']['password'],codigo)
+            mandar_correo_codigo('PetVetReal@gmail.com',username,diccionario_usuarios['PetVetReal@gmail.com']['password'],codigo)
             return redirect('/reset_code')
         else:
-            mensaje = 'nombre de usuario desconocido'
+            mensaje = 'name de usuario desconocido'
             return render_template("forgot_password.html", mensaje=mensaje)
 
 
@@ -156,7 +156,7 @@ def agregar_usuario():
                     email = request.form['email']
                     username = request.form['username']
                     password = request.form['password']
-                    nombre = request.form['nombre']
+                    name = request.form['nombre']
                     type = request.form['tipo']
                     
                     #checar si usuario o email ya existen
@@ -171,10 +171,10 @@ def agregar_usuario():
                         #     'email': email,
                         #     'username': username,
                         #     'password': sha256_crypt.hash(password),
-                        #     'nombre': nombre,
+                        #     'name': name,
                         #     'type': type
                         # }
-                        insertar_usuario(email, username, sha256_crypt.hash(password), nombre, type)
+                        insertar_usuario(email, username, sha256_crypt.hash(password), name, type)
                         #grabar_dicc_usuarios(diccionario_usuarios)
                         return redirect('/usuarios')
                 else:
@@ -205,7 +205,7 @@ def mod_usuario(usu):
                     id = usuario['id']
                     email = request.form['email']
                     username = request.form['username']
-                    nombre = request.form['nombre']
+                    name = request.form['nombre']
                     type = request.form['tipo']
 
                     # checar que el email y usuarios a actualizar no se encuentren registrados
@@ -216,7 +216,7 @@ def mod_usuario(usu):
                         return render_template("modificar_usuario.html", dicc_usuario=usuario,
                                                 mensaje='El username pertenece a otro usuario existente')
                     
-                    actualizar_todo_usuario(email,username, nombre, type,id)
+                    actualizar_todo_usuario(email,username, name, type,id)
                     
                     return redirect('/usuarios')
                 else:
@@ -294,14 +294,14 @@ def confirmar_cita(tipo):
                 elif request.method == 'POST':
                     if session['type'] == 'cliente': 
                         email = session['email']
-                        nombre = session['name']
+                        name = session['name']
                     else:
                         email = request.form['email']
-                        nombre = request.form['nombre']
+                        name = request.form['nombre']
                 mascota = request.form['mascota']
                 tipo_mascota = request.form['tipo_mascota']
                 
-                insertar_cita(email, nombre, mascota, tipo_mascota, fecha, hora, tipo)
+                insertar_cita(email, name, mascota, tipo_mascota, fecha, hora, tipo)
                 return render_template("dashboard.html")
             else:
                 return redirect("/")

@@ -62,7 +62,7 @@ def get_dicc_accesos():
 def insertar_usuario(email,username,password,nombre,type):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("INSERT INTO users (email,username,name,type) VALUES (%s, %s, %s, %s, %s)", 
+        cursor.execute("INSERT INTO users (email,username,password,name,type) VALUES (%s, %s, %s, %s, %s)", 
                        (email,username,password,nombre,type))
     conexion.commit()
     conexion.close()

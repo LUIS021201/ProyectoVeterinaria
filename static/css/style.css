@@ -27,6 +27,7 @@ a {
 a:hover {
     color: #aacbfa;
 }
+
 .no-border{
     border: 0;
 }
@@ -177,6 +178,7 @@ a:hover {
     height: 3rem;
 }
 
+
 .contenedor_campo {
     display: flex;
     flex-direction: column;
@@ -289,7 +291,7 @@ a:hover {
 
 .dropdown-menu {
     background-color: white;
-    border: 0px;
+    border-top: 0px;
     font-size: 1rem;
 }
 
@@ -380,4 +382,11 @@ a:hover {
         top: 180%;
     }
 
+    .navbar .nav-item:hover .dropdown-menu {
+        transition: .3s;
+        opacity: 1;
+        visibility: visible;
+        top: 100%;
+        transform: rotateX(0deg);
+    }
 }

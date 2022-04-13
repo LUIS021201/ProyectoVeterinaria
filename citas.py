@@ -7,8 +7,8 @@ def horas_veterinaria()->list:
     # se pueden hacer citas en cuanto abra o media hora antes de cerrar
     times = []
     for i in range(8, 20):
-         times.append(f"{i}:00:00")
-         times.append(f"{i}:30:00")
+         times.append(f"{i}:00")
+         times.append(f"{i}:30")
     return times
      
 
@@ -17,7 +17,7 @@ def horas_boutique()->list:
     # las horas de atencion son de 8am a 12pm
     times = []
     for i in range(8, 13):	
-        times.append(f"{i}:00:00")
+        times.append(f"{i}:00")
     return times
 
 def horas_disponibles(fecha:str, type:str)->list:
@@ -32,7 +32,7 @@ def horas_disponibles(fecha:str, type:str)->list:
     
     
     for cita in citas:
-        hora = ':'.join(str(cita['hora']).split(':')[:3])
+        hora = ':'.join(str(cita['hora']).split(':')[:2])
         if fecha == cita['fecha'] and hora in disponibles:
             disponibles.remove(hora)
         
@@ -44,7 +44,7 @@ def convertir_a_date(fecha:str)->date:
     return fecha
 
 def convertir_a_time(hora:str):
-    return datetime.strptime(hora, "%H:%M:%S")
+    return datetime.strptime(hora, "%H:%M")
 
 def lista_citas()->list:
     conexion = obtener_conexion()
