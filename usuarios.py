@@ -1,8 +1,6 @@
 
 from bd import obtener_conexion
 
-
-# diccionario_usuarios = lee_diccionario_de_csv('csv/usuarios.csv', 'email')
 diccionario_accesos = {'admin': {
     '/agendar': 'Agendar Cita',
     '/historial_recetas': 'Historial De Recetas',
@@ -132,7 +130,13 @@ def get_dicc_usuarios(lista_usrs:list)->dict:
             usuarios[usr['email']] = usr
     return usuarios
 
+# def cambiar_contraseña(usuario:str, contraseña:str):
+#     if diccionario_usuarios[usuario]['codigo']== 0:
+#         diccionario_usuarios[usuario]['codigo']= codigo
+#     else:
+#         print(f"error el usuario {usuario} ya tiene codigo ")
         
+diccionario_usuarios = get_dicc_usuarios(get_lista_usuarios())
 
 if __name__=="__main__":
 #     eliminar_usuario("luis@gmail.com")
@@ -141,3 +145,4 @@ if __name__=="__main__":
 #     print(buscar_usuario_por_email('*', 'luis@gmail.com'))
 #     lista = get_lista_usuarios()
     print(usuario_existe('email','luis@gmail.com'))
+
