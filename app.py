@@ -73,67 +73,78 @@ def logout():
 
 @app.route("/forgot_password", methods=['GET', 'POST'])
 def forgot_password():
-    if request.method == 'GET':
-        return render_template("password/forgot_password.html")
-    elif request.method == 'POST':
-        usuarios = get_dicc_usuarios(get_lista_usuarios())
-        email = request.form['email']
-        if email in usuarios and email != 'PetVetReal@gmail.com':
-            mensaje = f'Se envió un código para cambiar la contraseña a su correo ({email})'
-            codigo = ''
-            for i in range(4):
-                numero = randint(0, 9)
-                codigo += str(numero)
-            print(codigo)
-            session['usuario_codigo']=email
-            session['codigo']=codigo
-            # MANDAR CODIGO POR CORREO DE LA PERSONA
-            mandar_correo_codigo('PetVetReal@gmail.com',email,'..:Phi3GcAzJGwJ',codigo)
-            return redirect('/reset_code')
-        else:
-            mensaje = 'name de usuario desconocido'
-            return render_template("password/forgot_password.html", mensaje=mensaje)
+    if 'logged_in' not in session.keys():
+        if request.method == 'GET':
+            return render_template("forgot_password.html")
+        elif request.method == 'POST':
+            usuarios = get_dicc_usuarios(get_lista_usuarios())
+            email = request.form['email']
+            if email in usuarios and email != 'PetVetReal@gmail.com':
+                mensaje = f'Se envió un código para cambiar la contraseña a su correo ({email})'
+                codigo = ''
+                for i in range(4):
+                    numero = randint(0, 9)
+                    codigo += str(numero)
+                print(codigo)
+                session['usuario_codigo']=email
+                session['codigo']=codigo
+                # MANDAR CODIGO POR CORREO DE LA PERSONA
+                mandar_correo_codigo('PetVetReal@gmail.com',email,'..:Phi3GcAzJGwJ',codigo)
+                return redirect('/reset_code')
+            else:
+                mensaje = 'name de usuario desconocido'
+                return render_template("forgot_password.html", mensaje=mensaje)
+    else:
+        return redirect("/")
 
 
 @app.route("/reset_code", methods=['GET', 'POST'])
 def reset_code():
-    if request.method == 'GET':
-        return render_template('password/reset_code.html')
-    elif request.method == 'POST':
-        codigo_usuario=request.form['codigo']
-        username=session['usuario_codigo']
-        codigo= session['codigo']
-        print(codigo_usuario,"asdf ",codigo, " ", username)
-        if codigo_usuario == codigo:
-            return redirect('/new_password')
-        else:
-            mensaje = 'Codigo Incorrecto, pruebe de nuevo'
-            return render_template('password/reset_code.html', mensaje=mensaje)
+    if 'logged_in' not in session.keys():
+        if request.method == 'GET':
+            return render_template('reset_code.html')
+        elif request.method == 'POST':
+            codigo_usuario=request.form['codigo']
+            username=session['usuario_codigo']
+            codigo= session['codigo']
+            print(codigo_usuario,"asdf ",codigo, " ", username)
+            if codigo_usuario == codigo:
+                return redirect('/new_password')
+            else:
+                mensaje = 'Codigo Incorrecto, pruebe de nuevo'
+                return render_template('reset_code.html', mensaje=mensaje)
+    else:
+        return redirect("/")
 
 @app.route("/new_password", methods=['GET', 'POST'])
 def new_password():
-    if request.method == 'GET':
-        return render_template("password/new_password.html")
-    elif request.method == 'POST':
-        password1 = request.form['password1']
-        password2 = request.form['password2']
-        if password1 == password2:
-            #cambiar contraseña
-            nueva_contraseña=sha256_crypt.hash(password1)
-            diccionario_usuarios[session['usuario_codigo']]['password']= nueva_contraseña
-            print(nueva_contraseña)
-            actualizar_usuario(session['usuario_codigo'], 'password', nueva_contraseña)
-            return redirect('/password_changed')
-        else:
-            mensaje = 'Contraseñas no concuerdan, intente de nuevo'
-            return render_template("password/new_password.html", mensaje=mensaje)
+    if 'logged_in' not in session.keys():
+        if request.method == 'GET':
+            return render_template("new_password.html")
+        elif request.method == 'POST':
+            password1 = request.form['password1']
+            password2 = request.form['password2']
+            if password1 == password2:
+                #cambiar contraseña
+                nueva_contraseña=sha256_crypt.hash(password1)
+                diccionario_usuarios[session['usuario_codigo']]['password']= nueva_contraseña
+                print(nueva_contraseña)
+                actualizar_usuario(session['usuario_codigo'], 'password', nueva_contraseña)
+                return redirect('/password_changed')
+            else:
+                mensaje = 'Contraseñas no concuerdan, intente de nuevo'
+                return render_template("new_password.html", mensaje=mensaje)
+    else:
+        return redirect("/")
 @app.route("/password_changed", methods=['GET', 'POST'])
-
 def password_changed():
-    if request.method == 'GET':
-        return render_template("password/password_changed.html")
-    elif request.method == 'HEAD':
-        redirect("/login")
+    if 'logged_in' not in session.keys():
+        if request.method == 'GET':
+            return render_template("password_changed.html")
+        elif request.method == 'HEAD':
+            redirect("/login")
+    else:
+        redirect("/")
 
 
 @app.route("/usuarios", methods=['GET', 'POST'])
