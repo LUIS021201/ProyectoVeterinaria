@@ -1,8 +1,10 @@
 from cmath import log
-from flask import Flask, redirect, render_template, request, session, url_for
+from flask import Flask, jsonify, redirect, render_template, request, session, url_for, json
+from pyparsing import empty
 from usuarios import *
 from citas import *
 from random import *
+from menu import get_dicc_menu
 from funciones import mandar_correo_codigo
 from passlib.hash import sha256_crypt
 
@@ -10,7 +12,7 @@ app = Flask(__name__)
 app.secret_key = 'lwiu74dhn2SuF3j'
 diccionario_usuarios = get_dicc_usuarios(get_lista_usuarios())
 
-diccionario_accesos = get_dicc_accesos()
+diccionario_menu = get_dicc_menu()
 mensaje = 'MENSAJE DE PRUEBA'
 mensaje2 = 'SEGUNDO MENSAJE DE PRUEBA'
 
@@ -19,7 +21,7 @@ mensaje2 = 'SEGUNDO MENSAJE DE PRUEBA'
 def handle_context():
     if 'logged_in' in session.keys():
         if session['logged_in']:
-            accesos = diccionario_accesos[session['type']]
+            accesos = diccionario_menu[session['type']]
             usuario = buscar_usuario('email',session['email'])
 
             # return render_template("index.html", accesos=accesos, log=['Log Out', '/logout'], usuario=usuario)
@@ -72,7 +74,7 @@ def logout():
 @app.route("/forgot_password", methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'GET':
-        return render_template("forgot_password.html")
+        return render_template("password/forgot_password.html")
     elif request.method == 'POST':
         usuarios = get_dicc_usuarios(get_lista_usuarios())
         email = request.form['email']
@@ -90,13 +92,13 @@ def forgot_password():
             return redirect('/reset_code')
         else:
             mensaje = 'name de usuario desconocido'
-            return render_template("forgot_password.html", mensaje=mensaje)
+            return render_template("password/forgot_password.html", mensaje=mensaje)
 
 
 @app.route("/reset_code", methods=['GET', 'POST'])
 def reset_code():
     if request.method == 'GET':
-        return render_template('reset_code.html')
+        return render_template('password/reset_code.html')
     elif request.method == 'POST':
         codigo_usuario=request.form['codigo']
         username=session['usuario_codigo']
@@ -106,12 +108,12 @@ def reset_code():
             return redirect('/new_password')
         else:
             mensaje = 'Codigo Incorrecto, pruebe de nuevo'
-            return render_template('reset_code.html', mensaje=mensaje)
+            return render_template('password/reset_code.html', mensaje=mensaje)
 
 @app.route("/new_password", methods=['GET', 'POST'])
 def new_password():
     if request.method == 'GET':
-        return render_template("new_password.html")
+        return render_template("password/new_password.html")
     elif request.method == 'POST':
         password1 = request.form['password1']
         password2 = request.form['password2']
@@ -124,12 +126,12 @@ def new_password():
             return redirect('/password_changed')
         else:
             mensaje = 'Contraseñas no concuerdan, intente de nuevo'
-            return render_template("new_password.html", mensaje=mensaje)
+            return render_template("password/new_password.html", mensaje=mensaje)
 @app.route("/password_changed", methods=['GET', 'POST'])
 
 def password_changed():
     if request.method == 'GET':
-        return render_template("password_changed.html")
+        return render_template("password/password_changed.html")
     elif request.method == 'HEAD':
         redirect("/login")
 
@@ -139,7 +141,7 @@ def usuarios():
     if 'logged_in' in session.keys():
         if session['logged_in']:
             usuarios = get_dicc_usuarios(get_lista_usuarios())
-            return render_template("lista_usuarios.html", lista_usuarios=usuarios)
+            return render_template("usuarios/lista_usuarios.html", lista_usuarios=usuarios)
         else:
             return redirect("/")
     else:
@@ -151,7 +153,7 @@ def agregar_usuario():
         if session['logged_in']:
             if session['type'] == 'admin':
                 if request.method == 'GET':
-                    return render_template("agregar_usuario.html")
+                    return render_template("usuarios/agregar_usuario.html")
                 elif request.method == 'POST':
                     email = request.form['email']
                     username = request.form['username']
@@ -161,10 +163,10 @@ def agregar_usuario():
                     
                     #checar si usuario o email ya existen
                     if usuario_existe('email', email):  # checamos que el email no sea usado por otra cuenta
-                        return render_template("agregar_usuario.html",
+                        return render_template("usuarios/agregar_usuario.html",
                                                mensaje='El email pertenece a otro usuario existente')
                     if usuario_existe('username', username):  # checamos que el username no sea usado por otra cuenta
-                        return render_template("agregar_usuario.html",
+                        return render_template("usuarios/agregar_usuario.html",
                                                mensaje='El username pertenece a otro usuario existente')
                     else:
                         # diccionario_usuarios[email] = {
@@ -196,7 +198,7 @@ def mod_usuario(usu):
                 usuario = buscar_usuario('username', usu)
                 if request.method == 'GET':
                     if usu in usuario['username']:  # comprobamos que el usuario que se introdujo en el link si existe
-                        return render_template("modificar_usuario.html", dicc_usuario=usuario)
+                        return render_template("usuarios/modificar_usuario.html", dicc_usuario=usuario)
                     else:
                         # Cuando en la url se introduce un usuario que no existe
                         return redirect("/")
@@ -210,10 +212,10 @@ def mod_usuario(usu):
 
                     # checar que el email y usuarios a actualizar no se encuentren registrados
                     if email not in usuario['email'] and usuario_existe('email', email):
-                        return render_template("modificar_usuario.html", dicc_usuario=usuario,
+                        return render_template("usuarios/modificar_usuario.html", dicc_usuario=usuario,
                                                 mensaje='El email pertenece a otro usuario existente')
                     if username not in usuario['username'] and usuario_existe('username', username):
-                        return render_template("modificar_usuario.html", dicc_usuario=usuario,
+                        return render_template("usuarios/modificar_usuario.html", dicc_usuario=usuario,
                                                 mensaje='El username pertenece a otro usuario existente')
                     
                     actualizar_todo_usuario(email,username, name, type,id)
@@ -285,28 +287,53 @@ def confirmar_cita(tipo):
                 if request.method == 'GET':
                     if session['type'] == 'cliente': 
                         dicc_usuario = diccionario_usuarios[session['email']]
-                        return render_template("citas/confirmar.html", dicc_usuario=dicc_usuario, 
+                        lista_mascotas = get_lista_mascotas(session['email'])
+                        print(lista_mascotas)
+                        return render_template("citas/confirmar.html", dicc_usuario=dicc_usuario, lista_mascotas=lista_mascotas,
                                                hora=hora, fecha=fecha, type='cliente', tipo=tipo)
                     else:
+                        lista_usuarios = get_lista_usuarios()
                         return render_template("citas/confirmar.html", type='admin/usuario',
-                                           hora=hora, fecha=fecha, tipo=tipo)
+                                           hora=hora, fecha=fecha, tipo=tipo, lista_usuarios=lista_usuarios)
                 
                 elif request.method == 'POST':
-                    if session['type'] == 'cliente': 
-                        email = session['email']
-                        name = session['name']
-                    else:
-                        email = request.form['email']
-                        name = request.form['nombre']
-                mascota = request.form['mascota']
-                tipo_mascota = request.form['tipo_mascota']
-                
-                insertar_cita(email, name, mascota, tipo_mascota, fecha, hora, tipo)
-                return render_template("dashboard.html")
+                    
+                    email = request.form['email']
+                    nombre = request.form['nombre']
+                    lista_mascotas = get_lista_mascotas(email)
+                    mascota = request.form['mascota']
+                    tipo_mascota = request.form['tipo_mascota']
+                    
+                    if email not in diccionario_usuarios:
+                        username = email.split('@')[0]
+                        insertar_usuario(email, username, sha256_crypt.encrypt(email), nombre, 'cliente')
+                    if mascota not in lista_mascotas:
+                        insertar_mascota(email,mascota,tipo_mascota)
+                    
+                    
+                    try:
+                        insertar_cita(email, nombre, mascota, tipo_mascota, fecha, hora, tipo)
+                    except:
+                        return render_template("citas/confirmar.html", mensaje='Esa fecha y hora ya están apartadas, intenta hacer la cita de nuevo')
+                return redirect("/dashboard")
             else:
                 return redirect("/")
     else:
         return redirect("/")
+
+@app.route("/select/<email>")
+def usuario(email):
+        usuario= buscar_usuario('email', email)
+        mascotas = get_lista_mascotas(email)
+        seleccion = []
+        if not mascotas:
+            seleccion.append({'name': usuario['name'], 'id':'', 'nombre_mascota':'', 'tipo_mascota':''})
+        else:
+            for mascota in mascotas:
+                seleccion.append({'name': usuario['name'], 'id':mascota['id'], 'nombre_mascota':mascota['nombre_mascota'], 'tipo_mascota':mascota['tipo_mascota']})
+            
+        print(seleccion)
+        return jsonify({'info': seleccion})
 
 if __name__ == '__main__':
     app.run(debug=True)

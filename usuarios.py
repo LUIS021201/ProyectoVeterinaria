@@ -1,33 +1,6 @@
 
 from bd import obtener_conexion
 
-diccionario_accesos = {'admin': {
-    '/agendar': 'Agendar Cita',
-    '/historial_recetas': 'Historial De Recetas',
-    '/historial_atencion': 'Historial De Atención',
-    '/agregar_receta': 'Agregar Una Receta',
-    '/agregar_atencion': 'Agregar Una Atención',
-    '/usuarios': 'Usuarios',
-    '/medicinas': 'Medicinas',
-    '/servicios': 'Servicios',
-    '/informe_ventas': 'Informe De Ventas'
-},
-    'cliente': {
-        '/agendar': 'Agendar Cita',
-        '/historial_recetas': 'Historial De Recetas',
-        '/historial_atencion': 'Historial De Atención'
-
-    },
-    'usuario': {
-        '/agendar': 'Agendar Cita',
-        '/historial_recetas': 'Historial De Recetas',
-        '/historial_atencion': 'Historial De Atención',
-        '/agregar_receta': 'Agregar Una Receta',
-        '/agregar_atencion': 'Agregar Una Atención'
-
-    }}
-
-
 # DICCIONARIO BASE CON LINK Y ACCESO
 # dicc = {
 #     '/agendarCita': 'Agendar Cita',
@@ -56,14 +29,21 @@ diccionario_accesos = {'admin': {
 #     return diccionario_usuarios
 
 
-def get_dicc_accesos():
-    return diccionario_accesos
-
 def insertar_usuario(email,username,password,nombre,type):
     conexion = obtener_conexion()
+    nombre = nombre.title()
     with conexion.cursor() as cursor:
         cursor.execute("INSERT INTO users (email,username,password,name,type) VALUES (%s, %s, %s, %s, %s)", 
                        (email,username,password,nombre,type))
+    conexion.commit()
+    conexion.close()
+
+def insertar_mascota(email,nombre_mascota,tipo_mascota):
+    conexion = obtener_conexion()
+    nombre_mascota = nombre_mascota.capitalize()
+    with conexion.cursor() as cursor:
+        cursor.execute("INSERT INTO mascotas (email,nombre_mascota,tipo_mascota) VALUES (%s, %s, %s)", 
+                       (email,nombre_mascota,tipo_mascota))
     conexion.commit()
     conexion.close()
 
@@ -117,6 +97,16 @@ def get_lista_usuarios()->list:
     lista= []
     with conexion.cursor() as cursor:
         cursor.execute("SELECT * FROM users")
+        lista = cursor.fetchall()
+    
+    conexion.commit()
+    conexion.close()
+    return lista
+
+def get_lista_mascotas(email:str)->list:
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM mascotas WHERE email=%s",(email))
         lista = cursor.fetchall()
     
     conexion.commit()

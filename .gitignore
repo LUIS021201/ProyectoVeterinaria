@@ -1,0 +1,5 @@
+# Ignora archivos del sistema Mac 
+.DS_store
+
+# Ignora la carpeta __pycache__
+__pycache__

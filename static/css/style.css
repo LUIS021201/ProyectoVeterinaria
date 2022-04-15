@@ -149,7 +149,6 @@ a:hover {
     background-color: #a9caf9;
     color: #000000;
     padding: 0.7rem 3rem;
-    width: 150px;
     font-size: 1.1rem;
 }
 
@@ -333,6 +332,26 @@ a:hover {
     color: white;
 }
 
+
+
+   ::-webkit-input-placeholder {
+    text-transform: none;
+ }
+ 
+  :-moz-placeholder{ 
+    text-transform: none;
+ }
+ 
+ ::-moz-placeholder{  
+    text-transform: none;
+ }
+ 
+ :-ms-input-placeholder{ 
+    text-transform: none;
+
+ }
+
+
 @media only screen and (max-width: 767px) {
 
     .navbar-nav .btn {
@@ -361,6 +380,7 @@ a:hover {
     }
 
 }
+
 
 
 @media only screen and (min-width: 992px) {
