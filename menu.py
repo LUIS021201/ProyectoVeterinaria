@@ -1,26 +1,32 @@
 diccionario_menu = {'admin': {
-    '/agendar': 'Agendar Cita',
-    '/historial_recetas': 'Historial De Recetas',
-    '/historial_atencion': 'Historial De Atención',
-    '/agregar_receta': 'Agregar Una Receta',
-    '/agregar_atencion': 'Agregar Una Atención',
-    '/usuarios': 'Usuarios',
-    '/medicinas': 'Medicinas',
-    '/servicios': 'Servicios',
-    '/informe_ventas': 'Informe De Ventas'
+    '/dashboard': ['bi bi-grid-3x3-gap-fill','Dashboard'],
+    '/agendar': ['bi bi-calendar-check-fill','Agendar Cita'],
+    '/historial_recetas': ['bi bi-file-medical-fill','Historial de Recetas'],
+    '/historial_atencion': ['bi bi-clipboard2-pulse-fill','Historial de Atención'],
+    '/agregar_receta': ['fa-solid fa-prescription-bottle-medical','Agregar una Receta'],
+    '/agregar_atencion': ['fa-solid fa-file-medical','Agregar una Atención'],
+    '/usuarios': ['fa-solid fa-address-book', 'Usuarios'],
+    '/medicinas': ['fa-solid fa-briefcase-medical','Medicinas'],
+    '/servicios': ['fa-solid fa-briefcase','Servicios'],
+    '/informe_ventas': ['bi bi-bar-chart-fill','Informe de Ventas'],
+    '/logout': ['fa-solid fa-right-from-bracket','Cerrar sesión']
 },
     'cliente': {
-        '/agendar': 'Agendar Cita',
-        '/historial_recetas': 'Historial De Recetas',
-        '/historial_atencion': 'Historial De Atención'
+        '/dashboard': ['bi bi-grid-3x3-gap-fill','Dashboard'],
+        '/agendar': ['bi bi-calendar-check','Agendar Cita'],
+        '/historial_recetas': ['bi bi-file-medical-fill','Historial de Recetas'],
+        '/historial_atencion': ['bi bi-clipboard2-pulse-fill','Historial de Atención'],
+        '/logout': ['fa-solid fa-right-from-bracket','Cerrar sesión']
 
     },
     'usuario': {
-        '/agendar': 'Agendar Cita',
-        '/historial_recetas': 'Historial De Recetas',
-        '/historial_atencion': 'Historial De Atención',
-        '/agregar_receta': 'Agregar Una Receta',
-        '/agregar_atencion': 'Agregar Una Atención'
+        '/dashboard': ['bi bi-grid-3x3-gap-fill','Dashboard'],
+        '/agendar': ['bi bi-calendar-check-fill','Agendar Cita'],
+        '/historial_recetas': ['bi bi-file-medical-fill','Historial de Recetas'],
+        '/historial_atencion': ['bi bi-clipboard2-pulse-fill','Historial de Atención'],
+        '/agregar_receta': ['fa-solid fa-prescription-bottle-medical','Agregar una Receta'],
+        '/agregar_atencion': ['fa-solid fa-file-medical','Agregar una Atención'],
+        '/logout': ['fa-solid fa-right-from-bracket','Cerrar sesión']
 
     }}
 

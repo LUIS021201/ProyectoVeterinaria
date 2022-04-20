@@ -7,23 +7,30 @@
 {% endblock %}
 {% block body %}
 
-<div class="container text-center my-5">
+
+
+<div class="row">
+    {% with path=request.path %}
+        {% include  "menu.html" %}
+    {% endwith %}
+<div class="col-lg-6 container text-center my-5">
 <h3 class="">Agendar Cita</h3>
 <p class="text-muted pt-2">Selecciona el tipo de servicio para el que vas a agendar tu cita:</p>
 	<div class="row justify-content-center">
-		<div class="col-5 item cards">
+		<div class="col-6 item cards">
 			<i class="fa fa-solid fa-paw"></i>
 			<h3>Veterinaria</h3>
 			<p class="text-muted py-1">Agenda tu cita para hacerle un chequeo a tu mascota.</p>
 			<a href="/agendar/Veterinaria"><button class="btn boton_pie">Seleccionar</button></a>
 		</div>
-		<div class="col-5 item cards">
+		<div class="col-6 item cards">
 			<i class="fa fa-solid fa-bath"></i>
 			<h3>Boutique</h3>
 			<p class="text-muted py-1">Agenda tu cita para uno de nuestros servicios de estética.</p>
 			<a href="/agendar/Boutique"><button class="btn boton_pie">Seleccionar</button></a>
 		</div>
 	</div>
+</div>
 </div>
         <!-- <div class="contenedor_info container-sm">
             <form class="needs-validation" action="" method="POST">

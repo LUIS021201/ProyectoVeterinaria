@@ -57,11 +57,11 @@ def lista_citas()->list:
     conexion.close()
     return lista
 
-def insertar_cita(email, nombre_dueno, nombre_mascota, tipo_mascota, fecha, hora, atencion):
+def insertar_cita(user_id, mascota_id, nombre_dueno, nombre_mascota, tipo_mascota, fecha, hora, atencion):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("INSERT INTO citas (email, nombre_dueno, nombre_mascota, tipo_mascota, fecha, hora, atencion) VALUES (%s,%s,%s,%s,%s,%s,%s)",
-                       (email, nombre_dueno, nombre_mascota, tipo_mascota, fecha, hora, atencion))    
+        cursor.execute("INSERT INTO citas (user_id, mascota_id, nombre_dueno, nombre_mascota, tipo_mascota, fecha, hora, atencion) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                       (user_id, mascota_id, nombre_dueno, nombre_mascota, tipo_mascota, fecha, hora, atencion))    
     conexion.commit()
     conexion.close()
 

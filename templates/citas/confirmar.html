@@ -7,10 +7,13 @@
 {% endblock %}
 {% block body %}
 
-<div class="contenido">
-    <h3 class="titulo">Agendar Cita</h3>
-    <div class="contenedor_info container-sm">
-        <h6 class="mb-3" style="color:red;">{{mensaje}}</h6>
+<div class="row">
+    {% with path="/agendar" %}
+        {% include  "menu.html" %}
+    {% endwith %}
+    <div class="col-lg-6 container text-center my-5">
+        <h3 class="" style="padding: 1rem;">Agendar Cita</h3>
+    <div class="container-sm">
         <form class="needs-validation" action="" method="POST">
             {% if type=='cliente' %} 
             <div class="form-floating mb-3" >
@@ -30,7 +33,6 @@
                 {% for mascota in lista_mascotas %}
                 <option value="{{mascota['nombre_mascota']}}">{{mascota['nombre_mascota']}}</option>
                 {% endfor %}
-                <option value="Nueva mascota"></option>
             </datalist>
         </div>
             {% else %}
@@ -96,14 +98,13 @@
                 <h6 style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
             </div>
         </form>
-        <a href="/agendar"><button class="btn boton_pie mt-3">Cambiar cita</button>
+        <a href="/agendar"><button class="btn boton_pie mt-3 float-start">Cambiar cita</button>
 
     </div>
 
 
 </div>
 </div>
-
 <script>
     input_email = document.getElementById('input_email')
     nombre = document.getElementById('nombre');

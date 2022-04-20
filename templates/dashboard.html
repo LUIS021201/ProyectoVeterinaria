@@ -1,14 +1,27 @@
 {%  extends "base.html"  %}
+
 {%  set log = log %}
-{% block title %}Cartelera de Estrenos
+{% block title %}
 {% endblock %}
 {% block head %}
 
 {% endblock %}
 {% block body %}
 
-<div class="contenido">
-    <h3 class="titulo">Hola, {{usuario['name']}}</h3>
+<div class="row">
+    {% with path=request.path %}
+        {% include  "menu.html" %}
+    {% endwith %}
+    <div class="col-lg-9 container my-2 table-responsive">
+    </div>
+</div>
+		<!-- <div class="col-5 item cards">
+			<i class="fa fa-solid fa-bath"></i>
+			<h3>Boutique</h3>
+			<p class="text-muted py-1">Agenda tu cita para uno de nuestros servicios de estética.</p>
+			<a href="/agendar/Boutique"><button class="btn boton_pie">Seleccionar</button></a>
+		</div>
+	</div>
     <div class="contenedor_main" >
         <div class="contenedor_accesos">
             <ul class="list-group">
@@ -21,7 +34,7 @@
 
         </div>
     </div>
-</div>
+</div> -->
 
 {% endblock %}
 {% block footer %}

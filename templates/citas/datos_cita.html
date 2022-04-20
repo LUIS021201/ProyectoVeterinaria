@@ -7,10 +7,14 @@
 {% endblock %}
 {% block body %}
 
-<div class="container text-center my-5">
-<h3 class="">Agendar Cita</h3>
+<div class="row">
+    {% with path="/agendar" %}
+        {% include  "menu.html" %}
+    {% endwith %}
+    <div class="col-lg-6 container text-center my-5">
+        <h3 class="">Agendar Cita</h3>
 <p class="text-muted pt-2">Selecciona una fecha para mostrar los horarios disponibles:</p>
-	<div class="row justify-content-center">
+	<div class="row justify-content-center mx-5">
 		<form class="needs-validation" action="" method="POST">
 			<!-- <div class="form-floating mb-3">
 				<input type="email" class="form-control" id="validationServer01"  {% if type=='cliente' %} value="{{dicc_usuario['email']}}" disabled {% endif %} 
@@ -40,6 +44,8 @@
 		</form>
 	</div>
 </div>
+</div>
+
         <!-- <div class="contenedor_info container-sm">
             <form class="needs-validation" action="" method="POST">
                 <div class="form-floating mb-3">

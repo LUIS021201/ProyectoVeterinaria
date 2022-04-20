@@ -12,28 +12,30 @@ CREATE TABLE users(
 
 CREATE TABLE mascotas(
 	id int AUTO_INCREMENT NOT NULL,
-	email varchar(150) NOT NULL,
+	user_id int NOT NULL,
 	nombre_mascota varchar(150),
 	tipo_mascota varchar(150),
-	PRIMARY KEY(id, email, nombre_mascota),
-	FOREIGN KEY(email) REFERENCES users(email)
+	UNIQUE (user_id, nombre_mascota),
+	FOREIGN KEY (user_id) REFERENCES users (id),
+	PRIMARY KEY (id)
 ) ENGINE=MyISAM default char set=latin1;
 
 CREATE TABLE citas(
-	email varchar(150) NOT NULL,
+	id int AUTO_INCREMENT NOT NULL,
+	user_id int NOT NULL,
+	mascota_id int NOT NULL,
 	nombre_dueno varchar(150) NOT NULL,
 	nombre_mascota varchar(150),
 	tipo_mascota varchar(150),
     fecha date NOT NULL,
 	hora time NOT NULL,
     atencion enum('veterinaria','boutique') NOT NULL,
-	PRIMARY KEY(fecha, hora)
+	UNIQUE (fecha, hora),
+	FOREIGN KEY (user_id) REFERENCES users (id),
+	FOREIGN KEY (mascota_id) REFERENCES mascotas (id),
+	PRIMARY KEY (id)
 ) ENGINE=MyISAM default char set=latin1;
 
 INSERT INTO mascotas (email, nombre_mascota, tipo_mascota)
 SELECT email, nombre_mascota, tipo_mascota FROM citas;
 
-ALTER TABLE citas ADD FOREIGN KEY(email) REFERENCES users(email),
-ADD FOREIGN KEY(nombre_dueno) REFERENCES users(nombre_dueno),
-ADD FOREIGN KEY(nombre_mascota) REFERENCES mascotas(nombre_mascota),
-ADD FOREIGN KEY(tipo_mascota) REFERENCES mascotas(tipo_mascota);

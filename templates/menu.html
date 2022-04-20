@@ -1,0 +1,23 @@
+
+
+	
+	   <div class="d-none d-lg-block col-lg-3">
+		<div class="sidebar-container">
+			<div>
+				<h3 class="">Bienvenido</h3>
+				<h5 class="">{{usuario['name']}}</h5>
+			</div>
+			<div class="menu">
+				{% for link,nombre in accesos.items() %}
+				{% if link == path %}
+                <a class="d-block p-3 text-light" href="{{link}}" style="border-radius: 34px 0 0 34px ;
+				background-color: white;"><i class="{{nombre[0]}} me-3"></i>{{nombre[1]}}</a>
+				{% else %}
+				<a class="d-block p-3 text-light" href="{{link}}"><i class="{{nombre[0]}} me-3"></i>{{nombre[1]}}</a>
+				{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	   </div>
+		
+	

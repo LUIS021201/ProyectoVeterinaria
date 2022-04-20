@@ -7,7 +7,52 @@
 {% endblock %}
 {% block body %}
 
-<div class="contenido">
+<div class="row">
+    {% with path=request.path %}
+        {% include  "menu.html" %}
+    {% endwith %}
+    <div class="col-lg-9 container my-5 justify-content-center">
+        <div class="mx-5 table-responsive">
+        <input class="form-control mb-2" type="text" id="searchbox" onkeyup="myFunction()" placeholder="Buscar por email...">
+        <table id="table" class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Username</th>
+                <th scope="col">Type</th>
+                <th scope="col">Modificar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% for usuario in lista_usuarios %}
+                <th scope="row">{{usuario['id']}}</th>
+                <td>{{usuario['name']}}</td>
+                <td>{{usuario['email']}}</td>
+                <td>{{usuario['username']}}</td>
+                <td>{{usuario['type']}}</td>
+                <td><a href="/mod_usuario/{{usuario['username']}}" class="btn boton_pie">Modificar</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            </table>
+            <a href="/agregar_usuario" class="btn boton_pie">Agregar Usuario</a>
+        </div>
+          
+        <!-- <h3 class="">Lista De Usuarios</h3>
+        <ul class="listado">
+            {% for usuario in lista_usuarios %}
+            <li class="elemento_lista">{{usuario['name']}} | <a href="/mod_usuario/{{usuario['username']}}" class="elemento_lista">Editar usuario</a></li>
+            {% endfor %}
+        </ul>
+        <div class="contenedor_btns">
+            <a href="/agregar_usuario" class="btn boton_pie">Agregar Usuario</a>
+        </div> -->
+    </div>
+</div>
+<!-- <div class="contenido">
     <h3 class="titulo">Lista De Usuarios</h3>
     <div class="contenedor_main">
         <div >
@@ -28,8 +73,8 @@
     </div></div>
     <div class="contenedor_info">
         <ul class="listado">
-            {% for email, dicc in lista_usuarios.items() %}
-            <li class="elemento_lista">{{dicc['name']}} | <a href="/mod_usuario/{{dicc['username']}}" class="elemento_lista">Editar usuario</a></li>
+            {% for usuario in lista_usuarios %}
+            <li class="elemento_lista">{{usuario['name']}} | <a href="/mod_usuario/{{usuario['username']}}" class="elemento_lista">Editar usuario</a></li>
             {% endfor %}
         </ul>
         <div class="contenedor_btns">
@@ -37,8 +82,30 @@
         </div>
     </div>
 </div>
-</div>
-
+</div> -->
+<script>
+    function myFunction() {
+      // Declare variables
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchbox");
+      filter = input.value.toLowerCase();
+      table = document.getElementById("table");
+      tr = table.getElementsByTagName("tr");
+    
+      // Loop through all table rows, and hide those who don't match the search query
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent.toLowerCase() || td.innerText.toLowerCase();
+          if (txtValue.toLowerCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+    </script>
 
 
 {% endblock %}

@@ -7,20 +7,24 @@
 {% endblock %}
 {% block body %}
 
-<div class="container text-center my-5">
-<h3 class="">Agendar Cita</h3>
-<p class="text-muted pt-2">Selecciona un horario:</p>
+<div class="row">
+    {% with path="/agendar" %}
+        {% include  "menu.html" %}
+    {% endwith %}
+    <div class="col-lg-6 container text-center justify-content-center my-5">
+        <h3 class="">Agendar Cita</h3>
+        <p class="text-muted pt-2">Selecciona un horario:</p>
+
 	
 		<form class="needs-validation" action="" method="POST">
-			<div class="row justify-content-center">
+		<div class="row justify-content-center">
 		{% for hora in horarios %}
-		<div class="col-md-3 col-5 item">
-			<input class="btn boton_login" type="submit" value="{{hora}}" name="hora" >
+		<div class="col-6 item">
+			<input class="btn boton_login" type="submit" value="{{hora}}" style="width: 150px;" name="hora" >
 		</div>
         {% endfor %}
-	</div>
+    </div>
 	</form>
-		
 	</div>
 </div>
         <!-- <div class="contenedor_info container-sm">
@@ -64,7 +68,6 @@
         </div>
 
     </div> -->
-
 
 {% endblock %}
 {% block footer %}

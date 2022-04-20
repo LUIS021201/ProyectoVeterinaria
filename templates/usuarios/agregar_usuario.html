@@ -7,28 +7,13 @@
 {% endblock %}
 {% block body %}
 
-<div class="contenido">
-    <h3 class="titulo">Agregar Nuevo Usuario</h3>
-    <div class="contenedor_main">
-        <div>
-            <div class="contenedor_accesos">
-                <ul class="list-group">
-                    {% for link,nombre in accesos.items() %}
-                    {% if nombre=='Usuarios' %}
-                    <a href="{{link}}">
-                        <li class="list-group-item active no-border elemento_accesos" aria-current="true">{{nombre}}
-                        </li>
-                    </a>
-                    {% else %}
-                    <a href="{{link}}">
-                        <li class="list-group-item no-border elemento_accesos" aria-current="true">{{nombre}}</li>
-                    </a>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-        <div class="contenedor_info">
+<div class="row">
+    {% with path="/usuarios" %}
+        {% include  "menu.html" %}
+    {% endwith %}
+    <div class="col-lg-9 container my-5 text-center justify-content-center">
+    <h3 class="mb-3">Agregar nuevo usuario</h3>
+        <div class="container-sm">
             <form class="needs-validation" action="" method="POST">
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="validationServer01" required placeholder="name@example.com" name="email">

@@ -38,12 +38,12 @@ def insertar_usuario(email,username,password,nombre,type):
     conexion.commit()
     conexion.close()
 
-def insertar_mascota(email,nombre_mascota,tipo_mascota):
+def insertar_mascota(user_id,nombre_mascota,tipo_mascota):
     conexion = obtener_conexion()
     nombre_mascota = nombre_mascota.capitalize()
     with conexion.cursor() as cursor:
-        cursor.execute("INSERT INTO mascotas (email,nombre_mascota,tipo_mascota) VALUES (%s, %s, %s)", 
-                       (email,nombre_mascota,tipo_mascota))
+        cursor.execute("INSERT INTO mascotas (user_id,nombre_mascota,tipo_mascota) VALUES (%s, %s, %s)", 
+                       (user_id,nombre_mascota,tipo_mascota))
     conexion.commit()
     conexion.close()
 
@@ -55,19 +55,19 @@ def actualizar_todo_usuario(email,username,nombre,type, id):
     conexion.commit()
     conexion.close()
 
-def actualizar_usuario(user_email:str, column:str, cambio:str):
+def actualizar_usuario(user_id:str, column:str, cambio:str):
     conexion = obtener_conexion()
-    query = "UPDATE users SET "+column+" = %s WHERE email = %s"
+    query = "UPDATE users SET "+column+" = %s WHERE id = %s"
     with conexion.cursor() as cursor:
-        cursor.execute(query, (cambio,user_email))
+        cursor.execute(query, (cambio,user_id))
     conexion.commit()
     conexion.close()
 
-def eliminar_usuario(usr_email:str):
+def eliminar_usuario(user_id:str):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("DELETE FROM users WHERE email=%s", 
-                       (usr_email))
+        cursor.execute("DELETE FROM users WHERE user_id=%s", 
+                       (user_id))
     conexion.commit()
     conexion.close()
     
@@ -81,6 +81,15 @@ def buscar_usuario(column:str, valor:str):
     conexion.close()
     return usuario
 
+def buscar_mascota(nombre_mascota:str, user_id:str):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM mascotas WHERE user_id=%s AND nombre_mascota=%s", (user_id, nombre_mascota))
+        mascota = cursor.fetchone()
+    conexion.commit()
+    conexion.close()
+    return mascota
+
 def usuario_existe(column:str, valor:str):
     conexion = obtener_conexion()
     query = "SELECT * FROM users WHERE "+column+"=%s"
@@ -92,21 +101,30 @@ def usuario_existe(column:str, valor:str):
     conexion.close()
     return True
 
+def mascota_existe(nombre_mascota:str, user_id:str):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM mascotas WHERE user_id=%s AND nombre_mascota=%s", (user_id, nombre_mascota))
+        if cursor.fetchone() is None:
+            return False
+    conexion.commit()
+    conexion.close()
+    return True 
 def get_lista_usuarios()->list:
     conexion = obtener_conexion()
     lista= []
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT * FROM users")
+        cursor.execute("SELECT id, email, name, username, type FROM users")
         lista = cursor.fetchall()
     
     conexion.commit()
     conexion.close()
     return lista
 
-def get_lista_mascotas(email:str)->list:
+def get_lista_mascotas(user_id:str)->list:
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT * FROM mascotas WHERE email=%s",(email))
+        cursor.execute("SELECT * FROM mascotas WHERE user_id=%s",(user_id))
         lista = cursor.fetchall()
     
     conexion.commit()
