@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="487affaf-6cc8-4e9a-a519-f3ab67625ddf" name="Changes" comment="Eliminar medicinas.py">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/citas/lista_citas.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/citas/lista_citas.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/usuarios/lista_usuarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/usuarios/lista_usuarios.html" afterDir="false" />
-    </list>
+    <list default="true" id="487affaf-6cc8-4e9a-a519-f3ab67625ddf" name="Changes" comment="Arreglar busqueda de citas." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -197,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650513177843</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Arreglar busqueda de citas.">
+      <created>1650515997184</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1650515997184</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -231,10 +234,11 @@
     <MESSAGE value="Agregar modulo para ver las citas programadas agregando el metodo en app.py y el template lista_citas.html. Dar formato a codigo de citas.py, menu.py y citas.py" />
     <MESSAGE value="Agregar tabla de recetas a petvet-script.sql. Dar formato a la mayoria de los archivos." />
     <MESSAGE value="Eliminar medicinas.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Eliminar medicinas.py" />
+    <MESSAGE value="Arreglar busqueda de citas." />
+    <option name="LAST_COMMIT_MESSAGE" value="Arreglar busqueda de citas." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ProyectoVeterinaria$ProyectoVeterinaria.coverage" NAME="ProyectoVeterinaria Coverage Results" MODIFIED="1650513818320" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/ProyectoVeterinaria$ProyectoVeterinaria.coverage" NAME="ProyectoVeterinaria Coverage Results" MODIFIED="1650516245352" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$manejo_csv.coverage" NAME="manejo_csv Coverage Results" MODIFIED="1649562046534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$usuarios.coverage" NAME="usuarios Coverage Results" MODIFIED="1649882650637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$app.coverage" NAME="app Coverage Results" MODIFIED="1649873348805" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
