@@ -14,7 +14,7 @@
     <div class="col-lg-9 container my-5 justify-content-center">
         <div class="mx-5 table-responsive">
             <input class="form-control mb-2" type="text" id="searchbox" onkeyup="myFunction()"
-                   placeholder="Buscar por email...">
+                   placeholder="Buscar...">
             <table id="table" class="table table-hover">
                 <thead class="table-light">
                 <tr>
@@ -90,7 +90,8 @@
 <script>
     function myFunction() {
         // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
+        var input, filter, table, tr, td, i, txtValue, j,count;
+
         input = document.getElementById("searchbox");
         filter = input.value.toLowerCase();
         table = document.getElementById("table");
@@ -98,15 +99,29 @@
 
         // Loop through all table rows, and hide those who don't match the search query
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[1];
-            if (td) {
-                txtValue = td.textContent.toLowerCase() || td.innerText.toLowerCase();
-                if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
+            count = 0;
+
+            for (j = 0; j < 6; j++) {
+                td = tr[i].getElementsByTagName("td")[j];
+
+                if (td) {
+                    txtValue = td.textContent.toLowerCase() || td.innerText.toLowerCase();
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        // tr[i].style.display = "";
+                    } else {
+
+                            // tr[i].style.display = "none";
+                        console.log(count);
+                    }
+
                 }
+
             }
+            if (count===6){
+                    tr[i].style.display = "none";
+                }else{
+                    tr[i].style.display = "";
+                }
         }
     }
 </script>
