@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="487affaf-6cc8-4e9a-a519-f3ab67625ddf" name="Changes" comment="Agregar modulo para ver las citas programadas agregando el metodo en app.py y el template lista_citas.html. Dar formato a codigo de citas.py, menu.py y citas.py">
+    <list default="true" id="487affaf-6cc8-4e9a-a519-f3ab67625ddf" name="Changes" comment="Agregar tabla de recetas a petvet-script.sql. Dar formato a la mayoria de los archivos.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/petvet-script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/petvet-script.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicinas.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,8 +20,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -182,7 +182,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650511904331</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Agregar tabla de recetas a petvet-script.sql. Dar formato a la mayoria de los archivos.">
+      <created>1650512804398</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1650512804398</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,7 +221,8 @@
     <MESSAGE value="Cambiar contraseña(sin bd) pd todavia no se como usar la bd" />
     <MESSAGE value="metodo funciones" />
     <MESSAGE value="Agregar modulo para ver las citas programadas agregando el metodo en app.py y el template lista_citas.html. Dar formato a codigo de citas.py, menu.py y citas.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Agregar modulo para ver las citas programadas agregando el metodo en app.py y el template lista_citas.html. Dar formato a codigo de citas.py, menu.py y citas.py" />
+    <MESSAGE value="Agregar tabla de recetas a petvet-script.sql. Dar formato a la mayoria de los archivos." />
+    <option name="LAST_COMMIT_MESSAGE" value="Agregar tabla de recetas a petvet-script.sql. Dar formato a la mayoria de los archivos." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$ProyectoVeterinaria.coverage" NAME="ProyectoVeterinaria Coverage Results" MODIFIED="1650510692974" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
