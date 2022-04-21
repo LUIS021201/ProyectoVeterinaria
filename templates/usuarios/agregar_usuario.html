@@ -9,37 +9,43 @@
 
 <div class="row">
     {% with path="/usuarios" %}
-        {% include  "menu.html" %}
+    {% include "menu.html" %}
     {% endwith %}
     <div class="col-lg-9 container my-5 text-center justify-content-center">
-    <h3 class="mb-3">Agregar nuevo usuario</h3>
+        <h3 class="mb-3">Agregar nuevo usuario</h3>
         <div class="container-sm">
             <form class="needs-validation" action="" method="POST">
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="validationServer01" required placeholder="name@example.com" name="email">
+                    <input type="email" class="form-control" id="validationServer01" required
+                           placeholder="name@example.com" name="email">
                     <label for="validationServer01">Email</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="validationServer02" required  placeholder="Password" name="username">
+                    <input type="text" class="form-control" id="validationServer02" required placeholder="Password"
+                           name="username">
                     <label for="validationServer02">Username</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="validationServer02" required  placeholder="Password" name="password">
+                    <input type="password" class="form-control" id="validationServer02" required placeholder="Password"
+                           name="password">
                     <label for="validationServer02">Contraseña</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text"class="form-control" id="validationServer03" required placeholder="Nombre" name="nombre">
+                    <input type="text" class="form-control" id="validationServer03" required placeholder="Nombre"
+                           name="nombre">
                     <label for="validationServer03">Nombre</label>
                 </div>
-                <select class="form-select form-select-lg mb-3 form-floating" aria-label=".form-select-lg example" id="tipo" name="tipo">
+                <select class="form-select form-select-lg mb-3 form-floating" aria-label=".form-select-lg example"
+                        id="tipo" name="tipo">
 
                     <option value="1">Administrador</option>
                     <option value="2">Usuario</option>
                     <option value="3">Cliente</option>
                 </select>
                 <div class="contenedor_btns">
-                    <input class="btn boton_pie" type="submit" name="enviar" value="Crear Usuario"> <h6 style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
-        </div>
+                    <input class="btn boton_pie" type="submit" name="enviar" value="Crear Usuario"> <h6
+                        style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
+                </div>
             </form>
         </div>
 

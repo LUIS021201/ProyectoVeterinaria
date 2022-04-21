@@ -9,101 +9,110 @@
 
 <div class="row">
     {% with path="/agendar" %}
-        {% include  "menu.html" %}
+    {% include "menu.html" %}
     {% endwith %}
     <div class="col-lg-6 container text-center my-5">
         <h3 class="" style="padding: 1rem;">Agendar Cita</h3>
-    <div class="container-sm">
-        <form class="needs-validation" action="" method="POST">
-            {% if type=='cliente' %} 
-            <div class="form-floating mb-3" >
-                <input type="email" class="form-control" id="input_email" value="{{dicc_usuario['email']}}" 
-                readonly="true" required name="email">
-                <label class='floating-ph' for="validationServer01">Email</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" placeholder="Nombre del dueño" class="form-control" id="validationServer02" required name="nombre"
-                 value="{{dicc_usuario['name']}}" readonly="true">
-                <label class='floating-ph' for="validationServer02">Nombre del dueño</label>
-            </div>
+        <div class="container-sm">
+            <form class="needs-validation" action="" method="POST">
+                {% if type=='cliente' %}
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="input_email" value="{{dicc_usuario['email']}}"
+                           readonly="true" required name="email">
+                    <label class='floating-ph' for="validationServer01">Email</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" placeholder="Nombre del dueño" class="form-control" id="validationServer02"
+                           required name="nombre"
+                           value="{{dicc_usuario['name']}}" readonly="true">
+                    <label class='floating-ph' for="validationServer02">Nombre del dueño</label>
+                </div>
 
-        <div  id='input_mascota' class="mb-3">
-        <input  id="m_input" placeholder="Nombre de la mascota" style="text-transform: capitalize;" class="form-control" list="mascotas" name="mascota" onChange="get_data_masc(this)"/>
-            <datalist id="mascotas" >
-                {% for mascota in lista_mascotas %}
-                <option value="{{mascota['nombre_mascota']}}">{{mascota['nombre_mascota']}}</option>
-                {% endfor %}
-            </datalist>
+                <div id='input_mascota' class="mb-3">
+                    <input id="m_input" placeholder="Nombre de la mascota" style="text-transform: capitalize;"
+                           class="form-control" list="mascotas" name="mascota" onChange="get_data_masc(this)"/>
+                    <datalist id="mascotas">
+                        {% for mascota in lista_mascotas %}
+                        <option value="{{mascota['nombre_mascota']}}">{{mascota['nombre_mascota']}}</option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+                {% else %}
+
+
+                <div class="mb-3" id='sel_email'>
+
+
+                    <input class="form-control" id='email' type="email" placeholder="Ingrese el email..."
+                           list="lista_email" name="email" required onChange="get_data(this)"/>
+                    <datalist name="lista" id="lista_email">
+                        {% for usr in lista_usuarios %}
+                        <option value="{{usr['email']}}">{{usr['email']}}</option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+
+
+                <div id='dueno' class="form-floating mb-3">
+
+                    <input type="text" style="text-transform: capitalize;" placeholder="Nombre del dueño"
+                           class="form-control" id="nombre" required name="nombre">
+                    <label class="form-label" for="nombre">Nombre del dueño</label>
+
+                </div>
+                <div id='input_mascota' class="mb-3">
+                    <input id="m_input" placeholder="Nombre de la mascota" class="form-control"
+                           style="text-transform: capitalize;" list="mascotas" name="mascota"
+                           onChange="get_data_masc(this)"/>
+
+
+                    <datalist id="mascotas">
+
+                    </datalist>
+                </div>
+
+
+                {% endif %}
+
+                <div class="form-floating mb-3">
+                    <input type="text" placeholder="Tipo de mascota" class="form-control" id="tipo_mascota"
+                           name="tipo_mascota">
+                    <label for="tipo_mascota">Tipo de mascota</label>
+                </div>
+                <!-- <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="validationServer01" required name="email">
+                        <label for="validationServer01">Email</label>
+                    </div> -->
+
+                <div class="form-floating mb-3">
+                    <input type="date" class="form-control" id="validationServer04" required name="fecha"
+                           value="{{fecha}}"
+                           disabled>
+                    <label for="validationServer04">Fecha</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="validationServer04" required name="hora"
+                           value="{{hora}}"
+                           disabled>
+                    <label for="validationServer04">Hora</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="validationServer04" required name="servicio"
+                           value="{{tipo}}" disabled>
+                    <label for="validationServer04">Servicio</label>
+                </div>
+                <div class="contenedor_btns">
+                    <input class="btn boton_pie" type="submit" name="enviar" value="Confirmar cita">
+                    <h6 style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
+                </div>
+            </form>
+            <a href="/agendar">
+                <button class="btn boton_pie mt-3 float-start">Cambiar cita</button>
+
         </div>
-            {% else %}
-            
 
-            <div class="mb-3"  id='sel_email'>
-                
-
-                <input  class="form-control" id='email' type="email" placeholder="Ingrese el email..." list="lista_email" name="email" required onChange="get_data(this)"/>
-                <datalist name="lista" id="lista_email" >
-                    {% for usr in lista_usuarios %}
-                    <option value="{{usr['email']}}">{{usr['email']}}</option>
-                    {% endfor %}
-                </datalist>
-            </div>
-
-            
-            <div id='dueno' class="form-floating mb-3">
-                
-                <input type="text" style="text-transform: capitalize;" placeholder="Nombre del dueño" class="form-control" id="nombre" required name="nombre">
-                <label class="form-label" for="nombre">Nombre del dueño</label>
-
-            </div>
-            <div  id='input_mascota' class="mb-3">
-                <input  id="m_input" placeholder="Nombre de la mascota" class="form-control" style="text-transform: capitalize;" list="mascotas" name="mascota" onChange="get_data_masc(this)"/>
-            
-
-                <datalist id="mascotas" >
-                    
-                </datalist>
-            </div>
-
-            
-
-{% endif %}
-
-<div class="form-floating mb-3">
-    <input type="text" placeholder="Tipo de mascota" class="form-control" id="tipo_mascota" name="tipo_mascota">
-    <label for="tipo_mascota">Tipo de mascota</label>
-</div>
-            <!-- <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="validationServer01" required name="email">
-                    <label for="validationServer01">Email</label>
-                </div> -->
-            
-            <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="validationServer04" required name="fecha" value="{{fecha}}"
-                    disabled>
-                <label for="validationServer04">Fecha</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="validationServer04" required name="hora" value="{{hora}}"
-                    disabled>
-                <label for="validationServer04">Hora</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="validationServer04" required name="servicio"
-                    value="{{tipo}}" disabled>
-                <label for="validationServer04">Servicio</label>
-            </div>
-            <div class="contenedor_btns">
-                <input class="btn boton_pie" type="submit" name="enviar" value="Confirmar cita">
-                <h6 style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
-            </div>
-        </form>
-        <a href="/agendar"><button class="btn boton_pie mt-3 float-start">Cambiar cita</button>
 
     </div>
-
-
-</div>
 </div>
 <script>
     input_email = document.getElementById('input_email')
@@ -111,6 +120,7 @@
     mascota_select = document.getElementById('mascotas')
     tipo = document.getElementById('tipo_mascota')
     email = input_email.value
+
     function get_data(elem) {
         nombre.readonly = false;
         nombre.value = ''
@@ -120,33 +130,33 @@
                 usuario = data.info;
                 optionHTML = '';
                 for (datos of usuario) {
-                    optionHTML += '<option value="'+datos.nombre_mascota+'">' + datos.nombre_mascota+'</option>';
+                    optionHTML += '<option value="' + datos.nombre_mascota + '">' + datos.nombre_mascota + '</option>';
                     nombre.value = datos.name;
                 }
                 mascota_select.innerHTML = optionHTML;
-                if (nombre.value != ''){
+                if (nombre.value != '') {
                     nombre.readonly = true;
                 }
             });
         });
-}
+    }
 
-function get_data_masc(elem) {
+    function get_data_masc(elem) {
         // if (elem.value == 'Nueva mascota'){
         //     html_2 = '<div class="form-floating mb-3" ><input type="text" class="form-control" id="validationServer03" name="mascota"><label for="validationServer03">Nombre de mascota</label></div><div class="form-floating mb-3"><input type="text" class="form-control" id="validationServer03" name="tipo_mascota"><label for="validationServer03">Tipo de mascota</label></div>'
         //     mascota.setAttribute('hidden', true)
         //     mascota.insertAdjacentHTML("afterend",html_2)
         // } 
-        tipo.value=''
+        tipo.value = ''
         fetch('/select/' + email).then(function (response) {
             response.json().then(function (data) {
                 usuario = data.info;
                 for (datos of usuario) {
-                    if (datos.nombre_mascota == elem.value){
+                    if (datos.nombre_mascota == elem.value) {
                         tipo.value = datos.tipo_mascota
                     }
-                    
-                    
+
+
                 }
             });
         });

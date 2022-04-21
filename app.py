@@ -253,11 +253,12 @@ def agendar_cita():
     else:
         return redirect('/')
 
+
 @app.route("/citas_programadas")
 def ver_citas():
     if 'logged_in' in session.keys():
         if session['logged_in']:
-            if session['type']=='cliente':
+            if session['type'] == 'cliente':
                 citas = get_lista_citas_de_usuario(session['user_id'])
                 return render_template("citas/lista_citas.html", lista_citas=citas)
             else:
@@ -268,6 +269,7 @@ def ver_citas():
     else:
 
         return redirect('/')
+
 
 @app.route("/agendar/<tipo>", methods=['GET', 'POST'])
 def agendar_vet(tipo):

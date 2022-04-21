@@ -9,35 +9,43 @@
 
 <div class="row">
     {% with path="/usuarios" %}
-        {% include  "menu.html" %}
+    {% include "menu.html" %}
     {% endwith %}
     <div class="col-lg-9 container my-5 text-center justify-content-center">
-    <h3 class="mb-3">Modificar usuario</h3>
-    <div class="container-sm">
+        <h3 class="mb-3">Modificar usuario</h3>
+        <div class="container-sm">
             <form class="needs-validation" action="" method="POST">
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="email" name="email" value="{{dicc_usuario['email']}}" required>
+                    <input type="email" class="form-control" id="email" name="email" value="{{dicc_usuario['email']}}"
+                           required>
                     <label for="email">Email</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="username" required name="username" value="{{dicc_usuario['username']}}">
+                    <input type="text" class="form-control" id="username" required name="username"
+                           value="{{dicc_usuario['username']}}">
                     <label for="username">Username</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text"class="form-control" id="validationServer03" required placeholder="Nombre" name="nombre" value="{{dicc_usuario['name']}}">
+                    <input type="text" class="form-control" id="validationServer03" required placeholder="Nombre"
+                           name="nombre" value="{{dicc_usuario['name']}}">
                     <label for="validationServer03">Nombre</label>
                 </div>
-                <select class="form-select form-select-lg mb-3 form-floating" aria-label=".form-select-lg example" id="tipo" name="tipo">
+                <select class="form-select form-select-lg mb-3 form-floating" aria-label=".form-select-lg example"
+                        id="tipo" name="tipo">
 
-                    <option value="admin" {% if dicc_usuario['type']=='admin' %}selected{% endif %} >Administrador</option>
-                    <option value="usuario" {% if dicc_usuario['type']=='usuario' %}selected{% endif %} >Usuario</option>
-                    <option value="cliente" {% if dicc_usuario['type']=='cliente' %}selected{% endif %} >Cliente</option>
+                    <option value="admin" {% if dicc_usuario[
+                    'type']=='admin' %}selected{% endif %} >Administrador</option>
+                    <option value="usuario" {% if dicc_usuario[
+                    'type']=='usuario' %}selected{% endif %} >Usuario</option>
+                    <option value="cliente" {% if dicc_usuario[
+                    'type']=='cliente' %}selected{% endif %} >Cliente</option>
                 </select>
                 <div class="contenedor_btns">
-                    <input class="btn boton_pie" type="submit" name="enviar" value="Guardar Cambios"> <h6 style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
-        </div>
+                    <input class="btn boton_pie" type="submit" name="enviar" value="Guardar Cambios"> <h6
+                        style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
+                </div>
             </form>
-    </div>
+        </div>
     </div>
 </div>
 

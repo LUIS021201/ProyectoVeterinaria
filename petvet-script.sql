@@ -36,6 +36,22 @@ CREATE TABLE citas(
 	PRIMARY KEY (id)
 ) ENGINE=MyISAM default char set=latin1;
 
+CREATE TABLE recetas(
+	id int AUTO_INCREMENT NOT NULL,
+	user_id int NOT NULL,
+	mascota_id int NOT NULL,
+    nombre_dueno varchar(150) NOT NULL,
+	nombre_mascota varchar(150),
+	tipo_mascota varchar(150),
+	fecha date NOT NULL,
+	medicamento varchar(150) NOT NULL,
+	cantidad int,
+	intervalos varchar(200),
+	FOREIGN KEY (user_id) REFERENCES users (id),
+	FOREIGN KEY (mascota_id) REFERENCES mascotas (id),
+	PRIMARY KEY (id)
+) ENGINE=MyISAM default char set=latin1;
+
 INSERT INTO mascotas (email, nombre_mascota, tipo_mascota)
 SELECT email, nombre_mascota, tipo_mascota FROM citas;
 

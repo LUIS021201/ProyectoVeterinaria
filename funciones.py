@@ -1,6 +1,7 @@
 import smtplib
 from email.message import EmailMessage
 
+
 def mandar_correo_codigo(sender, receiver, password, codigo):
     email_subject = 'Código de Cambio de Contraseña'
     sender_email_address = sender

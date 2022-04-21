@@ -8,71 +8,74 @@
 {% block body %}
 
 
-
 <div class="row">
     {% with path=request.path %}
-        {% include  "menu.html" %}
+    {% include "menu.html" %}
     {% endwith %}
-<div class="col-lg-6 container text-center my-5">
-<h3 class="">Agendar Cita</h3>
-<p class="text-muted pt-2">Selecciona el tipo de servicio para el que vas a agendar tu cita:</p>
-	<div class="row justify-content-center">
-		<div class="col-6 item cards">
-			<i class="fa fa-solid fa-paw"></i>
-			<h3>Veterinaria</h3>
-			<p class="text-muted py-1">Agenda tu cita para hacerle un chequeo a tu mascota.</p>
-			<a href="/agendar/Veterinaria"><button class="btn boton_pie">Seleccionar</button></a>
-		</div>
-		<div class="col-6 item cards">
-			<i class="fa fa-solid fa-bath"></i>
-			<h3>Boutique</h3>
-			<p class="text-muted py-1">Agenda tu cita para uno de nuestros servicios de estética.</p>
-			<a href="/agendar/Boutique"><button class="btn boton_pie">Seleccionar</button></a>
-		</div>
-	</div>
+    <div class="col-lg-6 container text-center my-5">
+        <h3 class="">Agendar Cita</h3>
+        <p class="text-muted pt-2">Selecciona el tipo de servicio para el que vas a agendar tu cita:</p>
+        <div class="row justify-content-center">
+            <div class="col-6 item cards">
+                <i class="fa fa-solid fa-paw"></i>
+                <h3>Veterinaria</h3>
+                <p class="text-muted py-1">Agenda tu cita para hacerle un chequeo a tu mascota.</p>
+                <a href="/agendar/Veterinaria">
+                    <button class="btn boton_pie">Seleccionar</button>
+                </a>
+            </div>
+            <div class="col-6 item cards">
+                <i class="fa fa-solid fa-bath"></i>
+                <h3>Boutique</h3>
+                <p class="text-muted py-1">Agenda tu cita para uno de nuestros servicios de estética.</p>
+                <a href="/agendar/Boutique">
+                    <button class="btn boton_pie">Seleccionar</button>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- <div class="contenedor_info container-sm">
+    <form class="needs-validation" action="" method="POST">
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="validationServer01"  {% if type=='cliente' %} value="{{dicc_usuario['email']}}" disabled {% endif %} required placeholder="name@example.com" name="email">
+            <label for="validationServer01">Email</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="validationServer02" required name="nombre"
+            {% if type=='cliente' %} value="{{dicc_usuario['name']}}" disabled {% endif %}>
+            <label for="validationServer02">Nombre</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="validationServer03" placeholder="Nombre de mascota" name="mascota">
+            <label for="validationServer03">Mascota</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="validationServer04" required placeholder="Seleccionar fecha" name="fecha" min="{{date_min}}" max="{{date_max}}">
+            <label for="validationServer04">Fecha</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="time" class="form-control" id="validationServer04" required placeholder="Seleccionar hora" name="hora">
+            <label for="validationServer04">Hora</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="validationServer04" required placeholder="Servicio" name="servicio">
+            <label for="validationServer04">Servicio</label>
+        </div>
+        <div class="contenedor_btns">
+            <input class="btn boton_pie" type="submit" name="enviar" value="agendar"> <h6 style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
 </div>
-        <!-- <div class="contenedor_info container-sm">
-            <form class="needs-validation" action="" method="POST">
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="validationServer01"  {% if type=='cliente' %} value="{{dicc_usuario['email']}}" disabled {% endif %} required placeholder="name@example.com" name="email">
-                    <label for="validationServer01">Email</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="validationServer02" required name="nombre"
-                    {% if type=='cliente' %} value="{{dicc_usuario['name']}}" disabled {% endif %}>
-                    <label for="validationServer02">Nombre</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="validationServer03" placeholder="Nombre de mascota" name="mascota">
-                    <label for="validationServer03">Mascota</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="date" class="form-control" id="validationServer04" required placeholder="Seleccionar fecha" name="fecha" min="{{date_min}}" max="{{date_max}}">
-                    <label for="validationServer04">Fecha</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="time" class="form-control" id="validationServer04" required placeholder="Seleccionar hora" name="hora">
-                    <label for="validationServer04">Hora</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="validationServer04" required placeholder="Servicio" name="servicio">
-                    <label for="validationServer04">Servicio</label>
-                </div>
-                <div class="contenedor_btns">
-                    <input class="btn boton_pie" type="submit" name="enviar" value="agendar"> <h6 style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
-        </div>
-            </form>
-        </div>
+    </form>
+</div>
 
-        <div class="container-sm">
-            <div data-tockify-component="calendar" data-tockify-calendar="andreadh"></div>
-            <script data-cfasync="false" data-tockify-script="embed" src="https://public.tockify.com/browser/embed.js"></script>
-            <a href="https://tockify.com/tkf2/submitEvent/c23c31f61951485fac13f37db16995f6" target="_blank">Agendar cita</a>
+<div class="container-sm">
+    <div data-tockify-component="calendar" data-tockify-calendar="andreadh"></div>
+    <script data-cfasync="false" data-tockify-script="embed" src="https://public.tockify.com/browser/embed.js"></script>
+    <a href="https://tockify.com/tkf2/submitEvent/c23c31f61951485fac13f37db16995f6" target="_blank">Agendar cita</a>
 
-        </div>
+</div>
 
-    </div> -->
+</div> -->
 
 
 {% endblock %}

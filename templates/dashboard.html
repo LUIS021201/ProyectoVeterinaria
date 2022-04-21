@@ -10,30 +10,30 @@
 
 <div class="row">
     {% with path=request.path %}
-        {% include  "menu.html" %}
+    {% include "menu.html" %}
     {% endwith %}
     <div class="col-lg-9 container my-2 table-responsive">
     </div>
 </div>
-		<!-- <div class="col-5 item cards">
-			<i class="fa fa-solid fa-bath"></i>
-			<h3>Boutique</h3>
-			<p class="text-muted py-1">Agenda tu cita para uno de nuestros servicios de estética.</p>
-			<a href="/agendar/Boutique"><button class="btn boton_pie">Seleccionar</button></a>
-		</div>
-	</div>
-    <div class="contenedor_main" >
-        <div class="contenedor_accesos">
-            <ul class="list-group">
-                {% for link,nombre in accesos.items() %}
-                <a href="{{link}}"><li class="list-group-item no-border elemento_accesos" aria-current="true">{{nombre}}</li></a>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="contenedor_info">
+<!-- <div class="col-5 item cards">
+    <i class="fa fa-solid fa-bath"></i>
+    <h3>Boutique</h3>
+    <p class="text-muted py-1">Agenda tu cita para uno de nuestros servicios de estética.</p>
+    <a href="/agendar/Boutique"><button class="btn boton_pie">Seleccionar</button></a>
+</div>
+</div>
+<div class="contenedor_main" >
+<div class="contenedor_accesos">
+    <ul class="list-group">
+        {% for link,nombre in accesos.items() %}
+        <a href="{{link}}"><li class="list-group-item no-border elemento_accesos" aria-current="true">{{nombre}}</li></a>
+        {% endfor %}
+    </ul>
+</div>
+<div class="contenedor_info">
 
-        </div>
-    </div>
+</div>
+</div>
 </div> -->
 
 {% endblock %}
