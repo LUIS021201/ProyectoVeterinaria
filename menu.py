@@ -1,6 +1,7 @@
 diccionario_menu = {'admin': {
     '/dashboard': ['bi bi-grid-3x3-gap-fill','Dashboard'],
     '/agendar': ['bi bi-calendar-check-fill','Agendar Cita'],
+    '/citas_programadas': ['bi bi-calendar-check-fill','Citas Programadas'],
     '/historial_recetas': ['bi bi-file-medical-fill','Historial de Recetas'],
     '/historial_atencion': ['bi bi-clipboard2-pulse-fill','Historial de Atención'],
     '/agregar_receta': ['fa-solid fa-prescription-bottle-medical','Agregar una Receta'],
@@ -14,6 +15,7 @@ diccionario_menu = {'admin': {
     'cliente': {
         '/dashboard': ['bi bi-grid-3x3-gap-fill','Dashboard'],
         '/agendar': ['bi bi-calendar-check','Agendar Cita'],
+        '/citas_programadas': ['bi bi-calendar-check-fill','Citas Programadas'],
         '/historial_recetas': ['bi bi-file-medical-fill','Historial de Recetas'],
         '/historial_atencion': ['bi bi-clipboard2-pulse-fill','Historial de Atención'],
         '/logout': ['fa-solid fa-right-from-bracket','Cerrar sesión']
@@ -22,6 +24,7 @@ diccionario_menu = {'admin': {
     'usuario': {
         '/dashboard': ['bi bi-grid-3x3-gap-fill','Dashboard'],
         '/agendar': ['bi bi-calendar-check-fill','Agendar Cita'],
+        '/citas_programadas': ['bi bi-calendar-check-fill','Citas Programadas'],
         '/historial_recetas': ['bi bi-file-medical-fill','Historial de Recetas'],
         '/historial_atencion': ['bi bi-clipboard2-pulse-fill','Historial de Atención'],
         '/agregar_receta': ['fa-solid fa-prescription-bottle-medical','Agregar una Receta'],
