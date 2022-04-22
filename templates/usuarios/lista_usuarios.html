@@ -98,7 +98,7 @@
         for (i = 0; i < tr.length; i++) {
             count = 0;
 
-            for (j = 0; j < 6; j++) {
+            for (j = 0; j < 4; j++) {
                 td = tr[i].getElementsByTagName("td")[j];
 
                 if (td) {
@@ -114,7 +114,7 @@
                 }
 
             }
-            if (count===6){
+            if (count===4){
                     tr[i].style.display = "none";
                 }else{
                     tr[i].style.display = "";
