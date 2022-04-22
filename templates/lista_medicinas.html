@@ -19,27 +19,27 @@
                 <thead class="table-light">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Modificar</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Presentación</th>
+                    <th scope="col">Medida</th>
+
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    {% for usuario in lista_usuarios %}
-                    <th scope="row">{{usuario['id']}}</th>
-                    <td>{{usuario['name']}}</td>
-                    <td>{{usuario['email']}}</td>
-                    <td>{{usuario['username']}}</td>
-                    <td>{{usuario['type']}}</td>
-                    <td><a href="/mod_usuario/{{usuario['username']}}" class="btn boton_pie">Modificar</a></td>
+                    {% for medicina in lista_medicinas %}
+                    <th scope="row">{{medicina['id']}}</th>
+                    <td>{{medicina['nombre']}}</td>
+                    <td>{{medicina['descripcion']}}</td>
+                    <td>{{medicina['presentacion']}}</td>
+                    <td>{{medicina['medida']}}</td>
+                    <td><a href="#" class="btn boton_pie">Modificar</a></td>
                 </tr>
                 {% endfor %}
                 </tbody>
             </table>
-            <a href="/agregar_usuario" class="btn boton_pie">Agregar Usuario</a>
+            <a href="#" class="btn boton_pie">Agregar Medicina</a>
         </div>
 
         <!-- <h3 class="">Lista De Usuarios</h3>
@@ -98,7 +98,7 @@
         for (i = 0; i < tr.length; i++) {
             count = 0;
 
-            for (j = 0; j < 6; j++) {
+            for (j = 0; j < 4; j++) {
                 td = tr[i].getElementsByTagName("td")[j];
 
                 if (td) {
@@ -114,7 +114,7 @@
                 }
 
             }
-            if (count===6){
+            if (count===4){
                     tr[i].style.display = "none";
                 }else{
                     tr[i].style.display = "";
