@@ -365,13 +365,14 @@ def confirmar_cita(tipo):
     else:
         return redirect("/")
 
+
 @app.route("/medicinas")
 def medicinas():
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':
                 medicinas = get_lista_medicinas()
-                return render_template("lista_medicinas.html", lista_medicinas=medicinas)
+                return render_template("medicinas/lista_medicinas.html", lista_medicinas=medicinas)
             else:
 
                 return redirect("/")
@@ -380,6 +381,38 @@ def medicinas():
     else:
 
         return redirect('/')
+
+
+@app.route("/medicinas/agregar_medicina", methods=['GET', 'POST'])
+def agregar_medicina():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] == 'admin':
+                if request.method == 'GET':
+                    return render_template("medicinas/agregar_medicina.html")
+                elif request.method == 'POST':
+                    nombre = request.form['nombre']
+                    descripcion = request.form['descripcion']
+                    precio = request.form['precio']
+                    presentacion = request.form['presentacion']
+                    medida = request.form['medida']
+                    stock = request.form['stock']
+                    # info = nombre + " " + descripcion + " " +str(precio) + " " + presentacion + " " +medida+ " " + stock
+                    # return  info
+                    if medicina_existe(nombre, descripcion, presentacion, medida):
+                        return render_template("medicinas/lista_medicinas.html",
+                                               mensaje='Esta medicina ya esta registrada en el inventario')
+                    else:
+                        insertar_medicina(nombre, descripcion, presentacion, medida, stock, precio)
+                        return redirect("/medicinas")
+
+            else:
+
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
 
 
 @app.route("/select/<email>")
@@ -396,9 +429,6 @@ def usuario(email):
 
     print(seleccion)
     return jsonify({'info': seleccion})
-
-
-
 
 
 if __name__ == '__main__':

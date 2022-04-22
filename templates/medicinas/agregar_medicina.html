@@ -1,0 +1,108 @@
+{%  extends "base.html"  %}
+{%  set log = log %}
+{% block title %}Cartelera de Estrenos
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+
+<div class="row">
+    {% with path="/medicinas" %}
+    {% include "menu.html" %}
+    {% endwith %}
+    <div class="col-lg-9 container my-5 text-center justify-content-center">
+        <h3 class="mb-3">Agregar Medicina</h3>
+        <div class="container-sm">
+            <form class="needs-validation" action="" method="POST">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="validationServer01" required
+                           placeholder="Escriba el nombre de la medicina" name="nombre">
+                    <label for="validationServer01">Nombre de medicamento</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="validationServer02" required
+                           placeholder="Escriba la descripcion"
+                           name="descripcion">
+                    <label for="validationServer02">Descripción</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="number" step=".01" pattern='[0-9]+(\\.[0-9][0-9]?)?' class="form-control"
+                           id="validationServer06" required
+                           placeholder="Escriba el precio"
+                           name="precio">
+                    <label for="validationServer06">Precio</label>
+                </div>
+
+
+                <div class="input-group ">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="height: 3rem;"
+                               for="inputGroupSelect01">Presentacion</label>
+                    </div>
+                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
+                            aria-label=".form-select-lg example"
+                            id="presentacion" name="presentacion">
+
+                        <option value="Pomada">Pomada</option>
+                        <option value="Pastillas">Pastillas</option>
+                        <option value="Jarabe">Jarabe</option>
+                        <option value="Inyectable">Inyectable</option>
+                        <option value="Gotas">Gotas</option>
+                    </select>
+                </div>
+
+                <div class="input-group ">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="height: 3rem;" for="inputGroupSelect01">Medida</label>
+                    </div>
+                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
+                            aria-label=".form-select-lg example"
+                            id="medida" name="medida">
+
+                        <option value="mg">Miligramos</option>
+                        <option value="ml">Mililitros</option>
+                    </select>
+                </div>
+                <!--                <select class="form-select form-select-lg mb-3 form-floating" aria-label=".form-select-lg example"-->
+                <!--                        id="presentacion" name="presentacion">-->
+
+                <!--                    <option value="1">Pomada</option>-->
+                <!--                    <option value="2">Pastillas</option>-->
+                <!--                    <option value="3">Jarabe</option>-->
+                <!--                    <option value="3">Inyectable</option>-->
+                <!--                </select>-->
+
+
+                <!--                <label for="medida">Medida</label>-->
+
+
+                <!--                <select class="form-select form-select-lg mb-3 form-floating" aria-label=".form-select-lg example"-->
+                <!--                        id="medida" name="medida">-->
+
+                <!--                    <option value="1">Miligramos</option>-->
+                <!--                    <option value="2">Mililitros</option>-->
+
+                <!--                </select>-->
+
+
+                <div class="form-floating mb-3">
+                    <input type="number" min="0" step="1" class="form-control" id="validationServer07" required
+                           placeholder="Escriba la cantidad"
+                           name="stock">
+                    <label for="validationServer07">Cantidad en existencia</label>
+                </div>
+                <div class="contenedor_btns">
+                    <input class="btn boton_pie" type="submit" name="enviar" value="Agregar Medicina"> <h6
+                        style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}
+{% block footer %}
+{% endblock %}

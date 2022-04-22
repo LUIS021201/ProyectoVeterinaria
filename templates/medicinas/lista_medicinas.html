@@ -23,6 +23,8 @@
                     <th scope="col">Descripción</th>
                     <th scope="col">Presentación</th>
                     <th scope="col">Medida</th>
+                    <th scope="col">Precio</th>
+<th scope="col">En existencia</th>
 
                 </tr>
                 </thead>
@@ -34,12 +36,15 @@
                     <td>{{medicina['descripcion']}}</td>
                     <td>{{medicina['presentacion']}}</td>
                     <td>{{medicina['medida']}}</td>
+                    <td>{{medicina['precio']}}</td>
+                    <td>{{medicina['stock']}}</td>
+
                     <td><a href="#" class="btn boton_pie">Modificar</a></td>
                 </tr>
                 {% endfor %}
                 </tbody>
             </table>
-            <a href="#" class="btn boton_pie">Agregar Medicina</a>
+            <a href="/medicinas/agregar_medicina" class="btn boton_pie">Agregar Medicina</a>
         </div>
 
         <!-- <h3 class="">Lista De Usuarios</h3>
@@ -85,9 +90,9 @@
 </div>
 </div> -->
 <script>
-    function myFunction() {
+function myFunction() {
         // Declare variables
-        var input, filter, table, tr, td, i, txtValue, j,count;
+        var input, filter, table, tr, td, i, txtValue, j,count,tamanio;
 
         input = document.getElementById("searchbox");
         filter = input.value.toLowerCase();
@@ -97,8 +102,9 @@
         // Loop through all table rows, and hide those who don't match the search query
         for (i = 0; i < tr.length; i++) {
             count = 0;
+             tamanio = tr[i].getElementsByTagName("td").length - 1
 
-            for (j = 0; j < 4; j++) {
+            for (j = 0; j < tamanio; j++) {
                 td = tr[i].getElementsByTagName("td")[j];
 
                 if (td) {
@@ -108,13 +114,13 @@
                     } else {
                         count++;
                             // tr[i].style.display = "none";
-                        console.log(count);
+
                     }
 
                 }
 
             }
-            if (count===4){
+            if (count===tamanio){
                     tr[i].style.display = "none";
                 }else{
                     tr[i].style.display = "";
