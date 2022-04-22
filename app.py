@@ -73,6 +73,41 @@ def logout():
     session.clear()
     return redirect("/")
 
+@app.route("/signup", methods=['GET', 'POST'])
+def register():
+    if 'logged_in' not in session.keys():
+        if request.method == 'GET':
+            return render_template("signup.html")
+        elif request.method == 'POST':
+            email = request.form['email']
+            username = request.form['username']
+            password1 = request.form['password1']
+            password2 = request.form['password2']
+            name = request.form['name']
+            type = 'Cliente'
+            # checar si usuario o email ya existen
+            if usuario_existe('email', email):  # checamos que el email no sea usado por otra cuenta
+                return render_template("signup.html",
+                                       mensaje='El email pertenece a otro usuario existente')
+            if usuario_existe('username', username):  # checamos que el username no sea usado por otra cuenta
+                return render_template("signup.html",
+                                       mensaje='El username pertenece a otro usuario existente')
+            if password1 != password2:
+                return render_template("signup.html",
+                                       mensaje='Contraseñas no concuerdan, intente de nuevo')
+            else:
+                # lista_usuarios[email] = {
+                #     'email': email,
+                #     'username': username,
+                #     'password': sha256_crypt.hash(password),
+                #     'name': name,
+                #     'type': type
+                # }
+                insertar_usuario(email, username, sha256_crypt.hash(password2), name, type)
+                # grabar_dicc_usuarios(lista_usuarios)
+                return redirect('/login')
+    else:
+        return redirect("/")
 
 @app.route("/forgot_password", methods=['GET', 'POST'])
 def forgot_password():
@@ -81,6 +116,21 @@ def forgot_password():
             return render_template("password/forgot_password.html")
         elif request.method == 'POST':
             email = request.form['email']
+            username=request.form['email']
+            usr = buscar_usuario('username', username)
+            print(usr['email'])
+            if usuario_existe('username', username):
+                mensaje = f'Se envió un código para cambiar la contraseña a su correo ({email})'
+                codigo = ''
+                for i in range(4):
+                    numero = randint(0, 9)
+                    codigo += str(numero)
+                session['usuario_codigo'] = usr['email']
+                session['codigo'] = codigo
+                # MANDAR CODIGO POR CORREO DE LA PERSONA
+                mandar_correo_codigo('PetVetReal@gmail.com', usr['email'], '..:Phi3GcAzJGwJ', codigo)
+                return redirect('/reset_code', mensaje='Se ha mandado un código a su correo electronico')
+            # por email
             if usuario_existe('email', email) and email != 'PetVetReal@gmail.com':
                 mensaje = f'Se envió un código para cambiar la contraseña a su correo ({email})'
                 codigo = ''
