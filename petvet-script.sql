@@ -38,30 +38,40 @@ CREATE TABLE citas(
 
 CREATE TABLE recetas(
 	id int AUTO_INCREMENT NOT NULL,
+	fecha date NOT NULL,
 	user_id int NOT NULL,
 	mascota_id int NOT NULL,
     nombre_dueno varchar(150) NOT NULL,
 	nombre_mascota varchar(150),
 	tipo_mascota varchar(150),
-	fecha date NOT NULL,
+	medicamento_id int NOT NULL,
 	medicamento varchar(150) NOT NULL,
 	cantidad int,
 	intervalos varchar(200),
 	FOREIGN KEY (user_id) REFERENCES users (id),
 	FOREIGN KEY (mascota_id) REFERENCES mascotas (id),
+	FOREIGN KEY (medicamento_id) REFERENCES medicinas (id),
 	PRIMARY KEY (id)
 ) ENGINE=MyISAM default char set=latin1;
 
 CREATE TABLE medicinas(
     id int AUTO_INCREMENT NOT NULL,
+	nombre varchar(150) NOT NULL,
     descripcion varchar(300),
-    presentacion ENUM('Pomada','Pastillas','Jarabe'),
+	stock int not null,
+    presentacion ENUM('Pomada','Pastillas','Jarabe','Inyectable','Gotas'),
     medida ENUM('mg','ml'),
+	precio decimal(10,2) NOT NULL,
     PRIMARY KEY (id)
 
 )ENGINE=MyISAM default char set=latin1;
 
+CREATE TABLE servicios(
+    id int AUTO_INCREMENT NOT NULL,
+	nombre varchar(150) NOT NULL,
+    precio decimal(10,2) NOT NULL,
+	habilitado boolean not null,
+    PRIMARY KEY (id)
 
-INSERT INTO mascotas (email, nombre_mascota, tipo_mascota)
-SELECT email, nombre_mascota, tipo_mascota FROM citas;
+)ENGINE=MyISAM default char set=latin1;
 
