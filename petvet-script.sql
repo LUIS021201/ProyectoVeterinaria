@@ -52,6 +52,16 @@ CREATE TABLE recetas(
 	PRIMARY KEY (id)
 ) ENGINE=MyISAM default char set=latin1;
 
+CREATE TABLE medicinas(
+    id int AUTO_INCREMENT NOT NULL,
+    descripcion varchar(300),
+    presentacion ENUM('Pomada','Pastillas','Jarabe'),
+    medida ENUM('mg','ml'),
+    PRIMARY KEY (id)
+
+)ENGINE=MyISAM default char set=latin1;
+
+
 INSERT INTO mascotas (email, nombre_mascota, tipo_mascota)
 SELECT email, nombre_mascota, tipo_mascota FROM citas;
 
