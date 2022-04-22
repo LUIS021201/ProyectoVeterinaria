@@ -13,7 +13,7 @@
     {% endwith %}
     <div class="col-lg-9 container my-5 justify-content-center">
         <div class="mx-5 table-responsive">
-            <input class="form-control mb-2" type="text" id="searchbox" onkeyup="myFunction()"
+            <input class="form-control mb-2" type="text" id="searchbox" onkeyup="buscar()"
                    placeholder="Buscar...">
             <table id="table" class="table table-hover">
                 <thead class="table-light">
@@ -25,6 +25,8 @@
                     <th scope="col">Medida</th>
                     <th scope="col">Precio</th>
 <th scope="col">En existencia</th>
+<th scope="col">Modificar</th>
+
 
                 </tr>
                 </thead>
@@ -89,45 +91,7 @@
     </div>
 </div>
 </div> -->
-<script>
-function myFunction() {
-        // Declare variables
-        var input, filter, table, tr, td, i, txtValue, j,count,tamanio;
 
-        input = document.getElementById("searchbox");
-        filter = input.value.toLowerCase();
-        table = document.getElementById("table");
-        tr = table.getElementsByTagName("tr");
-
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-            count = 0;
-             tamanio = tr[i].getElementsByTagName("td").length - 1
-
-            for (j = 0; j < tamanio; j++) {
-                td = tr[i].getElementsByTagName("td")[j];
-
-                if (td) {
-                    txtValue = td.textContent.toLowerCase() || td.innerText.toLowerCase();
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        // tr[i].style.display = "";
-                    } else {
-                        count++;
-                            // tr[i].style.display = "none";
-
-                    }
-
-                }
-
-            }
-            if (count===tamanio){
-                    tr[i].style.display = "none";
-                }else{
-                    tr[i].style.display = "";
-                }
-        }
-    }
-</script>
 
 
 {% endblock %}
