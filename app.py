@@ -10,6 +10,7 @@ from funciones import mandar_correo_codigo
 from passlib.hash import sha256_crypt
 from recetas import *
 
+
 app = Flask(__name__)
 app.secret_key = 'lwiu74dhn2SuF3j'
 
