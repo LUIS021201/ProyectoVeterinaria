@@ -8,6 +8,7 @@ from random import *
 from menu import get_dicc_menu
 from funciones import mandar_correo_codigo
 from passlib.hash import sha256_crypt
+from recetas import *
 
 app = Flask(__name__)
 app.secret_key = 'lwiu74dhn2SuF3j'
@@ -363,6 +364,22 @@ def confirmar_cita(tipo):
     else:
         return redirect("/")
 
+@app.route("/medicinas")
+def medicinas():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] == 'admin':
+                medicinas = get_lista_medicinas()
+                return render_template("lista_medicinas.html", lista_medicinas=medicinas)
+            else:
+
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+
+        return redirect('/')
+
 
 @app.route("/select/<email>")
 def usuario(email):
@@ -378,6 +395,9 @@ def usuario(email):
 
     print(seleccion)
     return jsonify({'info': seleccion})
+
+
+
 
 
 if __name__ == '__main__':
