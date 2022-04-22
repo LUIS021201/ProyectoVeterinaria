@@ -20,26 +20,28 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Type</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Habilitado</th>
                     <th scope="col">Modificar</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    {% for usuario in lista_usuarios %}
-                    <th scope="row">{{usuario['id']}}</th>
-                    <td>{{usuario['name']}}</td>
-                    <td>{{usuario['email']}}</td>
-                    <td>{{usuario['username']}}</td>
-                    <td>{{usuario['type']}}</td>
-                    <td><a href="/mod_usuario/{{usuario['username']}}" class="btn boton_pie">Modificar</a></td>
+                    {% for servicio in lista_servicios %}
+                    <th scope="row">{{servicio['id']}}</th>
+                    <td>{{servicio['nombre']}}</td>
+                    <td>{{servicio['precio']}}</td>
+                    {% if servicio['habilitado']==1 %}
+                    <td>Habilitado</td>
+                    {% else %}
+                    <td>Deshabilitado</td>
+                    {% endif %}
+                    <td><a href="/mod_servicio/{{servicio['id']}}" class="btn boton_pie">Modificar</a></td>
                 </tr>
                 {% endfor %}
                 </tbody>
             </table>
-            <a href="/agregar_usuario" class="btn boton_pie">Agregar Usuario</a>
+            <a href="/agregar_sevicio" class="btn boton_pie">Agregar Servicio</a>
         </div>
 
         <!-- <h3 class="">Lista De Usuarios</h3>

@@ -3,7 +3,7 @@ from bd import obtener_conexion
 
 def insertar_servicio(nombre, precio, habilitado):
     conexion = obtener_conexion()
-    nombre = nombre.title()
+    nombre = nombre.capitalize()
     with conexion.cursor() as cursor:
         cursor.execute("INSERT INTO servicios (nombre, precio, habilitado) VALUES (%s, %s, %s)",
                        (nombre, precio, habilitado))
@@ -11,7 +11,7 @@ def insertar_servicio(nombre, precio, habilitado):
     conexion.close()
 
 
-def modificar_servicio(id,nombre, precio, habilitado):
+def actualizar_servicio(id,nombre, precio, habilitado):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
         cursor.execute("UPDATE servicios SET nombre = %s, precio = %s, habilitado = %s WHERE id =%s",
@@ -19,6 +19,26 @@ def modificar_servicio(id,nombre, precio, habilitado):
     conexion.commit()
     conexion.close()
 
+def servicio_existe(valor: str):
+    conexion = obtener_conexion()
+    query = "SELECT * FROM servicios WHERE id=%s"
+    with conexion.cursor() as cursor:
+        cursor.execute(query, (valor))
+        if cursor.fetchone() is None:
+            return False
+    conexion.commit()
+    conexion.close()
+    return True
+
+def get_servicio(id: int) -> list:
+    conexion = obtener_conexion()
+    query = "SELECT * FROM servicios WHERE id=%s"
+    with conexion.cursor() as cursor:
+        cursor.execute(query, (id))
+        servicio = cursor.fetchone()
+    conexion.commit()
+    conexion.close()
+    return servicio
 
 def get_lista_servicios() -> list:
     conexion = obtener_conexion()

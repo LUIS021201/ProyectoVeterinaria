@@ -76,7 +76,7 @@ def eliminar_usuario(user_id: str):
     conexion.close()
 
 
-def buscar_usuario(column: str, valor: str):
+def get_usuario(column: str, valor: str):
     conexion = obtener_conexion()
     query = "SELECT * FROM users WHERE " + column + "=%s"
     with conexion.cursor() as cursor:
@@ -87,7 +87,7 @@ def buscar_usuario(column: str, valor: str):
     return usuario
 
 
-def buscar_mascota(nombre_mascota: str, user_id: str):
+def get_mascota(nombre_mascota: str, user_id: str):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
         cursor.execute("SELECT * FROM mascotas WHERE user_id=%s AND nombre_mascota=%s", (user_id, nombre_mascota))

@@ -8,45 +8,37 @@
 {% block body %}
 
 <div class="row">
-    {% with path="/usuarios" %}
+    {% with path="/servicios" %}
     {% include "menu.html" %}
     {% endwith %}
     <div class="col-lg-9 container my-5 justify-content-center">
-        <a href="/usuarios" class="ms-4 elemento_lista"><i class="fa-solid fa-chevron-left"></i> Regresar</a>
-        <h3 class="mb-3 text-center">Modificar usuario</h3>
+        <a href="/servicios" class="ms-4 elemento_lista"><i class="fa-solid fa-chevron-left"></i> Regresar</a>
+        <h3 class="mb-3 text-center">Agregar nuevo servicio</h3>
         <div class="container-sm">
             <form class="needs-validation" action="" method="POST">
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="email" name="email" value="{{dicc_usuario['email']}}"
-                           required>
-                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="validationServer02" required placeholder="Nombre del servicio"
+                           name="nombre" value="{{servicio['nombre']}}">
+                    <label for="validationServer02">Nombre del servicio</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="username" required name="username"
-                           value="{{dicc_usuario['username']}}">
-                    <label for="username">Username</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="validationServer03" required placeholder="Nombre"
-                           name="nombre" value="{{dicc_usuario['name']}}">
-                    <label for="validationServer03">Nombre</label>
+                    <input type="number" class="form-control" id="validationServer02" required placeholder="Precio"
+                           name="precio" min='0' step=".01" pattern='[0-9]+(\\.[0-9][0-9]?)?'  value="{{servicio['precio']}}">
+                    <label for="validationServer02">Precio</label>
                 </div>
                 <select class="form-select form-select-lg mb-3 form-floating" aria-label=".form-select-lg example"
-                        id="tipo" name="tipo">
+                        id="tipo" name="habilitado">
 
-                    <option value="admin" {% if dicc_usuario[
-                    'type']=='admin' %}selected{% endif %} >Administrador</option>
-                    <option value="usuario" {% if dicc_usuario[
-                    'type']=='usuario' %}selected{% endif %} >Usuario</option>
-                    <option value="cliente" {% if dicc_usuario[
-                    'type']=='cliente' %}selected{% endif %} >Cliente</option>
+                    <option {% if servicio['habilitado']==0 %} selected {% endif %} value="0">Deshabilitado</option>
+                    <option {% if servicio['habilitado']==1 %} selected {% endif %} value="1">Habilitado</option>
                 </select>
                 <div class="contenedor_btns">
-                    <input class="btn boton_pie" type="submit" name="enviar" value="Guardar Cambios"> <h6
+                    <input class="btn boton_pie" type="submit" name="enviar" value="Agregar servicio"> <h6
                         style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
                 </div>
             </form>
         </div>
+
     </div>
 </div>
 

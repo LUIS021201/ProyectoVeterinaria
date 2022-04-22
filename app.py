@@ -9,6 +9,7 @@ from menu import get_dicc_menu
 from funciones import mandar_correo_codigo
 from passlib.hash import sha256_crypt
 from recetas import *
+from atencion import *
 
 
 app = Flask(__name__)
@@ -24,7 +25,7 @@ def handle_context():
     if 'logged_in' in session.keys():
         if session['logged_in']:
             accesos = diccionario_menu[session['type']]
-            usuario = buscar_usuario('email', session['email'])
+            usuario = get_usuario('email', session['email'])
 
             # return render_template("index.html", accesos=accesos, log=['Log Out', '/logout'], usuario=usuario)
             return {'accesos': accesos, 'logged': 'yes', 'usuario': usuario}
@@ -53,7 +54,7 @@ def login():
         email = request.form['email']
         password = request.form['password']
         if usuario_existe('email', email):
-            usr = buscar_usuario('email', email)
+            usr = get_usuario('email', email)
             if sha256_crypt.verify(password, usr['password']):
                 session['user_id'] = usr['id']
                 session['email'] = email
@@ -118,7 +119,7 @@ def forgot_password():
         elif request.method == 'POST':
             email = request.form['email']
             username=request.form['email']
-            usr = buscar_usuario('username', username)
+            usr = get_usuario('username', username)
             print(usr['email'])
             if usuario_existe('username', username):
                 mensaje = f'Se envió un código para cambiar la contraseña a su correo ({email})'
@@ -177,7 +178,7 @@ def new_password():
         elif request.method == 'POST':
             password1 = request.form['password1']
             password2 = request.form['password2']
-            usr = buscar_usuario('email', session['usuario_codigo'])
+            usr = get_usuario('email', session['usuario_codigo'])
             if password1 == password2:
                 # cambiar contraseña
                 nueva_contraseña = sha256_crypt.hash(password1)
@@ -261,7 +262,7 @@ def mod_usuario(usu):
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':  # comprobamos que tenga los permisos
-                usuario = buscar_usuario('username', usu)
+                usuario = get_usuario('username', usu)
                 if request.method == 'GET':
                     if usuario_existe('username', usu):
                         return render_template("usuarios/modificar_usuario.html", dicc_usuario=usuario)
@@ -330,7 +331,7 @@ def agendar_vet(tipo):
             if request.method == 'GET':
                 fecha = get_cur_datetime()
                 if session['type'] == 'cliente':
-                    dicc_usuario = buscar_usuario('id', session['user_id'])
+                    dicc_usuario = get_usuario('id', session['user_id'])
                     return render_template("citas/datos_cita.html", dicc_usuario=dicc_usuario,
                                            date_min=fecha['fecha_actual'],
                                            date_max=fecha['fecha_fin'], type='cliente')
@@ -373,7 +374,7 @@ def confirmar_cita(tipo):
 
             if request.method == 'GET':
                 if session['type'] == 'cliente':
-                    dicc_usuario = buscar_usuario('id', session['user_id'])
+                    dicc_usuario = get_usuario('id', session['user_id'])
                     lista_mascotas = get_lista_mascotas(session['user_id'])
                     print(lista_mascotas)
                     return render_template("citas/confirmar.html", dicc_usuario=dicc_usuario,
@@ -393,13 +394,13 @@ def confirmar_cita(tipo):
                 if usuario_existe('email', email) == False:
                     username = email.split('@')[0]
                     insertar_usuario(email, username, sha256_crypt.encrypt(email), nombre, 'cliente')
-                    usr = buscar_usuario('email', email)
+                    usr = get_usuario('email', email)
                     insertar_mascota(usr['id'], nombre_mascota, tipo_mascota)
                 else:
-                    usr = buscar_usuario('email', email)
+                    usr = get_usuario('email', email)
                     if mascota_existe(nombre_mascota, usr['id']) == False:
                         insertar_mascota(usr['id'], nombre_mascota, tipo_mascota)
-                mascota = buscar_mascota(nombre_mascota, usr['id'])
+                mascota = get_mascota(nombre_mascota, usr['id'])
 
                 try:
                     insertar_cita(usr['id'], mascota['id'], nombre, nombre_mascota, tipo_mascota, fecha, hora, tipo)
@@ -464,10 +465,81 @@ def agregar_medicina():
     else:
         return redirect("/")
 
+@app.route("/servicios", methods=['GET', 'POST'])
+def servicios():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] == 'admin':
+                servicios = get_lista_servicios()
+                return render_template("servicios/lista_servicios.html", lista_servicios=servicios)
+            else:
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
 
+
+@app.route("/agregar_sevicio", methods=['GET', 'POST'])
+def agregar_servicio():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] == 'admin':
+                if request.method == 'GET':
+                    return render_template("servicios/agregar_servicio.html")
+                elif request.method == 'POST':
+                    nombre = request.form['nombre']
+                    precio = request.form['precio']
+                    habilitado = request.form['habilitado']
+                   
+                    insertar_servicio(nombre, precio, habilitado)
+                        # grabar_dicc_usuarios(lista_usuarios)
+                    return redirect('/servicios')
+                else:
+                    # Cuando quieren acceder sin los permisos o estar logeado
+                    return redirect("/")
+            else:
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
+
+
+@app.route("/mod_servicio/<id>", methods=['GET', 'POST'])
+def mod_servicio(id):
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] == 'admin':  # comprobamos que tenga los permisos
+                if request.method == 'GET':
+                    if servicio_existe(id):
+                        servicio = get_servicio(id)
+                        return render_template("servicios/modificar_servicio.html", servicio=servicio)
+                    else:
+                        return redirect('/servicios')
+                elif request.method == 'POST':
+                    nombre = request.form['nombre']
+                    precio = request.form['precio']
+                    opcion = request.form['habilitado']
+                    if opcion=='Habilitado':
+                        opcion=True
+                    elif opcion=='Deshabilitado':
+                        opcion=False
+                    actualizar_servicio(id, nombre, precio, opcion)
+
+                    return redirect('/servicios')
+                else:
+                    return redirect("/")
+            else:
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
+    
 @app.route("/select/<email>")
 def usuario(email):
-    usuario = buscar_usuario('email', email)
+    usuario = get_usuario('email', email)
     mascotas = get_lista_mascotas(usuario['id'])
     seleccion = []
     if not mascotas:
