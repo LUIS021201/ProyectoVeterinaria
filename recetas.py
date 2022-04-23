@@ -1,6 +1,17 @@
 from bd import obtener_conexion
 
 
+def insertar_receta(id_duenio, id_doctor, id_mascota, id_medicina, aplicacion):
+    conexion = obtener_conexion()
+
+    with conexion.cursor() as cursor:
+        cursor.execute(
+            "INSERT INTO recetas (client_id,doctor_id, mascota_id, medicamento_id, aplicacion) VALUES (%s, %s, %s, %s, %s)",
+            (id_duenio, id_doctor, id_mascota, id_medicina, aplicacion))
+    conexion.commit()
+    conexion.close()
+
+
 def insertar_medicina(nombre, descripcion, presentacion, medida, stock, precio):
     conexion = obtener_conexion()
     nombre = nombre.title()
@@ -34,6 +45,18 @@ def medicina_existe(nombre: str, descripcion: str, presentacion: str, medida: st
     conexion.close()
     return True
 
+
+def medicina_existe_ID(id:int) -> bool:
+    conexion = obtener_conexion()
+
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM medicinas WHERE id=%s",
+                       (id))
+        if cursor.fetchone() is None:
+            return False
+    conexion.commit()
+    conexion.close()
+    return True
 
 def get_medicina(id_med: int):
     conexion = obtener_conexion()

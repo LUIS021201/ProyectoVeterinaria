@@ -470,32 +470,36 @@ def mod_medicina(id_med):
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':  # comprobamos que tenga los permisos
-                medicina = get_medicina(id_med)
-                if request.method == 'GET':
+                if medicina_existe_ID(id_med):
 
-                    return render_template("medicinas/modificar_medicina.html", dicc_medicina=medicina)
-                elif request.method == 'POST':
-                    id = request.form['id']
-                    nombre = request.form['nombre']
-                    descripcion = request.form['descripcion']
-                    presentacion = request.form['presentacion']
-                    medida = request.form['medida']
-                    stock = request.form['stock']
-                    precio = request.form['precio']
-                    print(f"{medicina}, {request.form}")
-                    if medicina['nombre'] != nombre or medicina['descripcion'] != descripcion or medicina[
-                        'medida'] != medida or medicina['presentacion'] != presentacion:
-                        if medicina_existe(nombre, descripcion, presentacion, medida):
-                            return render_template("medicinas/modificar_medicina.html", dicc_medicina=medicina,
-                                                   mensaje='Ya existe una medicina con estos datos')
+                    medicina = get_medicina(id_med)
+                    if request.method == 'GET':
+
+                        return render_template("medicinas/modificar_medicina.html", dicc_medicina=medicina)
+                    elif request.method == 'POST':
+                        id = request.form['id']
+                        nombre = request.form['nombre']
+                        descripcion = request.form['descripcion']
+                        presentacion = request.form['presentacion']
+                        medida = request.form['medida']
+                        stock = request.form['stock']
+                        precio = request.form['precio']
+                        print(f"{medicina}, {request.form}")
+                        if medicina['nombre'] != nombre or medicina['descripcion'] != descripcion or medicina[
+                            'medida'] != medida or medicina['presentacion'] != presentacion:
+                            if medicina_existe(nombre, descripcion, presentacion, medida):
+                                return render_template("medicinas/modificar_medicina.html", dicc_medicina=medicina,
+                                                       mensaje='Ya existe una medicina con estos datos')
+                            else:
+                                modificar_medicina(id, nombre, descripcion, presentacion, medida, stock, precio)
+                                return redirect('/medicinas')
                         else:
                             modificar_medicina(id, nombre, descripcion, presentacion, medida, stock, precio)
                             return redirect('/medicinas')
                     else:
-                        modificar_medicina(id, nombre, descripcion, presentacion, medida, stock, precio)
-                        return redirect('/medicinas')
+                        return redirect("/")
                 else:
-                    return redirect("/")
+                    return redirect("/medicinas")
             else:
                 return redirect("/")
         else:
@@ -569,6 +573,60 @@ def mod_servicio(id):
                     return redirect('/servicios')
                 else:
                     return redirect("/")
+            else:
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
+
+
+@app.route("/agregar_receta")
+def agregar_receta():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] != 'usuario':
+                if existen_clientes():
+                    clientes = get_usuarios_por_permisos('cliente')
+                    return render_template("recetas/escoger_duenio.html", lista_clientes=clientes)
+                else:
+                    return render_template("recetas/escoger_duenio.html")
+
+
+            else:
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
+
+
+@app.route("/agregar_receta/<id_duenio>", methods=['GET', 'POST'])
+def escribir_receta(id_duenio):
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] != 'usuario':
+                if usuario_existe('id', id_duenio):
+                    if request.method == 'GET':
+
+                        mascotas = get_lista_mascotas(id_duenio)
+                        medicinas = get_lista_medicinas()
+                        duenio = get_usuario('id', id_duenio)
+
+                        doctores = get_usuarios_por_permisos('usuario')
+                        return render_template("recetas/agregar_receta.html", lista_doctores=doctores,
+                                               lista_mascotas=mascotas, lista_medicinas=medicinas, usuario=session,
+                                               duenio=duenio)
+                    elif request.method == 'POST':
+                        id_duenio = request.form['id_duenio']
+                        id_doctor = request.form['doctor']
+                        id_mascota = request.form['mascota']
+                        id_medicina = request.form['medicina']
+                        aplicacion = request.form['aplicacion']
+                        insertar_receta(id_duenio, id_doctor, id_mascota, id_medicina, aplicacion)
+                        return redirect("/")
+
+
             else:
                 return redirect("/")
         else:

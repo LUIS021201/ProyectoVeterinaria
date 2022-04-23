@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="487affaf-6cc8-4e9a-a519-f3ab67625ddf" name="Changes" comment="Correccion de metodo js para busquedas en tablas.">
-      <change afterPath="$PROJECT_DIR$/templates/medicinas/modificar_medicina.html" afterDir="false" />
+    <list default="true" id="487affaf-6cc8-4e9a-a519-f3ab67625ddf" name="Changes" comment="Agregar metodo &quot;modificar_medicina()&quot; en app.py. Agregar modificar_medicina.html.">
+      <change afterPath="$PROJECT_DIR$/templates/recetas/agregar_receta.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/recetas/escoger_duenio.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/petvet-script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/petvet-script.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/recetas.py" beforeDir="false" afterPath="$PROJECT_DIR$/recetas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/medicinas/agregar_medicina.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/medicinas/agregar_medicina.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/medicinas/lista_medicinas.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/medicinas/lista_medicinas.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/usuarios/agregar_usuario.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/usuarios/agregar_usuario.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usuarios.py" beforeDir="false" afterPath="$PROJECT_DIR$/usuarios.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,7 +265,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650596167961</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Agregar metodo &quot;modificar_medicina()&quot; en app.py. Agregar modificar_medicina.html.">
+      <created>1650673236814</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1650673236814</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -306,10 +313,11 @@
     <MESSAGE value="Corregir metodo de js que hace las busquedas." />
     <MESSAGE value="Más correcciones al  metodo de js que hace las busquedas." />
     <MESSAGE value="Corrección de error en el metodo de buscar en las citas" />
-    <option name="LAST_COMMIT_MESSAGE" value="Corrección de error en el metodo de buscar en las citas" />
+    <MESSAGE value="Agregar metodo &quot;modificar_medicina()&quot; en app.py. Agregar modificar_medicina.html." />
+    <option name="LAST_COMMIT_MESSAGE" value="Agregar metodo &quot;modificar_medicina()&quot; en app.py. Agregar modificar_medicina.html." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ProyectoVeterinaria$ProyectoVeterinaria.coverage" NAME="ProyectoVeterinaria Coverage Results" MODIFIED="1650672571349" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/ProyectoVeterinaria$ProyectoVeterinaria.coverage" NAME="ProyectoVeterinaria Coverage Results" MODIFIED="1650679944188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$manejo_csv.coverage" NAME="manejo_csv Coverage Results" MODIFIED="1649562046534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$usuarios.coverage" NAME="usuarios Coverage Results" MODIFIED="1649882650637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$app.coverage" NAME="app Coverage Results" MODIFIED="1649873348805" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
