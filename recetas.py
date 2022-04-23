@@ -1,5 +1,16 @@
 from bd import obtener_conexion
 
+def get_lista_recetas() -> list:
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT a.id, a.fecha, b.name as doctor, f.name as cliente, c.nombre_mascota, c.tipo_mascota, e.nombre as medicina, a.aplicacion FROM recetas a, (SELECT id,name FROM users WHERE type='usuario') b,(SELECT a.id,a.name FROM users a,mascotas b WHERE a.id = b.user_id ) f, mascotas c, medicinas e WHERE a.client_id=f.id AND a.doctor_id=b.id AND a.mascota_id=c.id AND a.medicamento_id=e.id")
+        lista = cursor.fetchall()
+
+    conexion.commit()
+    conexion.close()
+    return lista
+
 def existen_datos_para_receta():
     conexion = obtener_conexion()
 
@@ -101,12 +112,13 @@ def get_lista_medicinas() -> list:
 
 
 if __name__ == '__main__':
-    insertar_medicina('Acepromazine', 'Tranquilizante/sedante para perros, gatos, caballos y otros animales.',
-                      'Pastillas', 'mg', '10', '100')
-    insertar_medicina('Codeine',
-                      'Usada para tratar el dolor leve a moderado en mascotas. También se puede usar como un supresor de la tos o como medicamento contra la diarrea.',
-                      'Pastillas', 'mg', '5', '250')
-    insertar_medicina('Brosin',
-                      'Para el tratamiento de heridas simples o infectadas, llagas, quemaduras, dermatitis pústulas y eccema.',
-                      'Pomada', 'mg', '3', '125')
+    # insertar_medicina('Acepromazine', 'Tranquilizante/sedante para perros, gatos, caballos y otros animales.',
+    #                   'Pastillas', 'mg', '10', '100')
+    # insertar_medicina('Codeine',
+    #                   'Usada para tratar el dolor leve a moderado en mascotas. También se puede usar como un supresor de la tos o como medicamento contra la diarrea.',
+    #                   'Pastillas', 'mg', '5', '250')
+    # insertar_medicina('Brosin',
+    #                   'Para el tratamiento de heridas simples o infectadas, llagas, quemaduras, dermatitis pústulas y eccema.',
+    #                   'Pomada', 'mg', '3', '125')
+    print(get_lista_recetas())
 

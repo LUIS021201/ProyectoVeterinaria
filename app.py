@@ -580,6 +580,19 @@ def mod_servicio(id):
     else:
         return redirect("/")
 
+@app.route("/historial_recetas", methods=['GET', 'POST'])
+def recetas():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] == 'admin':
+                recetas = get_lista_recetas()
+                return render_template("recetas/lista_recetas.html", lista_recetas=recetas)
+            else:
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
 
 @app.route("/agregar_receta")
 def agregar_receta():
@@ -624,7 +637,7 @@ def escribir_receta(id_duenio):
                         id_medicina = request.form['medicina']
                         aplicacion = request.form['aplicacion']
                         insertar_receta(id_duenio, id_doctor, id_mascota, id_medicina, aplicacion)
-                        return redirect("/")
+                        return redirect("/historial_recetas")
 
 
             else:

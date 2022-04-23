@@ -73,3 +73,6 @@ CREATE TABLE servicios(
 )ENGINE=MyISAM default char set=latin1;
 
 SELECT * FROM users a,mascotas b WHERE a.id = b.user_id;
+
+SELECT a.id, a.fecha, b.name as doctor, f.name as cliente, c.nombre_mascota, c.tipo_mascota, e.nombre as medicina, a.aplicacion FROM recetas a, (SELECT id,name FROM users WHERE type='usuario') b,(SELECT a.id,a.name FROM users a,mascotas b WHERE a.id = b.user_id ) f, mascotas c, medicinas e WHERE
+a.client_id=f.id AND a.doctor_id=b.id AND a.mascota_id=c.id AND a.medicamento_id=e.id;
