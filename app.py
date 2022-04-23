@@ -11,13 +11,10 @@ from passlib.hash import sha256_crypt
 from recetas import *
 from atencion import *
 
-
 app = Flask(__name__)
 app.secret_key = 'lwiu74dhn2SuF3j'
 
 diccionario_menu = get_dicc_menu()
-mensaje = 'MENSAJE DE PRUEBA'
-mensaje2 = 'SEGUNDO MENSAJE DE PRUEBA'
 
 
 @app.context_processor
@@ -75,6 +72,7 @@ def logout():
     session.clear()
     return redirect("/")
 
+
 @app.route("/signup", methods=['GET', 'POST'])
 def register():
     if 'logged_in' not in session.keys():
@@ -111,6 +109,7 @@ def register():
     else:
         return redirect("/")
 
+
 @app.route("/forgot_password", methods=['GET', 'POST'])
 def forgot_password():
     if 'logged_in' not in session.keys():
@@ -118,7 +117,7 @@ def forgot_password():
             return render_template("password/forgot_password.html")
         elif request.method == 'POST':
             email = request.form['email']
-            username=request.form['email']
+            username = request.form['email']
             usr = get_usuario('username', username)
             print(usr['email'])
             if usuario_existe('username', username):
@@ -465,6 +464,46 @@ def agregar_medicina():
     else:
         return redirect("/")
 
+
+@app.route("/medicinas/<id_med>", methods=['GET', 'POST'])
+def mod_medicina(id_med):
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] == 'admin':  # comprobamos que tenga los permisos
+                medicina = get_medicina(id_med)
+                if request.method == 'GET':
+
+                    return render_template("medicinas/modificar_medicina.html", dicc_medicina=medicina)
+                elif request.method == 'POST':
+                    id = request.form['id']
+                    nombre = request.form['nombre']
+                    descripcion = request.form['descripcion']
+                    presentacion = request.form['presentacion']
+                    medida = request.form['medida']
+                    stock = request.form['stock']
+                    precio = request.form['precio']
+                    print(f"{medicina}, {request.form}")
+                    if medicina['nombre'] != nombre or medicina['descripcion'] != descripcion or medicina[
+                        'medida'] != medida or medicina['presentacion'] != presentacion:
+                        if medicina_existe(nombre, descripcion, presentacion, medida):
+                            return render_template("medicinas/modificar_medicina.html", dicc_medicina=medicina,
+                                                   mensaje='Ya existe una medicina con estos datos')
+                        else:
+                            modificar_medicina(id, nombre, descripcion, presentacion, medida, stock, precio)
+                            return redirect('/medicinas')
+                    else:
+                        modificar_medicina(id, nombre, descripcion, presentacion, medida, stock, precio)
+                        return redirect('/medicinas')
+                else:
+                    return redirect("/")
+            else:
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
+
+
 @app.route("/servicios", methods=['GET', 'POST'])
 def servicios():
     if 'logged_in' in session.keys():
@@ -491,9 +530,9 @@ def agregar_servicio():
                     nombre = request.form['nombre']
                     precio = request.form['precio']
                     habilitado = request.form['habilitado']
-                   
+
                     insertar_servicio(nombre, precio, habilitado)
-                        # grabar_dicc_usuarios(lista_usuarios)
+                    # grabar_dicc_usuarios(lista_usuarios)
                     return redirect('/servicios')
                 else:
                     # Cuando quieren acceder sin los permisos o estar logeado
@@ -521,10 +560,10 @@ def mod_servicio(id):
                     nombre = request.form['nombre']
                     precio = request.form['precio']
                     opcion = request.form['habilitado']
-                    if opcion=='Habilitado':
-                        opcion=True
-                    elif opcion=='Deshabilitado':
-                        opcion=False
+                    if opcion == 'Habilitado':
+                        opcion = True
+                    elif opcion == 'Deshabilitado':
+                        opcion = False
                     actualizar_servicio(id, nombre, precio, opcion)
 
                     return redirect('/servicios')
@@ -536,7 +575,8 @@ def mod_servicio(id):
             return redirect("/")
     else:
         return redirect("/")
-    
+
+
 @app.route("/select/<email>")
 def usuario(email):
     usuario = get_usuario('email', email)

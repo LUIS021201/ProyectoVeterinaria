@@ -1,0 +1,91 @@
+{%  extends "base.html"  %}
+{%  set log = log %}
+{% block title %}Cartelera de Estrenos
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+
+<div class="row">
+    {% with path="/medicinas" %}
+    {% include "menu.html" %}
+    {% endwith %}
+    <div class="col-lg-9 container my-5 justify-content-center">
+        <a href="/usuarios" class="ms-4 elemento_lista"><i class="fa-solid fa-chevron-left"></i> Regresar</a>
+        <h3 class="mb-3 text-center">Modificar Medicina</h3>
+        <div class="container-sm">
+            <form class="needs-validation" action="" method="POST">
+                <div class="form-floating mb-3">
+                    <input readonly type="number" class="form-control" id="id" name="id" value="{{dicc_medicina['id']}}"
+                           required>
+                    <label for="id">ID</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nombre" name="nombre"
+                           value="{{dicc_medicina['nombre']}}"
+                           required>
+                    <label for="nombre">Nombre de medicamento</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="descripcion" name="descripcion"
+                           value="{{dicc_medicina['descripcion']}}" required>
+                    <label for="descripcion">Descripción</label>
+                </div>
+
+
+                <div class="input-group ">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="height: 3rem;"
+                               >Presentacion</label>
+                    </div>
+                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
+                            aria-label=".form-select-lg example"
+                            id="presentacion" name="presentacion">
+
+                        <option value="Pomada" {% if dicc_medicina['presentacion']=='Pomada' %}selected {% endif %}>Pomada</option>
+                        <option value="Pastillas" {% if dicc_medicina['presentacion']=='Pastillas' %}selected {% endif %}>Pastillas</option>
+                        <option value="Jarabe" {% if dicc_medicina['presentacion']=='Jarabe' %}selected {% endif %}>Jarabe</option>
+                        <option value="Inyectable" {% if dicc_medicina['presentacion']=='Inyectable' %}selected {% endif %}>Inyectable</option>
+                        <option value="Gotas" {% if dicc_medicina['presentacion']=='Gotas' %}selected{% endif %} >Gotas</option>
+                    </select>
+                </div>
+
+                <div class="input-group ">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="height: 3rem;" >Medida</label>
+                    </div>
+                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
+                            aria-label=".form-select-lg example"
+                            id="medida" name="medida">
+
+                        <option value="mg" {% if dicc_medicina['medida']=='mg' %}selected {% endif %}>Miligramos</option>
+                        <option value="ml" {% if dicc_medicina['medida']=='ml' %}selected {% endif %}>Mililitros</option>
+                    </select>
+                </div>
+                 <div class="form-floating mb-3">
+                    <input type="number" min='0' step=".01" pattern='[0-9]+(\\.[0-9][0-9]?)?' class="form-control"
+                           id="validationServer06" required
+                           placeholder="Escriba el precio"
+                           name="precio" value="{{dicc_medicina['precio']}}">
+                    <label for="validationServer06">Precio</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="number" min="0" step="1" class="form-control" id="validationServer07" required
+                           placeholder="Escriba la cantidad"
+                           name="stock" value="{{dicc_medicina['stock']}}">
+                    <label for="validationServer07">Cantidad en existencia</label>
+                </div>
+                <div class="contenedor_btns">
+                    <input class="btn boton_pie" type="submit" name="enviar" value="Guardar Cambios"> <h6
+                        style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block footer %}
+{% endblock %}

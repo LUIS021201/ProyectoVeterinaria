@@ -26,12 +26,24 @@ def medicina_existe(nombre: str, descripcion: str, presentacion: str, medida: st
     conexion = obtener_conexion()
 
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT * FROM medicinas WHERE nombre=%s AND descripcion=%s AND presentacion=%s AND medida=%s",(nombre,descripcion,presentacion,medida))
+        cursor.execute("SELECT * FROM medicinas WHERE nombre=%s AND descripcion=%s AND presentacion=%s AND medida=%s",
+                       (nombre, descripcion, presentacion, medida))
         if cursor.fetchone() is None:
             return False
     conexion.commit()
     conexion.close()
     return True
+
+
+def get_medicina(id_med: int):
+    conexion = obtener_conexion()
+
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM medicinas WHERE id=%s", (id_med))
+        medicina = cursor.fetchone()
+    conexion.commit()
+    conexion.close()
+    return medicina
 
 
 def get_lista_medicinas() -> list:
