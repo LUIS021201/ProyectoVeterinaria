@@ -1,5 +1,24 @@
 from bd import obtener_conexion
 
+def existen_datos_para_receta():
+    conexion = obtener_conexion()
+
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM users a,mascotas b WHERE a.id = b.user_id")
+        if cursor.fetchone() is None:
+            return False
+        cursor.execute("SELECT * FROM users WHERE type='usuario'")
+        if cursor.fetchone() is None:
+            return False
+        cursor.execute("SELECT * FROM medicinas")
+        if cursor.fetchone() is None:
+            return False
+
+
+    conexion.commit()
+    conexion.close()
+    return True
+
 
 def insertar_receta(id_duenio, id_doctor, id_mascota, id_medicina, aplicacion):
     conexion = obtener_conexion()
@@ -90,3 +109,4 @@ if __name__ == '__main__':
     insertar_medicina('Brosin',
                       'Para el tratamiento de heridas simples o infectadas, llagas, quemaduras, dermatitis pústulas y eccema.',
                       'Pomada', 'mg', '3', '125')
+

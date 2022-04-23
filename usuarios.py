@@ -98,6 +98,16 @@ def get_usuarios_por_permisos(permisos: str) -> list:
     conexion.close()
     return lista
 
+def get_usuarios_recetables() -> list:
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT a.id, a.email, a.name, a.username, a.type FROM users a,mascotas b WHERE a.id = b.user_id")
+        lista = cursor.fetchall()
+
+    conexion.commit()
+    conexion.close()
+    return lista
 
 def get_mascota(nombre_mascota: str, user_id: str):
     conexion = obtener_conexion()

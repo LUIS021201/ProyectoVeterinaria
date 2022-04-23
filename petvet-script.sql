@@ -72,3 +72,4 @@ CREATE TABLE servicios(
 
 )ENGINE=MyISAM default char set=latin1;
 
+SELECT * FROM users a,mascotas b WHERE a.id = b.user_id;

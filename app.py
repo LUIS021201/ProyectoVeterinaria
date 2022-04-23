@@ -586,8 +586,8 @@ def agregar_receta():
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] != 'usuario':
-                if existen_clientes():
-                    clientes = get_usuarios_por_permisos('cliente')
+                if existen_datos_para_receta():
+                    clientes = get_usuarios_recetables()
                     return render_template("recetas/escoger_duenio.html", lista_clientes=clientes)
                 else:
                     return render_template("recetas/escoger_duenio.html")

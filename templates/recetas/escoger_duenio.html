@@ -12,22 +12,31 @@
     {% include "menu.html" %}
     {% endwith %}
     <div class="col-lg-9 container my-5 text-center justify-content-center">
-        
+
         {% if lista_clientes %}
-<h3 class="mb-3">Agregar Nueva Receta</h3>
+        <h3 class="mb-3">Agregar Nueva Receta</h3>
         <h5>Escoge el dueño de la mascota a la que harás la receta</h5>
         {% else %}
-        <h3 class="mb-3">No hay clientes registrados</h3>
-        <h5 class="mb-3">Para hacer una receta es necesario tener registrado al menos un cliente</h5>
-        <a href="/agregar_usuario" class="btn boton_pie">Agregar cliente</a>
-                    
 
-                
+        <h3 class="mb-3">Hace falta registrar información para poder hacer una receta</h3>
+        <div style="text-align: start; padding-left: 2rem">
+            <h5>Asegurate de tener la siguiente información:</h5>
+        <ul>
+            <li>Dueños de mascotas registrados</li>
+            <li>Doctores registrados</li>
+
+            <li>Medicinas registradas</li>
+        </ul>
+        <div style="display: flex; gap: 2rem;">
+            <a href="/agregar_usuario" class="btn boton_pie">Agregar Usuario</a>
+            <a href="/medicinas/agregar_medicina" class="btn boton_pie">Agregar Medicina</a>
+        </div>
+        </div>
         {% endif %}
         <div class="container-sm">
             {% if lista_clientes %}
             <form class="needs-validation" action="" method="POST">
-                 <div class="input-group ">
+                <div class="input-group ">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="height: 3rem;"
                                for="id_duenio">Dueño</label>
@@ -42,9 +51,10 @@
                 </div>
 
                 <div class="contenedor_btns">
-                    <a id="continuar" href="/agregar_receta/{{lista_clientes[0]['id']}}" class="btn boton_pie">Continuar</a>
-<!--                    <input class="btn boton_pie" type="submit" name="enviar" value="Agregar Medicina"> <h6-->
-<!--                        style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>-->
+                    <a id="continuar" href="/agregar_receta/{{lista_clientes[0]['id']}}"
+                       class="btn boton_pie">Continuar</a>
+                    <!--                    <input class="btn boton_pie" type="submit" name="enviar" value="Agregar Medicina"> <h6-->
+                    <!--                        style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>-->
                 </div>
 
             </form>
@@ -56,11 +66,11 @@
     </div>
 </div>
 <script>
-function set_boton_link() {
-    var selectItem = document.getElementById('id_duenio').value;
-     document.getElementById('continuar').href = "/agregar_receta/"+selectItem;
+    function set_boton_link() {
+        var selectItem = document.getElementById('id_duenio').value;
+        document.getElementById('continuar').href = "/agregar_receta/" + selectItem;
 
-}
+    }
 </script>
 
 {% endblock %}
