@@ -11,6 +11,15 @@ def insertar_medicina(nombre, descripcion, presentacion, medida, stock, precio):
     conexion.commit()
     conexion.close()
 
+def get_medicina(id: int) -> list:
+    conexion = obtener_conexion()
+    query = "SELECT * FROM medicinas WHERE id=%s"
+    with conexion.cursor() as cursor:
+        cursor.execute(query, (id))
+        medicina = cursor.fetchone()
+    conexion.commit()
+    conexion.close()
+    return medicina
 
 def modificar_medicina(id, nombre, descripcion, presentacion, medida, stock, precio):
     conexion = obtener_conexion()
@@ -33,6 +42,16 @@ def medicina_existe(nombre: str, descripcion: str, presentacion: str, medida: st
     conexion.close()
     return True
 
+def get_lista_medicinas_disponibles() -> list:
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM medicinas where stock>0")
+        lista = cursor.fetchall()
+
+    conexion.commit()
+    conexion.close()
+    return lista
 
 def get_lista_medicinas() -> list:
     conexion = obtener_conexion()

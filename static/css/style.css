@@ -145,6 +145,7 @@ a:hover {
     align-items: center;
 }
 
+
 .boton_login {
     background-color: #a9caf9;
     color: #000000;
@@ -314,6 +315,16 @@ a:hover {
 }
 .item {
     margin-top: 10px;
+}
+
+.x i{
+    color: red;
+    font-size: 1.2rem;
+}
+
+.x i:hover{
+    color:rgb(81, 7, 7);
+    transition: all 0.4s ease-in-out;
 }
 
 .item i{

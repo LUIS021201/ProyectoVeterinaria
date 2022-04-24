@@ -1,6 +1,14 @@
 from bd import obtener_conexion
 
 
+def insertar_atencion(fecha, user_id, mascota_id, nombre_dueno, nombre_mascota, descripcion,subtotal,iva,total):
+    conexion = obtener_conexion()
+    query = "INSERT INTO atenciones (fecha, user_id, mascota_id, nombre_dueno, nombre_mascota, descripcion,subtotal,iva,total) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    with conexion.cursor() as cursor:
+        cursor.execute(query, (fecha, user_id, mascota_id, nombre_dueno, nombre_mascota, descripcion,subtotal,iva,total))
+    conexion.commit()
+    conexion.close()
+
 def insertar_servicio(nombre, precio, habilitado):
     conexion = obtener_conexion()
     nombre = nombre.capitalize()
@@ -39,6 +47,17 @@ def get_servicio(id: int) -> list:
     conexion.commit()
     conexion.close()
     return servicio
+
+def get_lista_servicios_habilitados() -> list:
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM servicios where habilitado=1")
+        lista = cursor.fetchall()
+
+    conexion.commit()
+    conexion.close()
+    return lista
 
 def get_lista_servicios() -> list:
     conexion = obtener_conexion()

@@ -75,6 +75,7 @@ def logout():
     session.clear()
     return redirect("/")
 
+
 @app.route("/signup", methods=['GET', 'POST'])
 def register():
     if 'logged_in' not in session.keys():
@@ -88,10 +89,12 @@ def register():
             name = request.form['name']
             type = 'Cliente'
             # checar si usuario o email ya existen
-            if usuario_existe('email', email):  # checamos que el email no sea usado por otra cuenta
+            # checamos que el email no sea usado por otra cuenta
+            if usuario_existe('email', email):
                 return render_template("signup.html",
                                        mensaje='El email pertenece a otro usuario existente')
-            if usuario_existe('username', username):  # checamos que el username no sea usado por otra cuenta
+            # checamos que el username no sea usado por otra cuenta
+            if usuario_existe('username', username):
                 return render_template("signup.html",
                                        mensaje='El username pertenece a otro usuario existente')
             if password1 != password2:
@@ -105,11 +108,13 @@ def register():
                 #     'name': name,
                 #     'type': type
                 # }
-                insertar_usuario(email, username, sha256_crypt.hash(password2), name, type)
+                insertar_usuario(
+                    email, username, sha256_crypt.hash(password2), name, type)
                 # grabar_dicc_usuarios(lista_usuarios)
                 return redirect('/login')
     else:
         return redirect("/")
+
 
 @app.route("/forgot_password", methods=['GET', 'POST'])
 def forgot_password():
@@ -118,7 +123,7 @@ def forgot_password():
             return render_template("password/forgot_password.html")
         elif request.method == 'POST':
             email = request.form['email']
-            username=request.form['email']
+            username = request.form['email']
             usr = get_usuario('username', username)
             print(usr['email'])
             if usuario_existe('username', username):
@@ -130,7 +135,8 @@ def forgot_password():
                 session['usuario_codigo'] = usr['email']
                 session['codigo'] = codigo
                 # MANDAR CODIGO POR CORREO DE LA PERSONA
-                mandar_correo_codigo('PetVetReal@gmail.com', usr['email'], '..:Phi3GcAzJGwJ', codigo)
+                mandar_correo_codigo('PetVetReal@gmail.com',
+                                     usr['email'], '..:Phi3GcAzJGwJ', codigo)
                 return redirect('/reset_code', mensaje='Se ha mandado un código a su correo electronico')
             # por email
             if usuario_existe('email', email) and email != 'PetVetReal@gmail.com':
@@ -142,7 +148,8 @@ def forgot_password():
                 session['usuario_codigo'] = email
                 session['codigo'] = codigo
                 # MANDAR CODIGO POR CORREO DE LA PERSONA
-                mandar_correo_codigo('PetVetReal@gmail.com', email, '..:Phi3GcAzJGwJ', codigo)
+                mandar_correo_codigo('PetVetReal@gmail.com',
+                                     email, '..:Phi3GcAzJGwJ', codigo)
                 return redirect('/reset_code')
             else:
                 mensaje = 'El correo no está registrado'
@@ -229,10 +236,12 @@ def agregar_usuario():
                     type = request.form['tipo']
 
                     # checar si usuario o email ya existen
-                    if usuario_existe('email', email):  # checamos que el email no sea usado por otra cuenta
+                    # checamos que el email no sea usado por otra cuenta
+                    if usuario_existe('email', email):
                         return render_template("usuarios/agregar_usuario.html",
                                                mensaje='El email pertenece a otro usuario existente')
-                    if usuario_existe('username', username):  # checamos que el username no sea usado por otra cuenta
+                    # checamos que el username no sea usado por otra cuenta
+                    if usuario_existe('username', username):
                         return render_template("usuarios/agregar_usuario.html",
                                                mensaje='El username pertenece a otro usuario existente')
                     else:
@@ -243,7 +252,8 @@ def agregar_usuario():
                         #     'name': name,
                         #     'type': type
                         # }
-                        insertar_usuario(email, username, sha256_crypt.hash(password), name, type)
+                        insertar_usuario(
+                            email, username, sha256_crypt.hash(password), name, type)
                         # grabar_dicc_usuarios(lista_usuarios)
                         return redirect('/usuarios')
                 else:
@@ -393,19 +403,23 @@ def confirmar_cita(tipo):
                 tipo_mascota = request.form['tipo_mascota']
                 if usuario_existe('email', email) == False:
                     username = email.split('@')[0]
-                    insertar_usuario(email, username, sha256_crypt.encrypt(email), nombre, 'cliente')
+                    insertar_usuario(email, username, sha256_crypt.encrypt(
+                        email), nombre, 'cliente')
                     usr = get_usuario('email', email)
                     insertar_mascota(usr['id'], nombre_mascota, tipo_mascota)
                 else:
                     usr = get_usuario('email', email)
                     if mascota_existe(nombre_mascota, usr['id']) == False:
-                        insertar_mascota(usr['id'], nombre_mascota, tipo_mascota)
+                        insertar_mascota(
+                            usr['id'], nombre_mascota, tipo_mascota)
                 mascota = get_mascota(nombre_mascota, usr['id'])
 
                 try:
-                    insertar_cita(usr['id'], mascota['id'], nombre, nombre_mascota, tipo_mascota, fecha, hora, tipo)
+                    insertar_cita(usr['id'], mascota['id'], nombre,
+                                  nombre_mascota, tipo_mascota, fecha, hora, tipo)
                 except:
-                    flash('Ya se ha agendado una cita en esa fecha y hora, intenta agendar una nueva cita')
+                    flash(
+                        'Ya se ha agendado una cita en esa fecha y hora, intenta agendar una nueva cita')
                     return redirect("/agendar")
 
                 return redirect("/dashboard")
@@ -454,7 +468,8 @@ def agregar_medicina():
                         return render_template("medicinas/lista_medicinas.html",
                                                mensaje='Esta medicina ya esta registrada en el inventario')
                     else:
-                        insertar_medicina(nombre, descripcion, presentacion, medida, stock, precio)
+                        insertar_medicina(nombre, descripcion,
+                                          presentacion, medida, stock, precio)
                         return redirect("/medicinas")
 
             else:
@@ -464,6 +479,7 @@ def agregar_medicina():
             return redirect("/")
     else:
         return redirect("/")
+
 
 @app.route("/servicios", methods=['GET', 'POST'])
 def servicios():
@@ -491,9 +507,9 @@ def agregar_servicio():
                     nombre = request.form['nombre']
                     precio = request.form['precio']
                     habilitado = request.form['habilitado']
-                   
+
                     insertar_servicio(nombre, precio, habilitado)
-                        # grabar_dicc_usuarios(lista_usuarios)
+                    # grabar_dicc_usuarios(lista_usuarios)
                     return redirect('/servicios')
                 else:
                     # Cuando quieren acceder sin los permisos o estar logeado
@@ -521,10 +537,10 @@ def mod_servicio(id):
                     nombre = request.form['nombre']
                     precio = request.form['precio']
                     opcion = request.form['habilitado']
-                    if opcion=='Habilitado':
-                        opcion=True
-                    elif opcion=='Deshabilitado':
-                        opcion=False
+                    if opcion == 'Habilitado':
+                        opcion = True
+                    elif opcion == 'Deshabilitado':
+                        opcion = False
                     actualizar_servicio(id, nombre, precio, opcion)
 
                     return redirect('/servicios')
@@ -536,14 +552,68 @@ def mod_servicio(id):
             return redirect("/")
     else:
         return redirect("/")
-    
+
+
+@app.route("/agregar_atencion", methods=['GET', 'POST'])
+def agregar_atencion():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] == 'admin' or session['type'] == 'usuario':
+                if request.method == 'GET':
+                    lista_usuarios = get_lista_usuarios()
+                    lista_servicios = get_lista_servicios_habilitados()
+                    lista_medicinas = get_lista_medicinas_disponibles()
+                    print(lista_servicios)
+                    return render_template("atenciones/agregar_atencion.html", lista_usuarios=lista_usuarios, lista_servicios=lista_servicios,
+                                           lista_medicinas=lista_medicinas)
+                elif request.method == 'POST':
+                    email = request.form['email']
+                    nombre = request.form['nombre']
+                    n_mascota = request.form['mascota']
+                    descripcion = request.form['descripcion']
+                    fecha = request.form['fecha']
+                    subtotal = request.form['subtotal']
+                    iva = request.form['iva']
+                    total = request.form['total']
+
+
+                    #Si no existe el usuario, lo va a crear como cliente
+                    #la contraseña temporal del cliente sera el email con el que se registra
+                    if usuario_existe('email', email) == False:
+                        username = email.split('@')[0]
+                        insertar_usuario(email, username, sha256_crypt.encrypt(email), nombre, 'cliente')
+                        usr = get_usuario('email', email)
+                        insertar_mascota(usr['id'], n_mascota, '')
+                    else:
+                    #Si el usuario existe, pero la mascota no esta en la bd, se agrega la nueva mascota
+                        usr = get_usuario('email', email)
+                        if mascota_existe(n_mascota, usr['id']) == False:
+                            insertar_mascota(usr['id'], n_mascota, '')
+                
+                    mascota = get_mascota(n_mascota, usr['id'])
+
+                    insertar_atencion(fecha, usr['id'], mascota['id'], nombre, n_mascota, descripcion, subtotal, iva, total)
+
+                    return redirect('/dashboard')
+                else:
+                    # Cuando quieren acceder sin los permisos o estar logeado
+                    return redirect("/")
+            else:
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
+
+
 @app.route("/select/<email>")
 def usuario(email):
     usuario = get_usuario('email', email)
     mascotas = get_lista_mascotas(usuario['id'])
     seleccion = []
     if not mascotas:
-        seleccion.append({'name': usuario['name'], 'id': '', 'nombre_mascota': '', 'tipo_mascota': ''})
+        seleccion.append(
+            {'name': usuario['name'], 'id': '', 'nombre_mascota': '', 'tipo_mascota': ''})
     else:
         for mascota in mascotas:
             seleccion.append({'name': usuario['name'], 'id': mascota['id'], 'nombre_mascota': mascota['nombre_mascota'],
@@ -551,6 +621,36 @@ def usuario(email):
 
     print(seleccion)
     return jsonify({'info': seleccion})
+
+
+@app.route("/select/<tipo>/<id>")
+def add(tipo, id):
+    lista = []
+    print(id, tipo)
+    if tipo == 'MEDICINA':
+        lista = get_medicina(id)
+        modificar_medicina(id, lista['nombre'], lista['descripcion'],
+                           lista['presentacion'], lista['medida'], lista['stock']-1, lista['precio'])
+        lista = get_medicina(id)
+    elif tipo == 'SERVICIO':
+        lista = get_servicio(id)
+    return jsonify({'info': lista})
+
+
+@app.route("/remove/<tipo>/<id>")
+def remove(tipo, id):
+    lista = []
+    if tipo == 'MEDICINA':
+        lista = get_medicina(id)
+        modificar_medicina(id, lista['nombre'], lista['descripcion'],
+                           lista['presentacion'], lista['medida'], lista['stock']+1, lista['precio'])
+        lista = get_medicina(id)
+    elif tipo == 'SERVICIO':
+        lista = get_servicio(id)
+    else:
+        lista = []
+    print(lista)
+    return jsonify({'info': lista})
 
 
 if __name__ == '__main__':
