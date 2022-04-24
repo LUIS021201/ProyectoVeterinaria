@@ -1,11 +1,11 @@
 from bd import obtener_conexion
 
 
-def insertar_atencion(fecha, user_id, mascota_id, nombre_dueno, nombre_mascota, descripcion,subtotal,iva,total):
+def insertar_atencion(fecha, user_id, mascota_id, descripcion,subtotal,iva,total):
     conexion = obtener_conexion()
-    query = "INSERT INTO atenciones (fecha, user_id, mascota_id, nombre_dueno, nombre_mascota, descripcion,subtotal,iva,total) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    query = "INSERT INTO atenciones (fecha, user_id, mascota_id, descripcion,subtotal,iva,total) VALUES (%s, %s, %s, %s, %s, %s, %s)"
     with conexion.cursor() as cursor:
-        cursor.execute(query, (fecha, user_id, mascota_id, nombre_dueno, nombre_mascota, descripcion,subtotal,iva,total))
+        cursor.execute(query, (fecha, user_id, mascota_id, descripcion,subtotal,iva,total))
     conexion.commit()
     conexion.close()
 
@@ -47,6 +47,17 @@ def get_servicio(id: int) -> list:
     conexion.commit()
     conexion.close()
     return servicio
+
+def get_lista_atenciones() -> list:
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT a.id, a.fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE u.id=a.user_id and m.id=a.mascota_id")
+        lista = cursor.fetchall()
+
+    conexion.commit()
+    conexion.close()
+    return lista
 
 def get_lista_servicios_habilitados() -> list:
     conexion = obtener_conexion()

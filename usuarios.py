@@ -87,6 +87,28 @@ def get_usuario(column: str, valor: str):
     return usuario
 
 
+def get_usuarios_por_permisos(permisos: str) -> list:
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT id, email, name, username, type FROM users WHERE type=%s", (permisos))
+        lista = cursor.fetchall()
+
+    conexion.commit()
+    conexion.close()
+    return lista
+
+def get_usuarios_recetables() -> list:
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT a.id, a.email, a.name, a.username, a.type FROM users a,mascotas b WHERE a.id = b.user_id")
+        lista = cursor.fetchall()
+
+    conexion.commit()
+    conexion.close()
+    return lista
+
 def get_mascota(nombre_mascota: str, user_id: str):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
@@ -131,6 +153,15 @@ def get_lista_usuarios() -> list:
     conexion.close()
     return lista
 
+def existen_clientes():
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM users WHERE type='cliente' ")
+        if cursor.fetchone() is None:
+            return False
+    conexion.commit()
+    conexion.close()
+    return True
 
 def get_lista_mascotas(user_id: str) -> list:
     conexion = obtener_conexion()

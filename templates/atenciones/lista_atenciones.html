@@ -1,0 +1,67 @@
+{%  extends "base.html"  %}
+{%  set log = log %}
+{% block title %}Cartelera de Estrenos
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+
+<div class="row">
+    {% with path=request.path %}
+    {% include "menu.html" %}
+    {% endwith %}
+    <div class="col-lg-9 container my-5 justify-content-center">
+        <div class="mx-5 table-responsive">
+            <input class="form-control mb-3" type="text" id="searchbox" onkeyup="buscar()"
+                   placeholder="Buscar...">
+            <table id="table" class="table table-hover">
+                <thead class="table-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Mascota</th>
+                    <th scope="col">Tipo de mascota</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Subtotal</th>
+                    <th scope="col">IVA</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">PDF</th>
+
+
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    {% for atencion in lista_atenciones %}
+                    <th scope="row">{{atencion['id']}}</th>
+                    <td>{{atencion['fecha']}}</td>
+                    <td>{{atencion['cliente']}}</td>
+                    <td>{{atencion['nombre_mascota']}}</td>
+                    <td>{{atencion['tipo_mascota']}}</td>
+                    <td>{{atencion['descripcion']}}</td>
+                    <td>{{atencion['subtotal']}}</td>
+                    <td>{{atencion['iva']}}</td>
+                    <td>{{atencion['total']}}</td>
+                    <td><a href="#" class="btn boton_pie">Descargar PDF</a></td>
+
+
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="/agregar_atencion" class="btn boton_pie">Agregar atencion</a>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+{% block footer %}
+{% endblock %}

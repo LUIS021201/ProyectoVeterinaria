@@ -1,0 +1,98 @@
+{%  extends "base.html"  %}
+{%  set log = log %}
+{% block title %}Cartelera de Estrenos
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+
+<div class="row">
+    {% with path="/agregar_receta" %}
+    {% include "menu.html" %}
+    {% endwith %}
+    <div class="col-lg-9 container my-5 text-center justify-content-center">
+        <h3 class="mb-3">Agregar Nueva Receta</h3>
+        <div class="container-sm">
+            <form class="needs-validation" action="" method="POST">
+                 <div class="input-group ">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="height: 3rem;"
+                               for="id_duenio">Dueño</label>
+                    </div>
+                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
+                            aria-label=".form-select-lg example"
+                            id="id_duenio" name="id_duenio">
+
+                        <option value="{{duenio['id']}}" selected>{{duenio['name']}}</option>
+
+                    </select>
+                </div>
+                <div class="input-group ">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="height: 3rem;"
+                               for="doctor">Doctor</label>
+                    </div>
+                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
+                            aria-label=".form-select-lg example"
+                            id="doctor" name="doctor">
+                        {% if usuario['type']=='admin' %}
+                            {% for doctor in lista_doctores %}
+                            <option value="{{doctor['id']}}">{{doctor['name']}}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="{{usuario['user_id']}}" selected >{{usuario['name']}}</option>
+                        {% endif %}
+
+                    </select>
+                </div>
+                <div class="input-group ">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="height: 3rem;"
+                               for="mascota">Mascota</label>
+                    </div>
+                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
+                            aria-label=".form-select-lg example"
+                            id="mascota" name="mascota">
+
+                            {% for mascota in lista_mascotas %}
+                            <option value="{{mascota['id']}}">{{mascota['nombre_mascota']}}</option>
+                            {% endfor %}
+
+                    </select>
+                </div>
+                <div class="input-group ">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="height: 3rem;"
+                               for="medicina">Medicina</label>
+                    </div>
+                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
+                            aria-label=".form-select-lg example"
+                            id="medicina" name="medicina">
+
+                            {% for medicina in lista_medicinas %}
+                            <option value="{{medicina['id']}}">{{medicina['nombre']}}</option>
+                            {% endfor %}
+
+                    </select>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="validationServer01"
+                           placeholder="Escriba la aplicacion de la medicina" name="aplicacion">
+                    <label for="validationServer01">Forma de aplicación del medicamento</label>
+                </div>
+
+                <div class="contenedor_btns">
+                    <input class="btn boton_pie" type="submit" name="enviar" value="Guardar Receta"> <h6
+                        style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}
+{% block footer %}
+{% endblock %}

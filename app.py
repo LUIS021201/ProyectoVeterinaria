@@ -11,13 +11,10 @@ from passlib.hash import sha256_crypt
 from recetas import *
 from atencion import *
 
-
 app = Flask(__name__)
 app.secret_key = 'lwiu74dhn2SuF3j'
 
 diccionario_menu = get_dicc_menu()
-mensaje = 'MENSAJE DE PRUEBA'
-mensaje2 = 'SEGUNDO MENSAJE DE PRUEBA'
 
 
 @app.context_processor
@@ -415,8 +412,7 @@ def confirmar_cita(tipo):
                 mascota = get_mascota(nombre_mascota, usr['id'])
 
                 try:
-                    insertar_cita(usr['id'], mascota['id'], nombre,
-                                  nombre_mascota, tipo_mascota, fecha, hora, tipo)
+                    insertar_cita(usr['id'], mascota['id'], fecha, hora, tipo)
                 except:
                     flash(
                         'Ya se ha agendado una cita en esa fecha y hora, intenta agendar una nueva cita')
@@ -474,6 +470,49 @@ def agregar_medicina():
 
             else:
 
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
+
+
+@app.route("/medicinas/<id_med>", methods=['GET', 'POST'])
+def mod_medicina(id_med):
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] == 'admin':  # comprobamos que tenga los permisos
+                if medicina_existe_ID(id_med):
+
+                    medicina = get_medicina(id_med)
+                    if request.method == 'GET':
+
+                        return render_template("medicinas/modificar_medicina.html", dicc_medicina=medicina)
+                    elif request.method == 'POST':
+                        id = request.form['id']
+                        nombre = request.form['nombre']
+                        descripcion = request.form['descripcion']
+                        presentacion = request.form['presentacion']
+                        medida = request.form['medida']
+                        stock = request.form['stock']
+                        precio = request.form['precio']
+                        print(f"{medicina}, {request.form}")
+                        if medicina['nombre'] != nombre or medicina['descripcion'] != descripcion or medicina[
+                            'medida'] != medida or medicina['presentacion'] != presentacion:
+                            if medicina_existe(nombre, descripcion, presentacion, medida):
+                                return render_template("medicinas/modificar_medicina.html", dicc_medicina=medicina,
+                                                       mensaje='Ya existe una medicina con estos datos')
+                            else:
+                                modificar_medicina(id, nombre, descripcion, presentacion, medida, stock, precio)
+                                return redirect('/medicinas')
+                        else:
+                            modificar_medicina(id, nombre, descripcion, presentacion, medida, stock, precio)
+                            return redirect('/medicinas')
+                    else:
+                        return redirect("/")
+                else:
+                    return redirect("/medicinas")
+            else:
                 return redirect("/")
         else:
             return redirect("/")
@@ -592,7 +631,7 @@ def agregar_atencion():
                 
                     mascota = get_mascota(n_mascota, usr['id'])
 
-                    insertar_atencion(fecha, usr['id'], mascota['id'], nombre, n_mascota, descripcion, subtotal, iva, total)
+                    insertar_atencion(fecha, usr['id'], mascota['id'], descripcion, subtotal, iva, total)
 
                     return redirect('/dashboard')
                 else:
@@ -604,6 +643,82 @@ def agregar_atencion():
             return redirect("/")
     else:
         return redirect("/")
+    
+
+
+@app.route("/agregar_receta")
+def agregar_receta():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] != 'cliente':
+                if existen_datos_para_receta():
+                    clientes = get_usuarios_recetables()
+                    return render_template("recetas/escoger_duenio.html", lista_clientes=clientes)
+                else:
+                    return render_template("recetas/escoger_duenio.html")
+
+
+            else:
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
+
+
+@app.route("/agregar_receta/<id_duenio>", methods=['GET', 'POST'])
+def escribir_receta(id_duenio):
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] != 'cliente':
+                if usuario_existe('id', id_duenio):
+                    if request.method == 'GET':
+
+                        mascotas = get_lista_mascotas(id_duenio)
+                        medicinas = get_lista_medicinas()
+                        duenio = get_usuario('id', id_duenio)
+
+                        doctores = get_usuarios_por_permisos('usuario')
+                        return render_template("recetas/agregar_receta.html", lista_doctores=doctores,
+                                               lista_mascotas=mascotas, lista_medicinas=medicinas, usuario=session,
+                                               duenio=duenio)
+                    elif request.method == 'POST':
+                        id_duenio = request.form['id_duenio']
+                        id_doctor = request.form['doctor']
+                        id_mascota = request.form['mascota']
+                        id_medicina = request.form['medicina']
+                        aplicacion = request.form['aplicacion']
+                        insertar_receta(id_duenio, id_doctor, id_mascota, id_medicina, aplicacion)
+                        return redirect("/historial_recetas")
+
+@app.route("/historial_recetas", methods=['GET', 'POST'])
+def recetas():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] != 'cliente':
+                recetas = get_lista_recetas()
+                return render_template("recetas/lista_recetas.html", lista_recetas=recetas)
+            else:
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
+
+@app.route("/historial_atencion", methods=['GET', 'POST'])
+def atenciones():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] != 'cliente':
+                atenciones = get_lista_atenciones()
+                return render_template("atenciones/lista_atenciones.html", lista_atenciones=atenciones)
+            else:
+                return redirect("/")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
+
 
 
 @app.route("/select/<email>")

@@ -24,31 +24,25 @@ CREATE TABLE citas(
 	id int unsigned AUTO_INCREMENT NOT NULL,
 	user_id int unsigned NOT NULL,
 	mascota_id int unsigned NOT NULL,
-	nombre_dueno varchar(150) NOT NULL,
-	nombre_mascota varchar(150),
-	tipo_mascota varchar(150),
     fecha date NOT NULL,
 	hora time NOT NULL,
     atencion enum('veterinaria','boutique') NOT NULL,
-	UNIQUE (fecha, hora),
+	UNIQUE (fecha, hora, atencion),
 	FOREIGN KEY (user_id) REFERENCES users (id),
 	FOREIGN KEY (mascota_id) REFERENCES mascotas (id),
 	PRIMARY KEY (id)
 ) ENGINE=MyISAM default char set=latin1;
 
 CREATE TABLE recetas(
-	id int unsigned AUTO_INCREMENT NOT NULL,
-	fecha date NOT NULL,
-	user_id int unsigned NOT NULL,
-	mascota_id int unsigned NOT NULL,
-    nombre_dueno varchar(150) NOT NULL,
-	nombre_mascota varchar(150),
-	tipo_mascota varchar(150),
-	medicamento_id int unsigned NOT NULL,
-	medicamento varchar(150) NOT NULL,
-	cantidad int unsigned,
-	intervalos varchar(200),
-	FOREIGN KEY (user_id) REFERENCES users (id),
+	id int AUTO_INCREMENT NOT NULL,
+	fecha TIMESTAMP NOT NULL,
+	client_id int NOT NULL,
+	doctor_id int NOT NULL,
+	mascota_id int NOT NULL,
+	medicamento_id int NOT NULL,
+	aplicacion varchar(500),
+	FOREIGN KEY (client_id) REFERENCES users (id),
+	FOREIGN KEY (doctor_id) REFERENCES users (id),
 	FOREIGN KEY (mascota_id) REFERENCES mascotas (id),
 	FOREIGN KEY (medicamento_id) REFERENCES medicinas (id),
 	PRIMARY KEY (id)
@@ -80,15 +74,16 @@ CREATE TABLE atenciones(
 	fecha date NOT NULL,
 	user_id int unsigned NOT NULL,
 	mascota_id int unsigned NOT NULL,
-    nombre_dueno varchar(150) NOT NULL,
-	nombre_mascota varchar(150),
 	descripcion varchar(500),
 	subtotal decimal(10,2) unsigned NOT NULL,
 	iva decimal(10,2) unsigned NOT NULL,
 	total decimal(10,2) unsigned NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES users (id),
 	FOREIGN KEY (mascota_id) REFERENCES mascotas (id),
-	FOREIGN KEY (medicamento_id) REFERENCES medicinas (id),
 	PRIMARY KEY (id)
 ) ENGINE=MyISAM default char set=latin1;
 
+SELECT * FROM users a,mascotas b WHERE a.id = b.user_id;
+
+SELECT a.id, a.fecha, b.name as doctor, f.name as cliente, c.nombre_mascota, c.tipo_mascota, e.nombre as medicina, a.aplicacion FROM recetas a, (SELECT id,name FROM users WHERE type='usuario') b,(SELECT a.id,a.name FROM users a,mascotas b WHERE a.id = b.user_id ) f, mascotas c, medicinas e WHERE
+a.client_id=f.id AND a.doctor_id=b.id AND a.mascota_id=c.id AND a.medicamento_id=e.id;
