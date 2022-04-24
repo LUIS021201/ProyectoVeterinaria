@@ -15,7 +15,7 @@
         <h3 class="mb-3">Agregar Nueva Receta</h3>
         <div class="container-sm">
             <form class="needs-validation" action="" method="POST">
-                 <div class="input-group ">
+                <div class="input-group ">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="height: 3rem;"
                                for="id_duenio">Dueño</label>
@@ -28,6 +28,7 @@
 
                     </select>
                 </div>
+
                 <div class="input-group ">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="height: 3rem;"
@@ -40,12 +41,15 @@
                             {% for doctor in lista_doctores %}
                             <option value="{{doctor['id']}}">{{doctor['name']}}</option>
                             {% endfor %}
+
                         {% else %}
                             <option value="{{usuario['user_id']}}" selected >{{usuario['name']}}</option>
-                        {% endif %}
 
+
+                        {% endif %}
                     </select>
                 </div>
+
                 <div class="input-group ">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="height: 3rem;"
@@ -55,9 +59,9 @@
                             aria-label=".form-select-lg example"
                             id="mascota" name="mascota">
 
-                            {% for mascota in lista_mascotas %}
-                            <option value="{{mascota['id']}}">{{mascota['nombre_mascota']}}</option>
-                            {% endfor %}
+                        {% for mascota in lista_mascotas %}
+                        <option value="{{mascota['id']}}">{{mascota['nombre_mascota']}}</option>
+                        {% endfor %}
 
                     </select>
                 </div>
@@ -70,9 +74,9 @@
                             aria-label=".form-select-lg example"
                             id="medicina" name="medicina">
 
-                            {% for medicina in lista_medicinas %}
-                            <option value="{{medicina['id']}}">{{medicina['nombre']}}</option>
-                            {% endfor %}
+                        {% for medicina in lista_medicinas %}
+                        <option value="{{medicina['id']}}">{{medicina['nombre']}}</option>
+                        {% endfor %}
 
                     </select>
                 </div>
@@ -81,11 +85,12 @@
                            placeholder="Escriba la aplicacion de la medicina" name="aplicacion">
                     <label for="validationServer01">Forma de aplicación del medicamento</label>
                 </div>
-
+                {% if usario['type']!='cliente' %}
                 <div class="contenedor_btns">
                     <input class="btn boton_pie" type="submit" name="enviar" value="Guardar Receta"> <h6
                         style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
                 </div>
+                {% endif %}
             </form>
         </div>
 

@@ -638,7 +638,8 @@ def agregar_atencion():
                     # Cuando quieren acceder sin los permisos o estar logeado
                     return redirect("/")
             else:
-                return redirect("/")
+                recetas = get_lista_recetas_por_usuario(session['user_id'])
+                return render_template("recetas/lista_recetas.html", lista_recetas=recetas)
         else:
             return redirect("/")
     else:
