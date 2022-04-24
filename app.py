@@ -588,7 +588,8 @@ def recetas():
                 recetas = get_lista_recetas()
                 return render_template("recetas/lista_recetas.html", lista_recetas=recetas)
             else:
-                return redirect("/")
+                recetas = get_lista_recetas_por_usuario(session['user_id'])
+                return render_template("recetas/lista_recetas.html", lista_recetas=recetas)
         else:
             return redirect("/")
     else:
@@ -598,7 +599,7 @@ def recetas():
 def agregar_receta():
     if 'logged_in' in session.keys():
         if session['logged_in']:
-            if session['type'] != 'usuario':
+            if session['type'] != 'cliente':
                 if existen_datos_para_receta():
                     clientes = get_usuarios_recetables()
                     return render_template("recetas/escoger_duenio.html", lista_clientes=clientes)
@@ -618,7 +619,8 @@ def agregar_receta():
 def escribir_receta(id_duenio):
     if 'logged_in' in session.keys():
         if session['logged_in']:
-            if session['type'] != 'usuario':
+            print(session['type'] != 'cliente')
+            if session['type'] != 'cliente':
                 if usuario_existe('id', id_duenio):
                     if request.method == 'GET':
 

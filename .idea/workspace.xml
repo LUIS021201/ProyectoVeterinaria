@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="487affaf-6cc8-4e9a-a519-f3ab67625ddf" name="Changes" comment="Corregir problemas por falta de información al momento de agregar una receta.">
-      <change afterPath="$PROJECT_DIR$/templates/recetas/lista_recetas.html" afterDir="false" />
+    <list default="true" id="487affaf-6cc8-4e9a-a519-f3ab67625ddf" name="Changes" comment="Agregar metodo &quot;recetas()&quot; a app.py. Agregar metodo &quot;get_lista_recetas()&quot; a recetas.py para obtener datos de las recetas. Agregar template lista_recetas.html.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/petvet-script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/petvet-script.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/recetas.py" beforeDir="false" afterPath="$PROJECT_DIR$/recetas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/medicinas/lista_medicinas.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/medicinas/lista_medicinas.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/recetas/escoger_duenio.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/recetas/escoger_duenio.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/recetas/agregar_receta.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/recetas/agregar_receta.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +179,8 @@
       <workItem from="1649872579430" duration="641000" />
       <workItem from="1649873238050" duration="5514000" />
       <workItem from="1650585818096" duration="11174000" />
-      <workItem from="1650729223141" duration="5490000" />
+      <workItem from="1650729223141" duration="7070000" />
+      <workItem from="1650762211357" duration="1843000" />
     </task>
     <task id="LOCAL-00001" summary="Cambiar contraseña(sin bd) pd todavia no se como usar la bd">
       <created>1649755793121</created>
@@ -310,7 +308,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650734583748</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Agregar metodo &quot;recetas()&quot; a app.py. Agregar metodo &quot;get_lista_recetas()&quot; a recetas.py para obtener datos de las recetas. Agregar template lista_recetas.html.">
+      <created>1650737105715</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1650737105715</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,10 +359,11 @@
     <MESSAGE value="Agregar metodo &quot;modificar_medicina()&quot; en app.py. Agregar modificar_medicina.html." />
     <MESSAGE value="Agregar metodo &quot;agregar_receta()&quot; y &quot;escoger_duenio()&quot; a app.py. Agregar templates agregar_receta.html y escoger_duenio.html." />
     <MESSAGE value="Corregir problemas por falta de información al momento de agregar una receta." />
-    <option name="LAST_COMMIT_MESSAGE" value="Corregir problemas por falta de información al momento de agregar una receta." />
+    <MESSAGE value="Agregar metodo &quot;recetas()&quot; a app.py. Agregar metodo &quot;get_lista_recetas()&quot; a recetas.py para obtener datos de las recetas. Agregar template lista_recetas.html." />
+    <option name="LAST_COMMIT_MESSAGE" value="Agregar metodo &quot;recetas()&quot; a app.py. Agregar metodo &quot;get_lista_recetas()&quot; a recetas.py para obtener datos de las recetas. Agregar template lista_recetas.html." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ProyectoVeterinaria$ProyectoVeterinaria.coverage" NAME="ProyectoVeterinaria Coverage Results" MODIFIED="1650735122165" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/ProyectoVeterinaria$ProyectoVeterinaria.coverage" NAME="ProyectoVeterinaria Coverage Results" MODIFIED="1650762492728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$manejo_csv.coverage" NAME="manejo_csv Coverage Results" MODIFIED="1649562046534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$usuarios.coverage" NAME="usuarios Coverage Results" MODIFIED="1649882650637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$app.coverage" NAME="app Coverage Results" MODIFIED="1649873348805" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
