@@ -174,28 +174,6 @@ def get_lista_mascotas(user_id: str) -> list:
     return lista
 
 
-def get_lista_citas() -> list:
-    conexion = obtener_conexion()
-    with conexion.cursor() as cursor:
-        cursor.execute("SELECT * FROM citas")
-        lista = cursor.fetchall()
-
-    conexion.commit()
-    conexion.close()
-    return lista
-
-
-def get_lista_citas_de_usuario(user_id: str) -> list:
-    conexion = obtener_conexion()
-    with conexion.cursor() as cursor:
-        cursor.execute("SELECT * FROM citas WHERE user_id=%s", (user_id))
-        lista = cursor.fetchall()
-
-    conexion.commit()
-    conexion.close()
-    return lista
-
-
 def get_dicc_usuarios(lista_usrs: list) -> dict:
     usuarios = {}
     for usr in lista_usrs:

@@ -201,7 +201,8 @@
                 if (type == 'MEDICINA'){
                     if (opcion.stock==0){
                         meds = document.getElementById("lista_medicinas");
-                        meds.removeChild(meds.options[selected_med]);
+                        meds.removeChild(meds.querySelector('option[value="'+opcion.id+'"]'));
+                        
 
                     }
                     
@@ -228,7 +229,8 @@
                 subtotal.value = sub;
                 actualizar()
                 div.remove()
-                if (type == 'MEDICINA'){
+                meds = document.getElementById("lista_medicinas");
+                if (type == 'MEDICINA' && meds.querySelector('option[value="'+opcion.id+'"]')==null){
                     meds.innerHTML += '<option value="'+opcion.id+'">'+opcion.nombre+'</option>';
                 }
             });

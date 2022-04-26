@@ -15,6 +15,8 @@ app = Flask(__name__)
 app.secret_key = 'lwiu74dhn2SuF3j'
 
 diccionario_menu = get_dicc_menu()
+lista_servicios_sel = []
+lista_medicinas_sel = []
 
 
 @app.context_processor
@@ -632,7 +634,12 @@ def agregar_atencion():
                     mascota = get_mascota(n_mascota, usr['id'])
 
                     insertar_atencion(fecha, usr['id'], mascota['id'], descripcion, subtotal, iva, total)
-
+                    print(lista_servicios_sel)
+                    a = get_atencion(fecha, usr['id'], mascota['id'])
+                    agregar_servicios_y_meds(a['id'],lista_servicios_sel,lista_medicinas_sel)
+                    lista_servicios_sel.clear()
+                    lista_medicinas_sel.clear()
+                    print('CLEAR',lista_servicios_sel)
                     return redirect('/dashboard')
                 else:
                     # Cuando quieren acceder sin los permisos o estar logeado
@@ -712,7 +719,9 @@ def atenciones():
         if session['logged_in']:
             if session['type'] != 'cliente':
                 atenciones = get_lista_atenciones()
-                return render_template("atenciones/lista_atenciones.html", lista_atenciones=atenciones)
+                servicios = get_lista_serv_de_atenciones()
+                medicinas = get_lista_meds_de_atenciones()
+                return render_template("atenciones/lista_atenciones.html", lista_atenciones=atenciones, lista_servicios=servicios, lista_meds=medicinas)
             else:
                 return redirect("/")
         else:
@@ -742,13 +751,16 @@ def usuario(email):
 @app.route("/select/<tipo>/<id>")
 def add(tipo, id):
     lista = []
-    print(id, tipo)
     if tipo == 'MEDICINA':
         lista = get_medicina(id)
         modificar_medicina(id, lista['nombre'], lista['descripcion'],
                            lista['presentacion'], lista['medida'], lista['stock']-1, lista['precio'])
+        lista_medicinas_sel.append(id)
+        print('ADD M',lista_medicinas_sel)
         lista = get_medicina(id)
     elif tipo == 'SERVICIO':
+        lista_servicios_sel.append(id)
+        print('ADD S',lista_servicios_sel)
         lista = get_servicio(id)
     return jsonify({'info': lista})
 
@@ -760,12 +772,13 @@ def remove(tipo, id):
         lista = get_medicina(id)
         modificar_medicina(id, lista['nombre'], lista['descripcion'],
                            lista['presentacion'], lista['medida'], lista['stock']+1, lista['precio'])
+        lista_medicinas_sel.remove(id)
+        print('REMOVE M',lista_medicinas_sel)
         lista = get_medicina(id)
     elif tipo == 'SERVICIO':
+        lista_servicios_sel.remove(id)
+        print('REMOVE S',lista_servicios_sel)
         lista = get_servicio(id)
-    else:
-        lista = []
-    print(lista)
     return jsonify({'info': lista})
 
 

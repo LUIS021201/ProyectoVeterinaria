@@ -45,6 +45,20 @@
                     <td>{{atencion['subtotal']}}</td>
                     <td>{{atencion['iva']}}</td>
                     <td>{{atencion['total']}}</td>
+                    {% for serv in lista_servicios %}
+                    {% if serv['atencion_id'] == atencion['id']%}
+                    <td>{{serv['nombre']}}</td>
+                    <td>{{serv['precio']}}</td>
+                    {% endif %}
+                    {% endfor %}
+                    {% for med in lista_meds %}
+                    {% if med['atencion_id'] == atencion['id']%}
+
+                    <td>{{med['nombre']}}</td>
+                    <td>{{med['precio']}}</td>
+                    <td>{{med['presentacion']}}</td>
+                    {% endif %}
+                    {% endfor %}
                     <td><a href="#" class="btn boton_pie">Descargar PDF</a></td>
 
 

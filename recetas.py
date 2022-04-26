@@ -142,13 +142,13 @@ def get_lista_medicinas() -> list:
 
 
 if __name__ == '__main__':
-    # insertar_medicina('Acepromazine', 'Tranquilizante/sedante para perros, gatos, caballos y otros animales.',
-    #                   'Pastillas', 'mg', '10', '100')
-    # insertar_medicina('Codeine',
-    #                   'Usada para tratar el dolor leve a moderado en mascotas. También se puede usar como un supresor de la tos o como medicamento contra la diarrea.',
-    #                   'Pastillas', 'mg', '5', '250')
-    # insertar_medicina('Brosin',
-    #                   'Para el tratamiento de heridas simples o infectadas, llagas, quemaduras, dermatitis pústulas y eccema.',
-    #                   'Pomada', 'mg', '3', '125')
-    print(get_lista_recetas())
+    insertar_medicina('Acepromazine', 'Tranquilizante/sedante para perros, gatos, caballos y otros animales.',
+                      'Pastillas', 'mg', '10', '100')
+    insertar_medicina('Codeine',
+                      'Usada para tratar el dolor leve a moderado en mascotas. También se puede usar como un supresor de la tos o como medicamento contra la diarrea.',
+                      'Pastillas', 'mg', '5', '250')
+    insertar_medicina('Brosin',
+                      'Para el tratamiento de heridas simples o infectadas, llagas, quemaduras, dermatitis pústulas y eccema.',
+                      'Pomada', 'mg', '3', '125')
+    #print(get_lista_recetas())
 

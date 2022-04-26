@@ -34,12 +34,12 @@ CREATE TABLE citas(
 ) ENGINE=MyISAM default char set=latin1;
 
 CREATE TABLE recetas(
-	id int AUTO_INCREMENT NOT NULL,
+	id int unsigned AUTO_INCREMENT NOT NULL,
 	fecha TIMESTAMP NOT NULL,
-	client_id int NOT NULL,
-	doctor_id int NOT NULL,
-	mascota_id int NOT NULL,
-	medicamento_id int NOT NULL,
+	client_id int unsigned NOT NULL,
+	doctor_id int unsigned NOT NULL,
+	mascota_id int unsigned NOT NULL,
+	medicamento_id int unsigned NOT NULL,
 	aplicacion varchar(500),
 	FOREIGN KEY (client_id) REFERENCES users (id),
 	FOREIGN KEY (doctor_id) REFERENCES users (id),
@@ -47,6 +47,7 @@ CREATE TABLE recetas(
 	FOREIGN KEY (medicamento_id) REFERENCES medicinas (id),
 	PRIMARY KEY (id)
 ) ENGINE=MyISAM default char set=latin1;
+
 
 CREATE TABLE medicinas(
     id int unsigned AUTO_INCREMENT NOT NULL,
@@ -78,10 +79,25 @@ CREATE TABLE atenciones(
 	subtotal decimal(10,2) unsigned NOT NULL,
 	iva decimal(10,2) unsigned NOT NULL,
 	total decimal(10,2) unsigned NOT NULL,
+	UNIQUE (fecha, user_id, mascota_id),
 	FOREIGN KEY (user_id) REFERENCES users (id),
 	FOREIGN KEY (mascota_id) REFERENCES mascotas (id),
 	PRIMARY KEY (id)
 ) ENGINE=MyISAM default char set=latin1;
+
+CREATE TABLE servicios_atencion (
+	atencion_id int unsigned NOT NULL,
+	servicio_id int unsigned NOT NULL,
+	FOREIGN KEY (atencion_id) REFERENCES atenciones (id),
+	FOREIGN KEY (servicio_id) REFERENCES servicios (id)
+)ENGINE=MyISAM default char set=latin1;
+
+CREATE TABLE medicinas_atencion (
+	atencion_id int unsigned NOT NULL,
+	medicinas_id int unsigned NOT NULL,
+	FOREIGN KEY (atencion_id) REFERENCES atenciones (id),
+	FOREIGN KEY (medicinas_id) REFERENCES medicinas (id)
+)ENGINE=MyISAM default char set=latin1;
 
 SELECT * FROM users a,mascotas b WHERE a.id = b.user_id;
 
