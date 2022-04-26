@@ -106,6 +106,18 @@ def get_cur_datetime() -> dict:
 
     return cur
 
+def get_cur_datetime_informe() -> dict:
+    cur = {}
+    fecha_hoy = datetime.now()
+    hora = fecha_hoy - (fecha_hoy - datetime.min) % timedelta(minutes=30)
+    fecha_fin = fecha_hoy + timedelta(days=30)
+
+    cur['fecha_actual'] = fecha_hoy.strftime("%Y-%m-%d")
+    cur['fecha_fin'] = fecha_fin.strftime("%Y-%m-%d")
+    cur['hora'] = hora.strftime("%H:%M")
+
+    return cur
+
 
 horas_veterinaria = horas_veterinaria()
 horas_boutique = horas_boutique()
@@ -116,7 +128,7 @@ if __name__ == "__main__":
     now = datetime.now()
     print(c)
     # dicc_horas_disponible = dicc_horas_disponibles['veterinaria'].remove('11:30')
-    #  insertar_cita("andrea@gmail.com","Andrea Duarte", "Ramona", "pugapoo",c['fecha_fin'],c['hora'],'veterinaria')
+    # insertar_cita("andrea@gmail.com","Andrea Duarte", "Ramona", "pugapoo",c['fecha_fin'],c['hora'],'veterinaria')
     # insertar_cita("luis@gmail.com","Luis Hernandez", "Berny", "conejo",c['fecha_actual'],"17:30",'veterinaria')
     print(lista_citas())
     lista = horas_disponibles("2022-04-13", "Veterinaria")

@@ -7,8 +7,12 @@ CREATE TABLE users(
     username varchar(150) NOT NULL UNIQUE,
 	name varchar(150) NOT NULL,
 	type enum('admin','usuario','cliente') NOT NULL,
+	fecha date NULL,
 	PRIMARY KEY(id)
 ) ENGINE=MyISAM default char set=latin1;
+
+CREATE TRIGGER fecha_insert BEFORE INSERT ON users
+    FOR EACH ROW SET NEW.fecha = NOW();
 
 CREATE TABLE mascotas(
 	id int unsigned AUTO_INCREMENT NOT NULL,

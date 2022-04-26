@@ -781,6 +781,30 @@ def remove(tipo, id):
         lista = get_servicio(id)
     return jsonify({'info': lista})
 
+@app.route("/informe_ventas", methods=['GET', 'POST'])
+def crear_informe():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] == 'admin':
+                if request.method == 'GET':
+                    fecha = get_cur_datetime_informe()
+                    usuarios = get_lista_usuarios_fechas(fecha['fecha_actual'], fecha['fecha_actual'])
+                    return render_template("reporte/reporte.html", lista_usuarios=usuarios,
+                                           date_today=fecha['fecha_actual'])
+                if request.method == 'POST':
+                    desde = request.form['desde']
+                    hasta=request.form['hasta']
+                    print(desde, hasta)
+                    usuarios = get_lista_usuarios_fechas(desde, hasta)
+                    return render_template("reporte/reporte.html", lista_usuarios=usuarios, )
+            else:
+                redirect("")
+        else:
+            redirect("/")
+    else:
+        redirect("/")
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
