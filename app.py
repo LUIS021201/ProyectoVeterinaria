@@ -645,8 +645,7 @@ def agregar_atencion():
                     # Cuando quieren acceder sin los permisos o estar logeado
                     return redirect("/")
             else:
-                recetas = get_lista_recetas_por_usuario(session['user_id'])
-                return render_template("recetas/lista_recetas.html", lista_recetas=recetas)
+                return redirect("/")
         else:
             return redirect("/")
     else:
@@ -703,11 +702,14 @@ def escribir_receta(id_duenio):
 def recetas():
     if 'logged_in' in session.keys():
         if session['logged_in']:
-            if session['type'] != 'cliente':
+            if session['type'] == 'admin':
+
                 recetas = get_lista_recetas()
                 return render_template("recetas/lista_recetas.html", lista_recetas=recetas)
             else:
-                return redirect("/")
+                recetas = get_lista_recetas_por_usuario(session['user_id'])
+                return render_template("recetas/lista_recetas.html", lista_recetas=recetas)
+
         else:
             return redirect("/")
     else:
@@ -717,13 +719,18 @@ def recetas():
 def atenciones():
     if 'logged_in' in session.keys():
         if session['logged_in']:
-            if session['type'] != 'cliente':
+            if session['type'] == 'admin':
                 atenciones = get_lista_atenciones()
                 servicios = get_lista_serv_de_atenciones()
                 medicinas = get_lista_meds_de_atenciones()
                 return render_template("atenciones/lista_atenciones.html", lista_atenciones=atenciones, lista_servicios=servicios, lista_meds=medicinas)
             else:
-                return redirect("/")
+                atenciones = get_lista_atenciones_por_usuario(session['user_id'])
+                servicios = get_lista_serv_de_atenciones()
+                medicinas = get_lista_meds_de_atenciones()
+                return render_template("atenciones/lista_atenciones.html", lista_atenciones=atenciones,
+                                       lista_servicios=servicios, lista_meds=medicinas, permisos='No')
+
         else:
             return redirect("/")
     else:

@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="487affaf-6cc8-4e9a-a519-f3ab67625ddf" name="Changes" comment="Agregar metodo &quot;recetas()&quot; a app.py. Agregar metodo &quot;get_lista_recetas()&quot; a recetas.py para obtener datos de las recetas. Agregar template lista_recetas.html.">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_13_04_2022_11_45_a__m___Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_13_04_2022_11_45_a__m___Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/recetas.py" beforeDir="false" afterPath="$PROJECT_DIR$/recetas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/recetas/agregar_receta.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/recetas/agregar_receta.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/atencion.py" beforeDir="false" afterPath="$PROJECT_DIR$/atencion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/atenciones/lista_atenciones.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/atenciones/lista_atenciones.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +76,7 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -150,6 +151,11 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.ProyectoVeterinaria" />
+      <item itemvalue="Python.recetas" />
+      <item itemvalue="Python.usuarios" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.recetas" />
@@ -181,6 +187,7 @@
       <workItem from="1650585818096" duration="11174000" />
       <workItem from="1650729223141" duration="7070000" />
       <workItem from="1650762211357" duration="1843000" />
+      <workItem from="1651080412669" duration="1972000" />
     </task>
     <task id="LOCAL-00001" summary="Cambiar contraseña(sin bd) pd todavia no se como usar la bd">
       <created>1649755793121</created>
@@ -363,10 +370,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="Agregar metodo &quot;recetas()&quot; a app.py. Agregar metodo &quot;get_lista_recetas()&quot; a recetas.py para obtener datos de las recetas. Agregar template lista_recetas.html." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ProyectoVeterinaria$ProyectoVeterinaria.coverage" NAME="ProyectoVeterinaria Coverage Results" MODIFIED="1650762492728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/ProyectoVeterinaria$ProyectoVeterinaria.coverage" NAME="ProyectoVeterinaria Coverage Results" MODIFIED="1651080989986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$manejo_csv.coverage" NAME="manejo_csv Coverage Results" MODIFIED="1649562046534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$usuarios.coverage" NAME="usuarios Coverage Results" MODIFIED="1649882650637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/ProyectoVeterinaria$app.coverage" NAME="app Coverage Results" MODIFIED="1649873348805" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$recetas.coverage" NAME="recetas Coverage Results" MODIFIED="1650736483330" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ProyectoVeterinaria$app.coverage" NAME="app Coverage Results" MODIFIED="1650766351188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
