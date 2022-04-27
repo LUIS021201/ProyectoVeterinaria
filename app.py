@@ -414,13 +414,14 @@ def confirmar_cita(tipo):
                 mascota = get_mascota(nombre_mascota, usr['id'])
 
                 try:
+                    print('USUARIO: ',usr['id'],' MASCOTA: ',mascota['id'],' FECHA: ',fecha,' HORA: ',hora,'TIPO: ',tipo)
                     insertar_cita(usr['id'], mascota['id'], fecha, hora, tipo)
                 except:
                     flash(
                         'Ya se ha agendado una cita en esa fecha y hora, intenta agendar una nueva cita')
                     return redirect("/agendar")
 
-                return redirect("/dashboard")
+                return redirect("/citas_programadas")
             else:
                 return redirect('/')
         else:

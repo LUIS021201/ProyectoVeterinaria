@@ -77,7 +77,7 @@ def get_lista_citas() -> list:
 def get_lista_citas_de_usuario(user_id: str) -> list:
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT c.id, u.name as cliente, m.nombre_mascota, m.tipo_mascota, c.fecha, c.hora, c.atencion FROM citas c, users u, mascotas m WHERE c.id=%s AND m.id=c.mascota_id", (user_id))
+        cursor.execute("SELECT c.id, u.name as cliente, m.nombre_mascota, m.tipo_mascota, c.fecha, c.hora, c.atencion FROM citas c, users u, mascotas m WHERE c.user_id=u.id AND m.id=c.mascota_id AND c.user_id=%s;", (user_id))
         lista = cursor.fetchall()
 
     conexion.commit()
