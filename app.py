@@ -211,9 +211,12 @@ def password_changed():
 @app.route("/usuarios", methods=['GET', 'POST'])
 def usuarios():
     if 'logged_in' in session.keys():
-        if session['logged_in']=='admin':
-            usuarios = get_lista_usuarios()
-            return render_template("usuarios/lista_usuarios.html", lista_usuarios=usuarios)
+        if session['logged_in']:
+            if session['type']=='admin':
+                usuarios = get_lista_usuarios()
+                return render_template("usuarios/lista_usuarios.html", lista_usuarios=usuarios)
+            else:
+                abort(403)
         else:
             abort(403)
     else:
@@ -536,7 +539,7 @@ def servicios():
         abort(403)
 
 
-@app.route("/agregar_sevicio", methods=['GET', 'POST'])
+@app.route("/agregar_servicio", methods=['GET', 'POST'])
 def agregar_servicio():
     if 'logged_in' in session.keys():
         if session['logged_in']:
@@ -736,7 +739,7 @@ def atenciones():
                 servicios = get_lista_serv_de_atenciones()
                 medicinas = get_lista_meds_de_atenciones()
                 return render_template("atenciones/lista_atenciones.html", lista_atenciones=atenciones,
-                                       lista_servicios=servicios, lista_meds=medicinas, permisos='No')
+                                       lista_servicios=servicios, lista_meds=medicinas)
 
         else:
             abort(403)

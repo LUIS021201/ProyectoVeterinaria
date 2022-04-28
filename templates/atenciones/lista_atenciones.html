@@ -65,8 +65,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-            {% if permisos %}
-            {% else %}
+            {% if session['type']!='cliente' %}
             <a href="/agregar_atencion" class="btn boton_pie">Agregar atencion</a>
             {% endif %}
         </div>
