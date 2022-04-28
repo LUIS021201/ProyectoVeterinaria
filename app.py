@@ -1,15 +1,12 @@
-from cmath import log
-from os import access
 from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for, abort
-from pyparsing import empty
-from usuarios import *
 from citas import *
-from random import *
+from random import randint
 from menu import get_dicc_menu
 from funciones import mandar_correo_codigo
 from passlib.hash import sha256_crypt
 from recetas import *
 from atencion import *
+from usuarios import *
 
 app = Flask(__name__)
 app.secret_key = 'lwiu74dhn2SuF3j'
