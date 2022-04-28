@@ -119,7 +119,7 @@ def get_lista_atenciones() -> list:
     lista = []
     with conexion.cursor() as cursor:
         cursor.execute(
-            "SELECT a.id, a.fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE u.id=a.user_id and m.id=a.mascota_id")
+            "SELECT a.id, a.fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE u.id=a.user_id and m.id=a.mascota_id ORDER BY a.fecha desc")
         lista = cursor.fetchall()
 
     conexion.commit()
@@ -132,7 +132,7 @@ def get_lista_atenciones_por_usuario(user_id) -> list:
     lista = []
     with conexion.cursor() as cursor:
         cursor.execute(
-            "SELECT a.id, a.fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE u.id=a.user_id and m.id=a.mascota_id and a.user_id=%s",(user_id))
+            "SELECT a.id, a.fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE u.id=a.user_id and m.id=a.mascota_id and a.user_id=%s ORDER BY a.fecha desc",(user_id))
         lista = cursor.fetchall()
 
     conexion.commit()

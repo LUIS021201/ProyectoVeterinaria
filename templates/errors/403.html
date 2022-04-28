@@ -1,0 +1,21 @@
+{%  extends "base.html"  %}
+{%  set log = log %}
+{% block title %}403. Acceso denegado{% endblock %}
+{% block body %}
+{% include "navbar.html" %}
+
+<div class="mx-auto my-5 text-center">
+	<h1 style="font-size: 3rem;">¿Cómo llegaste aquí?</h1>
+	<div class="my-5">
+<img height="400" src="/static/pictures/dog_confused.png"><br>
+<a class="" href="https://storyset.com/animal">Animal illustrations by Storyset</a>
+</div>
+<h1 style="font-weight: 100;">Lo sentimos, no tienes acceso a esta página</h1>
+
+<a href="/" class="mt-4 btn boton_login">Regresar al inicio</a>
+
+</div>
+
+{% endblock %}
+{% block footer %}
+{% endblock %}

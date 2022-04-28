@@ -99,19 +99,8 @@ def get_cur_datetime() -> dict:
     fecha_hoy = datetime.now() + timedelta(days=1)
     hora = fecha_hoy - (fecha_hoy - datetime.min) % timedelta(minutes=30)
     fecha_fin = fecha_hoy + timedelta(days=30)
-
-    cur['fecha_actual'] = fecha_hoy.strftime("%Y-%m-%d")
-    cur['fecha_fin'] = fecha_fin.strftime("%Y-%m-%d")
-    cur['hora'] = hora.strftime("%H:%M")
-
-    return cur
-
-def get_cur_datetime_informe() -> dict:
-    cur = {}
-    fecha_hoy = datetime.now()
-    hora = fecha_hoy - (fecha_hoy - datetime.min) % timedelta(minutes=30)
-    fecha_fin = fecha_hoy + timedelta(days=30)
-
+    
+    cur['now'] = datetime.now().strftime("%Y-%m-%d")
     cur['fecha_actual'] = fecha_hoy.strftime("%Y-%m-%d")
     cur['fecha_fin'] = fecha_fin.strftime("%Y-%m-%d")
     cur['hora'] = hora.strftime("%H:%M")

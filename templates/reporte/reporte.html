@@ -1,66 +1,42 @@
 {%  extends "base.html"  %}
 {%  set log = log %}
-{% block title %}Cartelera de Estrenos
+{% block title %}Informe de ventas
 {% endblock %}
-{% block head %}
 
-{% endblock %}
 {% block body %}
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.84.0">
-    <title>Dashboard Template · Bootstrap v5.0</title>
+{% include "navbar.html" %}
 
-    <link rel="canonical" href="htps://getbootstrap.com/docs/5.0/examples/dashboard/">
-
-
-
-    <!-- Bootstrap core CSS -->
-<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
-
-    <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
-  </head>
 
   <body onload="tabla();">
 
+    <!-- Template de la gráfica conseguido de Bootstrap -->
 
 		<div class="row">
 			{% with path=request.path %}
 			{% include "menu.html" %}
 			{% endwith %}
-			<div class="col-lg-6 container text-center my-5">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Ventas</h1>
+			<div class="col-lg-8 container my-5 " >
+      <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Informe de Ventas</h1>
 
             <form class="btn-toolbar mb-2 mb-md-0", action="", method="POST">
-                <div class="btn-group me-2">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+              <button type="button" class="me-2 btn btn-sm btn-outline-secondary" >Exportar</button>
+
+                <div class="dropdown">
+                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Rango
+                </button>
+                  <ul class="dropdown-menu fade-down" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#">Rango</a></li>
+                    <li><a class="dropdown-item" href="#">Mensual</a></li>
+                    <li><a class="dropdown-item" href="#">Diario</a></li>
+                  </ul>
                 </div>
             </form>
 
         </div>
-          <div class="row justify-content-center mx-5">
+          <div class="row justify-content-between mx-2">
+            <div class="col-6">
             <form class="fechas_validation" action="" method="POST">
                 <div class="form-floating mb-3">
                     <input type="date" class="form-control" id="validationServer04" required name="desde"
@@ -74,14 +50,40 @@
                 </div>
                 <input class="campo_login btn boton_login" type="submit" name="enviar" value="Enviar">
             </form>
+          </div>
+          <div class="col-3 ">
+            <div class="">
+
+              <input type="number" placeholder="Subtotal"
+                     class="form-control" id="subtotal" required min="0.00" value="0.00" name="subtotal" readonly>
+              <label class="form-label" for="subtotal">Subtotal</label>
+  
+          </div>
+  
+          <div class="">
+  
+              <input type="number" placeholder="IVA"
+                     class="form-control " id="iva" min="0.00" value="0.00" required name="iva" readonly>
+              <label class="form-label" for="iva">IVA</label>
+  
+          </div>
+  
+          <div class="">
+  
+              <input type="number" placeholder="Total"
+                     class="form-control " id="total" required min="0.00" value="0.00" name="total" readonly>
+              <label class="form-label" for="total">Total</label>
+  
+          </div>
+
         </div>
+        <canvas class="my-4 w-100" id="myChart" width="900" height="380"> </canvas>
 
 
-      <canvas class="my-4 w-100" id="myChart" width="900" height="380"> </canvas>
-
-      <h2>Clientes nuevos</h2>
-      <div class="col-lg-9 container my-5 justify-content-center">
-        <div class="mx-5 table-responsive">
+        </div>
+        
+      <h4 class="mx-2 pt-3 pb-2 mb-3 border-bottom">Clientes nuevos</h4>
+        <div class="mx-2 table-responsive">
             <input class="form-control mb-2" type="text" id="searchbox" onkeyup="buscar()"
                    placeholder="Buscar...">
             <table id="table" class="table table-hover">
@@ -91,7 +93,6 @@
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Username</th>
-                    <th scope="col">Type</th>
                     <th scope="col">Modificar</th>
                 </tr>
                 </thead>
@@ -102,46 +103,15 @@
                     <td>{{usuario['name']}}</td>
                     <td>{{usuario['email']}}</td>
                     <td>{{usuario['username']}}</td>
-                    <td>{{usuario['type']}}</td>
                     <td><a href="/mod_usuario/{{usuario['username']}}" class="btn boton_pie">Modificar</a></td>
                 </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
-      </div>
 			</div>
-            <div class="col">
-            <div class="col-lg-5 container my-5 justify-content-center">
-
-                <input type="number" placeholder="Subtotal"
-                       class="form-control" id="subtotal" required min="0.00" value="0.00" name="subtotal" readonly>
-                <label class="form-label" for="subtotal">Subtotal</label>
-
-            </div>
-
-            <div class="col-lg-5 container my-5 justify-content-center">
-
-                <input type="number" placeholder="IVA"
-                       class="form-control " id="iva" min="0.00" value="0.00" required name="iva" readonly>
-                <label class="form-label" for="iva">IVA</label>
-
-            </div>
-
-            <div class="col-lg-5 container my-10 justify-content-center">
-
-                <input type="number" placeholder="Total"
-                       class="form-control " id="total" required min="0.00" value="0.00" name="total" readonly>
-                <label class="form-label" for="total">Total</label>
-
-            </div>
-  </div>
-		</div>
-
-
-  </body>>
-</div>
-</div>
+            
+</body>
 
 {% endblock %}
 {% block footer %}

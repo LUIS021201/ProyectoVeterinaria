@@ -10,7 +10,7 @@ html, body {
     overflow-x: hidden;
     top: 0;
     left: 0;
-
+    
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -343,7 +343,7 @@ a:hover {
     color: white;
 }
 
-.navbar .nav-item .dropdown-menu {
+ div.dropdown-menu {
     display: block;
     opacity: 0;
     visibility: hidden;
@@ -351,17 +351,17 @@ a:hover {
     margin-top: 0;
 }
 
-.navbar .dropdown-menu.fade-down {
+div.dropdown-menu.fade-down {
     top: 80%;
     transform: rotateX(-75deg);
     transform-origin: 0% 0%;
 }
 
-.navbar .dropdown-menu.fade-up {
+div.dropdown-menu.fade-up {
     top: 180%;
 }
 
-.navbar .nav-item:hover .dropdown-menu {
+a:hover .dropdown-menu {
     transition: .3s;
     opacity: 1;
     visibility: visible;
@@ -393,6 +393,7 @@ h5{
 .menu a{
   font-size: 1rem;
   color: #6e92c4 !important;
+  height: 100%;
 }
 
 .menu a:hover{

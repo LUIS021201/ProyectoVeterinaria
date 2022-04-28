@@ -1,11 +1,10 @@
 {%  extends "base.html"  %}
 {%  set log = log %}
-{% block title %}Cartelera de Estrenos
+{% block title %}Agregar receta
 {% endblock %}
-{% block head %}
 
-{% endblock %}
 {% block body %}
+{% include "navbar.html" %}
 
 <div class="row">
     {% with path="/agregar_receta" %}
@@ -85,7 +84,7 @@
                            placeholder="Escriba la aplicacion de la medicina" name="aplicacion">
                     <label for="validationServer01">Forma de aplicación del medicamento</label>
                 </div>
-                {% if usario['type']!='cliente' %}
+                {% if usuario['type']!='cliente' %}
                 <div class="contenedor_btns">
                     <input class="btn boton_pie" type="submit" name="enviar" value="Guardar Receta"> <h6
                         style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>

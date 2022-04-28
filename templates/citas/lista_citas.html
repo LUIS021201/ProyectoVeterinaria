@@ -1,11 +1,10 @@
 {%  extends "base.html"  %}
 {%  set log = log %}
-{% block title %}Cartelera de Estrenos
+{% block title %}Citas
 {% endblock %}
-{% block head %}
 
-{% endblock %}
 {% block body %}
+{% include "navbar.html" %}
 
 <div class="row">
     {% with path=request.path %}

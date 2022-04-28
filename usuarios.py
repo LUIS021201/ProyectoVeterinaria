@@ -33,7 +33,7 @@ def insertar_usuario(email, username, password, nombre, type):
     conexion = obtener_conexion()
     nombre = nombre.title()
     with conexion.cursor() as cursor:
-        cursor.execute("INSERT INTO users (email,username,password,name,type) VALUES (%s, %s, %s, %s, %s)",
+        cursor.execute("INSERT INTO users (fecha_creacion,email,username,password,name,type) VALUES (CURDATE(),%s, %s, %s, %s, %s)",
                        (email, username, password, nombre, type))
     conexion.commit()
     conexion.close()
@@ -102,7 +102,7 @@ def get_usuarios_recetables() -> list:
     conexion = obtener_conexion()
     lista = []
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT a.id, a.email, a.name, a.username, a.type FROM users a,mascotas b WHERE a.id = b.user_id")
+        cursor.execute("SELECT distinct a.id, a.email, a.name, a.username, a.type FROM users a,mascotas b WHERE a.id = b.user_id")
         lista = cursor.fetchall()
 
     conexion.commit()
@@ -157,7 +157,7 @@ def get_lista_usuarios_fechas(fecha1, fecha2) -> list:
     conexion = obtener_conexion()
     lista = []
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT id, email, name, username, type FROM users WHERE (fecha BETWEEN %s and %s) and type = 'cliente'", (fecha1, fecha2))
+        cursor.execute("SELECT id, email, name, username, type FROM users WHERE (fecha_creacion BETWEEN %s and %s) and type = 'cliente'", (fecha1, fecha2))
         lista = cursor.fetchall()
 
     conexion.commit()

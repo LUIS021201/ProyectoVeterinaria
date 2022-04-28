@@ -1,13 +1,13 @@
 CREATE database petvet;
 use petvet;
 CREATE TABLE users(
+	fecha_creacion DATE NOT NULL,
 	id int unsigned AUTO_INCREMENT NOT NULL,
 	email varchar(150) NOT NULL UNIQUE,
     password varchar(150) NOT NULL,
     username varchar(150) NOT NULL UNIQUE,
 	name varchar(150) NOT NULL,
 	type enum('admin','usuario','cliente') NOT NULL,
-	fecha date NULL,
 	PRIMARY KEY(id)
 ) ENGINE=MyISAM default char set=latin1;
 
@@ -102,8 +102,3 @@ CREATE TABLE medicinas_atencion (
 	FOREIGN KEY (atencion_id) REFERENCES atenciones (id),
 	FOREIGN KEY (medicinas_id) REFERENCES medicinas (id)
 )ENGINE=MyISAM default char set=latin1;
-
-SELECT * FROM users a,mascotas b WHERE a.id = b.user_id;
-
-SELECT a.id, a.fecha, b.name as doctor, f.name as cliente, c.nombre_mascota, c.tipo_mascota, e.nombre as medicina, a.aplicacion FROM recetas a, (SELECT id,name FROM users WHERE type='usuario') b,(SELECT a.id,a.name FROM users a,mascotas b WHERE a.id = b.user_id ) f, mascotas c, medicinas e WHERE
-a.client_id=f.id AND a.doctor_id=b.id AND a.mascota_id=c.id AND a.medicamento_id=e.id;

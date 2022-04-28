@@ -1,12 +1,10 @@
 {%  extends "base.html"  %}
 
 {%  set log = log %}
-{% block title %}
-{% endblock %}
-{% block head %}
+{% block title %}Dashboard{% endblock %}
 
-{% endblock %}
 {% block body %}
+{% include "navbar.html" %}
 
 <div class="row">
     {% with path=request.path %}

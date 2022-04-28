@@ -1,6 +1,6 @@
 from cmath import log
 from os import access
-from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for, json
+from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for, abort
 from pyparsing import empty
 from usuarios import *
 from citas import *
@@ -205,19 +205,19 @@ def password_changed():
         elif request.method == 'POST':
             redirect("/login")
     else:
-        redirect("/")
+        return redirect("/")
 
 
 @app.route("/usuarios", methods=['GET', 'POST'])
 def usuarios():
     if 'logged_in' in session.keys():
-        if session['logged_in']:
+        if session['logged_in']=='admin':
             usuarios = get_lista_usuarios()
             return render_template("usuarios/lista_usuarios.html", lista_usuarios=usuarios)
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
 
 
 @app.route("/agregar_usuario", methods=['GET', 'POST'])
@@ -257,13 +257,13 @@ def agregar_usuario():
                         return redirect('/usuarios')
                 else:
                     # Cuando quieren acceder sin los permisos o estar logeado
-                    return redirect("/")
+                    abort(403)
             else:
-                return redirect("/")
+                abort(403)
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
 
 
 @app.route("/mod_usuario/<usu>", methods=['GET', 'POST'])
@@ -296,13 +296,13 @@ def mod_usuario(usu):
 
                     return redirect('/usuarios')
                 else:
-                    return redirect("/")
+                    abort(403)
             else:
-                return redirect("/")
+                abort(403)
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
 
 
 @app.route("/agendar")
@@ -311,9 +311,9 @@ def agendar_cita():
         if session['logged_in']:
             return render_template("citas/agendar.html")
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect('/')
+        abort(403)
 
 
 @app.route("/citas_programadas")
@@ -327,10 +327,9 @@ def ver_citas():
                 citas = get_lista_citas()
             return render_template("citas/lista_citas.html", lista_citas=citas)
         else:
-            return redirect("/")
+            abort(403)
     else:
-
-        return redirect('/')
+        abort(403)
 
 
 @app.route("/agendar/<tipo>", methods=['GET', 'POST'])
@@ -352,7 +351,7 @@ def agendar_vet(tipo):
 
                 return redirect(url_for('ver_horarios', tipo=tipo, fecha=fecha))
         else:
-            return redirect("/")
+            abort(403)
 
 
 @app.route("/agendar/<tipo>/horarios", methods=['GET', 'POST'])
@@ -369,9 +368,9 @@ def ver_horarios(tipo):
                 hora = request.form['hora']
                 return redirect(url_for('confirmar_cita', tipo=tipo, fecha=fecha, hora=hora))
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
 
 
 @app.route("/agendar/<tipo>/confirmar", methods=['GET', 'POST'])
@@ -423,11 +422,11 @@ def confirmar_cita(tipo):
 
                 return redirect("/citas_programadas")
             else:
-                return redirect('/')
+                abort(403)
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
 
 
 @app.route("/medicinas")
@@ -439,12 +438,11 @@ def medicinas():
                 return render_template("medicinas/lista_medicinas.html", lista_medicinas=medicinas)
             else:
 
-                return redirect("/")
+                abort(403)
         else:
-            return redirect("/")
+            abort(403)
     else:
-
-        return redirect('/')
+        abort(403)
 
 
 @app.route("/medicinas/agregar_medicina", methods=['GET', 'POST'])
@@ -473,11 +471,11 @@ def agregar_medicina():
 
             else:
 
-                return redirect("/")
+                abort(403)
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
 
 
 @app.route("/medicinas/<id_med>", methods=['GET', 'POST'])
@@ -512,15 +510,15 @@ def mod_medicina(id_med):
                             modificar_medicina(id, nombre, descripcion, presentacion, medida, stock, precio)
                             return redirect('/medicinas')
                     else:
-                        return redirect("/")
+                        abort(403)
                 else:
                     return redirect("/medicinas")
             else:
-                return redirect("/")
+                abort(403)
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
 
 
 @app.route("/servicios", methods=['GET', 'POST'])
@@ -531,11 +529,11 @@ def servicios():
                 servicios = get_lista_servicios()
                 return render_template("servicios/lista_servicios.html", lista_servicios=servicios)
             else:
-                return redirect("/")
+                abort(403)
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
 
 
 @app.route("/agregar_sevicio", methods=['GET', 'POST'])
@@ -555,13 +553,13 @@ def agregar_servicio():
                     return redirect('/servicios')
                 else:
                     # Cuando quieren acceder sin los permisos o estar logeado
-                    return redirect("/")
+                    abort(403)
             else:
-                return redirect("/")
+                abort(403)
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
 
 
 @app.route("/mod_servicio/<id>", methods=['GET', 'POST'])
@@ -587,13 +585,13 @@ def mod_servicio(id):
 
                     return redirect('/servicios')
                 else:
-                    return redirect("/")
+                    abort(403)
             else:
-                return redirect("/")
+                abort(403)
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
 
 
 @app.route("/agregar_atencion", methods=['GET', 'POST'])
@@ -644,13 +642,13 @@ def agregar_atencion():
                     return redirect('/dashboard')
                 else:
                     # Cuando quieren acceder sin los permisos o estar logeado
-                    return redirect("/")
+                    abort(403)
             else:
-                return redirect("/")
+                abort(403)
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
     
 
 
@@ -667,11 +665,11 @@ def agregar_receta():
 
 
             else:
-                return redirect("/")
+                abort(403)
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
 
 
 @app.route("/agregar_receta/<id_duenio>", methods=['GET', 'POST'])
@@ -698,6 +696,14 @@ def escribir_receta(id_duenio):
                         aplicacion = request.form['aplicacion']
                         insertar_receta(id_duenio, id_doctor, id_mascota, id_medicina, aplicacion)
                         return redirect("/historial_recetas")
+                else:
+                    abort(403)
+            else:
+                abort(403)
+        else:
+            abort(403)
+    else:
+        abort(403)
 
 @app.route("/historial_recetas", methods=['GET', 'POST'])
 def recetas():
@@ -712,9 +718,9 @@ def recetas():
                 return render_template("recetas/lista_recetas.html", lista_recetas=recetas)
 
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
 
 @app.route("/historial_atencion", methods=['GET', 'POST'])
 def atenciones():
@@ -733,11 +739,33 @@ def atenciones():
                                        lista_servicios=servicios, lista_meds=medicinas, permisos='No')
 
         else:
-            return redirect("/")
+            abort(403)
     else:
-        return redirect("/")
+        abort(403)
 
-
+@app.route("/informe_ventas", methods=['GET', 'POST'])
+def crear_informe():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] == 'admin':
+                if request.method == 'GET':
+                    fecha = get_cur_datetime()
+                    usuarios = get_lista_usuarios_fechas(fecha['now'], fecha['fecha_fin'])
+                    print(usuarios)
+                    return render_template("reporte/reporte.html", lista_usuarios=usuarios,
+                                           date_today=fecha['now'])
+                if request.method == 'POST':
+                    desde = request.form['desde']
+                    hasta=request.form['hasta']
+                    print(desde, hasta)
+                    usuarios = get_lista_usuarios_fechas(desde, hasta)
+                    return render_template("reporte/reporte.html", lista_usuarios=usuarios)
+            else:
+                abort(403)
+        else:
+            abort(403)
+    else:
+        abort(403)
 
 @app.route("/select/<email>")
 def usuario(email):
@@ -755,7 +783,17 @@ def usuario(email):
     print(seleccion)
     return jsonify({'info': seleccion})
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('errors/404.html'), 404
 
+@app.errorhandler(403)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('errors/403.html'), 403
+
+# MÉTODOS LIGADOS A FUNCIONES DE JAVASCRIPT
 @app.route("/select/<tipo>/<id>")
 def add(tipo, id):
     lista = []
@@ -788,31 +826,6 @@ def remove(tipo, id):
         print('REMOVE S',lista_servicios_sel)
         lista = get_servicio(id)
     return jsonify({'info': lista})
-
-@app.route("/informe_ventas", methods=['GET', 'POST'])
-def crear_informe():
-    if 'logged_in' in session.keys():
-        if session['logged_in']:
-            if session['type'] == 'admin':
-                if request.method == 'GET':
-                    fecha = get_cur_datetime_informe()
-                    usuarios = get_lista_usuarios_fechas(fecha['fecha_actual'], fecha['fecha_actual'])
-                    return render_template("reporte/reporte.html", lista_usuarios=usuarios,
-                                           date_today=fecha['fecha_actual'])
-                if request.method == 'POST':
-                    desde = request.form['desde']
-                    hasta=request.form['hasta']
-                    print(desde, hasta)
-                    usuarios = get_lista_usuarios_fechas(desde, hasta)
-                    return render_template("reporte/reporte.html", lista_usuarios=usuarios, )
-            else:
-                redirect("")
-        else:
-            redirect("/")
-    else:
-        redirect("/")
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

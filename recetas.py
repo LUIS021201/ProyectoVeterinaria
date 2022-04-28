@@ -3,8 +3,9 @@ from bd import obtener_conexion
 def get_lista_recetas() -> list:
     conexion = obtener_conexion()
     lista = []
+
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT a.id, a.fecha, b.name as doctor, f.name as cliente, c.nombre_mascota, c.tipo_mascota, e.nombre as medicina, a.aplicacion FROM recetas a, (SELECT id,name FROM users WHERE type='usuario') b,(SELECT a.id,a.name FROM users a,mascotas b WHERE a.id = b.user_id ) f, mascotas c, medicinas e WHERE a.client_id=f.id AND a.doctor_id=b.id AND a.mascota_id=c.id AND a.medicamento_id=e.id")
+        cursor.execute("SELECT a.id, a.fecha, b.name as doctor, u.name as cliente, m.nombre_mascota, m.tipo_mascota, e.nombre as medicina, a.aplicacion FROM recetas a, (SELECT id,name FROM users WHERE type='usuario') b,users u,mascotas m,medicinas e WHERE a.client_id=u.id AND a.doctor_id=b.id AND a.mascota_id=m.id AND a.medicamento_id=e.id ORDER BY a.fecha desc")
         lista = cursor.fetchall()
 
     conexion.commit()
@@ -15,7 +16,7 @@ def get_lista_recetas_por_usuario(user_id) -> list:
     conexion = obtener_conexion()
     lista = []
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT a.id, a.fecha, b.name as doctor, f.name as cliente, c.nombre_mascota, c.tipo_mascota, e.nombre as medicina, a.aplicacion FROM recetas a, (SELECT id,name FROM users WHERE type='usuario') b,(SELECT a.id,a.name FROM users a,mascotas b WHERE a.id = b.user_id ) f, mascotas c, medicinas e WHERE (a.client_id=f.id AND a.doctor_id=b.id AND a.mascota_id=c.id AND a.medicamento_id=e.id) AND (a.client_id=%s OR a.doctor_id=%s)",(user_id,user_id))
+        cursor.execute("SELECT a.id, a.fecha, b.name as doctor, u.name as cliente, m.nombre_mascota, m.tipo_mascota, e.nombre as medicina, a.aplicacion FROM recetas a, (SELECT id,name FROM users WHERE type='usuario') b,users u,mascotas m,medicinas e WHERE (a.client_id=u.id AND a.doctor_id=b.id AND a.mascota_id=m.id AND a.medicamento_id=e.id) AND (a.client_id=%s OR a.doctor_id=%s) ORDER BY a.fecha desc",(user_id,user_id))
         lista = cursor.fetchall()
 
     conexion.commit()

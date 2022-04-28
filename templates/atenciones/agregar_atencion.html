@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 {% set log = log %}
-{% block title %}Atencion
-{% endblock %}
-{% block head %}
-
+{% block title %}Agregar atención
 {% endblock %}
 {% block body %}
+{% include "navbar.html" %}
 
 <div class="row">
     {% with path=request.path %}
