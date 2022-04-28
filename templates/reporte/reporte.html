@@ -24,12 +24,14 @@
 
                 <div class="dropdown">
                 <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                Rango
+                {{tipo}}
                 </button>
                   <ul class="dropdown-menu fade-down" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" href="#">Rango</a></li>
-                    <li><a class="dropdown-item" href="#">Mensual</a></li>
-                    <li><a class="dropdown-item" href="#">Diario</a></li>
+                    <li><a class="dropdown-item" href="/informe_ventas/diaria">Diario</a></li>
+                    <li><a class="dropdown-item" href="/informe_ventas/mensual">Mensual</a></li>
+                    <li><a class="dropdown-item" href="/informe_ventas/rango">Rango</a></li>
+
+
                   </ul>
                 </div>
             </form>
@@ -37,25 +39,52 @@
         </div>
           <div class="row justify-content-between mx-2">
             <div class="col-6">
-            <form class="fechas_validation" action="" method="POST">
+                <form class="fechas_validation" action="" method="POST">
+                {% if bandera_rango == False and bandera_mes == False%}
+                <div class="form-floating mb-3">
+                    <input type="date" class="form-control"  id="validationServer04" required name="desde" readonly
+                           , value="{{today}}">
+                    <label for="validationServer04">Desde</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="date" class="form-control" id="validationServer05" required name="hasta" readonly
+                           , value="{{today}}">
+                    <label for="validationServer04">Hasta</label>
+                </div>
+                </form>
+                {% endif %}
+                {% if bandera_rango == True and bandera_mes == False%}
                 <div class="form-floating mb-3">
                     <input type="date" class="form-control" id="validationServer04" required name="desde"
-                           value="{{date_today}}">
+                           value="{{date_desde}}">
                     <label for="validationServer04">Desde</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input type="date" class="form-control" id="validationServer05" required name="hasta"
-                           , value="{{date_today}}">
+                           , value="{{date_hasta}}">
                     <label for="validationServer04">Hasta</label>
                 </div>
                 <input class="campo_login btn boton_login" type="submit" name="enviar" value="Enviar">
+
+                {% endif %}
+                <h3>{{mensaje}}</h3>
+
+                {% if bandera_rango == False and bandera_mes == True %}
+                 <div class="form-floating mb-3">
+                    <input type="month" class="form-control" id="validationServer04" required name="mes"
+                           value="{{date_today}}">
+                    <label for="validationServer04">Mes</label>
+                </div>
+                <br>
+                <input class="campo_login btn boton_login" type="submit" name="enviar" value="Enviar">
+                {% endif %}
             </form>
           </div>
           <div class="col-3 ">
             <div class="">
 
               <input type="number" placeholder="Subtotal"
-                     class="form-control" id="subtotal" required min="0.00" value="0.00" name="subtotal" readonly>
+                     class="form-control" id="subtotal" required min="0.00" value={{total_atenciones_subtotal}} name="subtotal" readonly>
               <label class="form-label" for="subtotal">Subtotal</label>
   
           </div>
@@ -63,7 +92,7 @@
           <div class="">
   
               <input type="number" placeholder="IVA"
-                     class="form-control " id="iva" min="0.00" value="0.00" required name="iva" readonly>
+                     class="form-control " id="iva" min="0.00" value={{total_atenciones_iva}} required name="iva" readonly>
               <label class="form-label" for="iva">IVA</label>
   
           </div>
@@ -71,7 +100,7 @@
           <div class="">
   
               <input type="number" placeholder="Total"
-                     class="form-control " id="total" required min="0.00" value="0.00" name="total" readonly>
+                     class="form-control " id="total" required min="0.00" value={{total_atenciones_total}} name="total" readonly>
               <label class="form-label" for="total">Total</label>
   
           </div>
@@ -84,7 +113,7 @@
         
       <h4 class="mx-2 pt-3 pb-2 mb-3 border-bottom">Clientes nuevos</h4>
         <div class="mx-2 table-responsive">
-            <input class="form-control mb-2" type="text" id="searchbox" onkeyup="buscar()"
+            <input class="form-control mb-2" type="text" id="searchbox" onkeyup="buscar();"
                    placeholder="Buscar...">
             <table id="table" class="table table-hover">
                 <thead class="table-light">
@@ -109,10 +138,82 @@
                 </tbody>
             </table>
         </div>
-			</div>
+
+
+
+        <h4 class="mx-2 pt-3 pb-2 mb-3 border-bottom">Atenciones</h4>
+            <div class="mx-2 table-responsive">
+                <input class="form-control mb-2" type="text" id="searchbox2" onkeyup="buscar();"
+                       placeholder="Buscar...">
+
+                <table id="table2" class="table table-hover">
+                    <thead class="table-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Mascota</th>
+                        <th scope="col">Tipo de mascota</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Subtotal</th>
+                        <th scope="col">IVA</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Servicio</th>
+                        <th scope="col">Costo de servicio</th>
+                        <th scope="col">Medicina</th>
+                        <th scope="col">Costo Medicina</th>
+                        <th scope="col">Presentación</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% for atencion in lista_atenciones %}
+                        <th scope="row">{{atencion['id']}}</th>
+                        <td>{{atencion['fecha']}}</td>
+                        <td>{{atencion['cliente']}}</td>
+                        <td>{{atencion['nombre_mascota']}}</td>
+                        <td>{{atencion['tipo_mascota']}}</td>
+                        <td>{{atencion['descripcion']}}</td>
+                        <td>{{atencion['subtotal']}}</td>
+                        <td>{{atencion['iva']}}</td>
+                        <td>{{atencion['total']}}</td>
+                        {% for serv in lista_servicios %}
+                        <td>{{serv['nombre']}}</td>
+                        <td>{{serv['precio']}}</td>
+                        {% endfor %}
+                        {% for med in lista_meds %}
+                        {% if med['atencion_id'] == atencion['id']%}
+
+                        <td>{{med['nombre']}}</td>
+                        <td>{{med['precio']}}</td>
+                        <td>{{med['presentacion']}}</td>
+                        {% endif %}
+                        {% endfor %}
+
+
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td></td>
+                                                <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{total_atenciones_subtotal}}</td>
+                        <td>{{total_atenciones_iva}}</td>
+                        <td>{{total_atenciones_total}}</td>
+
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            </div>
+
             
 </body>
-
 {% endblock %}
 {% block footer %}
 {% endblock %}

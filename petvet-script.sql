@@ -1,3 +1,4 @@
+drop database IF EXISTS petvet;
 CREATE database petvet;
 use petvet;
 CREATE TABLE users(
@@ -12,7 +13,7 @@ CREATE TABLE users(
 ) ENGINE=MyISAM default char set=latin1;
 
 CREATE TRIGGER fecha_insert BEFORE INSERT ON users
-    FOR EACH ROW SET NEW.fecha = NOW();
+    FOR EACH ROW SET NEW.fecha_creacion = NOW();
 
 CREATE TABLE mascotas(
 	id int unsigned AUTO_INCREMENT NOT NULL,

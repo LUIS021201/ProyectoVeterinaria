@@ -10,7 +10,7 @@ from funciones import mandar_correo_codigo
 from passlib.hash import sha256_crypt
 from recetas import *
 from atencion import *
-
+import time
 app = Flask(__name__)
 app.secret_key = 'lwiu74dhn2SuF3j'
 
@@ -211,7 +211,7 @@ def password_changed():
 @app.route("/usuarios", methods=['GET', 'POST'])
 def usuarios():
     if 'logged_in' in session.keys():
-        if session['logged_in']=='admin':
+        if session['type']=='admin':
             usuarios = get_lista_usuarios()
             return render_template("usuarios/lista_usuarios.html", lista_usuarios=usuarios)
         else:
@@ -743,23 +743,160 @@ def atenciones():
     else:
         abort(403)
 
-@app.route("/informe_ventas", methods=['GET', 'POST'])
-def crear_informe():
+
+@app.route("/informe_ventas/diaria", methods=['GET', 'POST'])
+def informe_ventas_diario():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] == 'admin':
+                if request.method == 'GET' :
+                    bandera_rango=False
+                    bandera_mes = False
+                    fecha = get_cur_datetime()
+                    desde = fecha['now']
+                    hasta = fecha['now']
+                    atenciones = get_lista_atenciones_fechas(desde, hasta)
+                    usuarios = get_lista_usuarios_fechas(desde, hasta)
+                    servicios = get_lista_serv_de_atenciones()
+                    medicinas = get_lista_meds_de_atenciones()
+                    suma = get_suma_atenciones(desde, hasta)
+                    total_atenciones_subtotal = suma['SUM(subtotal)']
+                    total_atenciones_iva = suma['SUM(iva)']
+                    total_atenciones_total = suma['SUM(total)']
+                    print(desde, hasta, suma)
+
+                    return render_template("reporte/reporte.html", lista_usuarios=usuarios,
+                                           total_atenciones_subtotal=total_atenciones_subtotal,
+                                           total_atenciones_iva=total_atenciones_iva,
+                                           total_atenciones_total=total_atenciones_total,
+                                           lista_atenciones=atenciones, lista_servicios=servicios,
+                                           lista_meds=medicinas, tipo='Diario', bandera_rango=bandera_rango,
+                                            today=fecha['now'], bandera_mes=bandera_mes)
+
+                if request.method == 'POST':
+                    abort(403)
+            else:
+                abort(403)
+        else:
+            abort(403)
+    else:
+        abort(403)
+
+
+@app.route("/informe_ventas/mensual", methods=['GET', 'POST'])
+def informe_ventas_mensual():
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':
                 if request.method == 'GET':
+                    bandera_rango=False
+                    bandera_mes=True
                     fecha = get_cur_datetime()
-                    usuarios = get_lista_usuarios_fechas(fecha['now'], fecha['fecha_fin'])
-                    print(usuarios)
+                    año = fecha['now']
+                    hasta = fecha['now']
+                    atenciones = get_lista_atenciones_mes(año, hasta)
+                    usuarios = get_lista_usuarios_fechas(año, hasta)
+                    servicios = get_lista_serv_de_atenciones()
+                    medicinas = get_lista_meds_de_atenciones()
+                    suma = get_suma_atenciones_mes(año, hasta)
+                    total_atenciones_subtotal = suma['SUM(subtotal)']
+                    total_atenciones_iva = suma['SUM(iva)']
+                    total_atenciones_total = suma['SUM(total)']
+                    print(año, hasta, suma)
+
                     return render_template("reporte/reporte.html", lista_usuarios=usuarios,
-                                           date_today=fecha['now'])
+                                           total_atenciones_subtotal=total_atenciones_subtotal,
+                                           total_atenciones_iva=total_atenciones_iva,
+                                           total_atenciones_total=total_atenciones_total,
+                                           lista_atenciones=atenciones, lista_servicios=servicios,
+                                           lista_meds=medicinas, tipo='Mensual', bandera_rango=bandera_rango,
+                                           bandera_mes=bandera_mes)
                 if request.method == 'POST':
-                    desde = request.form['desde']
-                    hasta=request.form['hasta']
-                    print(desde, hasta)
+
+                    mes1=request.form['mes']
+                    mes=mes1.split("-")
+                    print(mes)
+                    bandera_rango = False
+                    bandera_mes = True
+
+                    anio = mes[0]
+                    mes = mes[1]
+                    atenciones = get_lista_atenciones_mes(anio, mes)
+                    usuarios = get_lista_usuarios_mes(anio, mes)
+                    servicios = get_lista_serv_de_atenciones()
+                    medicinas = get_lista_meds_de_atenciones()
+                    suma = get_suma_atenciones_mes(anio, mes)
+                    total_atenciones_subtotal = suma['SUM(subtotal)']
+                    total_atenciones_iva = suma['SUM(iva)']
+                    total_atenciones_total = suma['SUM(total)']
+                    print(anio, mes, suma)
+
+                    return render_template("reporte/reporte.html", lista_usuarios=usuarios,
+                                           total_atenciones_subtotal=total_atenciones_subtotal,
+                                           total_atenciones_iva=total_atenciones_iva,
+                                           total_atenciones_total=total_atenciones_total,
+                                           lista_atenciones=atenciones, lista_servicios=servicios,
+                                           lista_meds=medicinas, tipo='Mensual', bandera_rango=bandera_rango,
+                                           bandera_mes=bandera_mes, date_today=mes1)
+
+            else:
+                abort(403)
+        else:
+            abort(403)
+    else:
+        abort(403)
+
+@app.route("/informe_ventas/rango", methods=['GET', 'POST'])
+def informe_ventas_rango():
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if session['type'] == 'admin':
+                if request.method == 'GET':
+                    bandera_rango = True
+                    bandera_mes = False
+                    fecha = get_cur_datetime()
+                    desde = fecha['now']
+                    hasta = fecha['now']
+                    atenciones = get_lista_atenciones_fechas(desde, hasta)
                     usuarios = get_lista_usuarios_fechas(desde, hasta)
-                    return render_template("reporte/reporte.html", lista_usuarios=usuarios)
+                    servicios = get_lista_serv_de_atenciones()
+                    medicinas = get_lista_meds_de_atenciones()
+
+                    return render_template("reporte/reporte.html",
+                                           bandera_rango=bandera_rango,
+                                           bandera_mes=bandera_mes, tipo='Rango')
+
+                if request.method == 'POST':
+                    bandera_rango = True
+                    bandera_mes = False
+                    desde = request.form['desde']
+                    hasta = request.form['hasta']
+                    desde_date= time.strptime(desde, "%Y-%m-%d")
+                    hasta_date= time.strptime(hasta, "%Y-%m-%d")
+                    if desde_date <= hasta_date:
+                        atenciones = get_lista_atenciones_fechas(desde, hasta)
+                        usuarios = get_lista_usuarios_fechas(desde, hasta)
+                        servicios = get_lista_serv_de_atenciones()
+                        medicinas = get_lista_meds_de_atenciones()
+                        suma = get_suma_atenciones(desde, hasta)
+                        total_atenciones_subtotal = suma['SUM(subtotal)']
+                        total_atenciones_iva = suma['SUM(iva)']
+                        total_atenciones_total = suma['SUM(total)']
+                        return render_template("reporte/reporte.html", lista_usuarios=usuarios,
+                                       total_atenciones_subtotal=total_atenciones_subtotal,
+                                       total_atenciones_iva=total_atenciones_iva,
+                                       total_atenciones_total=total_atenciones_total,
+                                       lista_atenciones=atenciones, lista_servicios=servicios,
+                                       lista_meds=medicinas, tipo='Rango', bandera_rango=bandera_rango,
+                                       bandera_mes=bandera_mes, date_hasta=hasta, date_desde=desde)
+                    else:
+                        bandera_rango = True
+                        bandera_mes = False
+                        return render_template("reporte/reporte.html",
+                                               bandera_rango=bandera_rango,date_today=desde, today1=hasta,
+                                               bandera_mes=bandera_mes, tipo='Rango', mensaje='Ingrese una fecha Mayor')
+                else:
+                    abort(403)
             else:
                 abort(403)
         else:

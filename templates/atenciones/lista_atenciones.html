@@ -26,6 +26,11 @@
                     <th scope="col">Subtotal</th>
                     <th scope="col">IVA</th>
                     <th scope="col">Total</th>
+                    <th scope="col">Servicio</th>
+                    <th scope="col">Costo de servicio</th>
+                    <th scope="col">Medicina</th>
+                    <th scope="col">Costo Medicina</th>
+                    <th scope="col">Presentación</th>
                     <th scope="col">PDF</th>
 
 
@@ -45,10 +50,8 @@
                     <td>{{atencion['iva']}}</td>
                     <td>{{atencion['total']}}</td>
                     {% for serv in lista_servicios %}
-                    {% if serv['atencion_id'] == atencion['id']%}
                     <td>{{serv['nombre']}}</td>
                     <td>{{serv['precio']}}</td>
-                    {% endif %}
                     {% endfor %}
                     {% for med in lista_meds %}
                     {% if med['atencion_id'] == atencion['id']%}
