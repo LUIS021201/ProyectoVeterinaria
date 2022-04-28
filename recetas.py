@@ -48,7 +48,7 @@ def insertar_receta(id_duenio, id_doctor, id_mascota, id_medicina, aplicacion):
 
     with conexion.cursor() as cursor:
         cursor.execute(
-            "INSERT INTO recetas (client_id,doctor_id, mascota_id, medicamento_id, aplicacion) VALUES (%s, %s, %s, %s, %s)",
+            "INSERT INTO recetas (client_id,doctor_id, mascota_id, medicamento_id, aplicacion, fecha) VALUES (%s, %s, %s, %s, %s, CURRENT_TIMESTAMP())",
             (id_duenio, id_doctor, id_mascota, id_medicina, aplicacion))
     conexion.commit()
     conexion.close()

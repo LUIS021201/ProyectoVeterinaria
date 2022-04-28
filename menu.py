@@ -9,7 +9,7 @@ diccionario_menu = {'admin': {
     '/usuarios': ['fa-solid fa-address-book', 'Usuarios'],
     '/medicinas': ['fa-solid fa-briefcase-medical', 'Medicinas'],
     '/servicios': ['fa-solid fa-briefcase', 'Servicios'],
-    '/informe_ventas': ['bi bi-bar-chart-fill', 'Informe de Ventas'],
+    '/informe_ventas/diaria': ['bi bi-bar-chart-fill', 'Informe de Ventas'],
     '/logout': ['fa-solid fa-right-from-bracket', 'Cerrar sesión']
 },
     'cliente': {

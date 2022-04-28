@@ -164,6 +164,17 @@ def get_lista_usuarios_fechas(fecha1, fecha2) -> list:
     conexion.close()
     return lista
 
+def get_lista_usuarios_mes(anio, mes) -> list:
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT id, email, name, username, type FROM users WHERE (YEAR(fecha_creacion) =  %s and MONTH(fecha_creacion)= %s) and type = 'cliente'", (anio, mes))
+        lista = cursor.fetchall()
+
+    conexion.commit()
+    conexion.close()
+    return lista
+
 def existen_clientes():
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
