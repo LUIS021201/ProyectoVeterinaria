@@ -12,8 +12,15 @@
     {% endwith %}
     <div class="col-lg-9 container my-5 justify-content-center">
         <div class="mx-5 table-responsive">
-            <input class="form-control mb-2" type="text" id="searchbox" onkeyup="buscar()"
+            <div class="row justify-content-between mb-3">
+            <div class="col-auto">
+            <input class="form-control" type="text" id="searchbox" onkeyup="buscar()"
                    placeholder="Buscar...">
+            </div>
+            <div class="col-auto">
+                <a href="/agregar_servicio" class="btn boton_pie">Agregar Servicio</a>
+            </div>
+        </div>
             <table id="table" class="table table-hover">
                 <thead class="table-light">
                 <tr>
@@ -40,7 +47,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <a href="/agregar_sevicio" class="btn boton_pie">Agregar Servicio</a>
+            
         </div>
 
         <!-- <h3 class="">Lista De Usuarios</h3>

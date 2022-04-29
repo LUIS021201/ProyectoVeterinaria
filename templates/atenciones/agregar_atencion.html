@@ -65,7 +65,7 @@
                     </div>
                 <div class="row mb-3">
                     <div class="col-5">
-                    <select class="form-control" name="servicios" id="lista_servicios" onchange="guardarOpcion()">
+                    <select class="form-control" name="servicios" id="lista_servicios">
                         <option class="opcion" disabled selected>Seleccionar servicio...</option>
                         {% for servicio in lista_servicios %}
                         <option value="{{servicio['id']}}">{{servicio['nombre']}}</option>
@@ -76,7 +76,7 @@
                     <button type="button" onClick="add('SERVICIO')" class="btn boton_pie" id="add_btn">+</button>
                 </div>
                 <div class="col-5">
-                    <select class="form-control" onchange="guardarOpcion()" name="medicinas" id="lista_medicinas">
+                    <select class="form-control" name="medicinas" id="lista_medicinas">
                         <option class="opcion" disabled selected>Seleccionar medicina...</option>
                         {% for medicina in lista_medicinas %}
                         <option value="{{medicina['id']}}">{{medicina['nombre']}}</option>
@@ -125,125 +125,7 @@
 
     </div>
 </div>
-<script>
-    input_email = document.getElementById('input_email')
-    nombre = document.getElementById('nombre');
-    mascota_select = document.getElementById('mascotas')
-    tipo = document.getElementById('tipo_mascota')
-    email = input_email.value
 
-    lista = document.getElementById("lista")
-    subtotal = document.getElementById("subtotal")
-    iva = document.getElementById("iva")
-    total = document.getElementById("total")
-
-    const cont = 1;
-    function get_data(elem) {
-        nombre.readonly = false;
-        nombre.value = ''
-        email = elem.value
-        fetch('/select/' + elem.value).then(function (response) {
-            response.json().then(function (data) {
-                usuario = data.info;
-                optionHTML = '';
-                for (datos of usuario) {
-                    optionHTML += '<option value="' + datos.nombre_mascota + '">' + datos.nombre_mascota + '</option>';
-                    nombre.value = datos.name;
-                }
-                mascota_select.innerHTML = optionHTML;
-                if (nombre.value != '') {
-                    nombre.readonly = true;
-                }
-            });
-        });
-    }
-
-    function get_data_masc(elem) {
-        // if (elem.value == 'Nueva mascota'){
-        //     html_2 = '<div class="form-floating mb-3" ><input type="text" class="form-control" id="validationServer03" name="mascota"><label for="validationServer03">Nombre de mascota</label></div><div class="form-floating mb-3"><input type="text" class="form-control" id="validationServer03" name="tipo_mascota"><label for="validationServer03">Tipo de mascota</label></div>'
-        //     mascota.setAttribute('hidden', true)
-        //     mascota.insertAdjacentHTML("afterend",html_2)
-        // } 
-        tipo.value = ''
-        fetch('/select/' + email).then(function (response) {
-            response.json().then(function (data) {
-                usuario = data.info;
-                
-            });
-        });
-    }
-
-    function guardarOpcion() {
-        selected_serv = document.getElementById("lista_servicios").value;
-        selected_med = document.getElementById("lista_medicinas").value;
-    }
-    
-    function add(type) {
-        var elem 
-        if (type == 'MEDICINA'){
-            elem = selected_med;
-        }
-        else {
-            elem = selected_serv;
-        }
-       
-        fetch('/select/'+type+'/' + elem).then(function (response) {
-            response.json().then(function (data) {
-                opcion = data.info;
-                id = type+'_'+elem;
-                
-                optionHTML = '<div id="div_'+id+'" class="row text-start"><div class="col-3">'+type+'</div><div class="col-3">'+opcion.nombre+'</div><div class="col-3">Precio: $'+opcion.precio+'</div><div id="'+id+'" onclick="remove(this)" class="col-3 text-end x"><i class="fa-solid fa-xmark"></i></div></div>';
-                lista.innerHTML += optionHTML;
-                sub = (parseFloat(subtotal.value) + parseFloat(opcion.precio)).toFixed(2);
-                subtotal.value = sub;
-                if (type == 'MEDICINA'){
-                    if (opcion.stock==0){
-                        meds = document.getElementById("lista_medicinas");
-                        meds.removeChild(meds.querySelector('option[value="'+opcion.id+'"]'));
-                        
-
-                    }
-                    
-                }
-                actualizar()
-                
-            });
-        });
-        
-    }
-
-    function remove(elem){
-        id = elem.id
-        params = id.split("_")
-        type = params[0]
-        elem = params[1]
-        div = document.getElementById("div_"+id);
-        fetch('/remove/'+type+'/' + elem).then(function (response) {
-            response.json().then(function (data) {
-                opcion = data.info
-
-                sub = (parseFloat(subtotal.value) - parseFloat(opcion.precio)).toFixed(2);
-                
-                subtotal.value = sub;
-                actualizar()
-                div.remove()
-                meds = document.getElementById("lista_medicinas");
-                if (type == 'MEDICINA' && meds.querySelector('option[value="'+opcion.id+'"]')==null){
-                    meds.innerHTML += '<option value="'+opcion.id+'">'+opcion.nombre+'</option>';
-                }
-            });
-        });
-
-        
-        
-    }
-
-    function actualizar(){
-        iva.value = (parseFloat(subtotal.value) * 0.16).toFixed(2);
-        total.value = (parseFloat(subtotal.value) + parseFloat(iva.value)).toFixed(2);
-    }
-
-</script>
 {% endblock %}
 {% block footer %}
 

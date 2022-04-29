@@ -5,7 +5,7 @@ def get_lista_recetas() -> list:
     lista = []
 
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT a.id, a.fecha, b.name as doctor, u.name as cliente, m.nombre_mascota, m.tipo_mascota, e.nombre as medicina, a.aplicacion FROM recetas a, (SELECT id,name FROM users WHERE type='usuario') b,users u,mascotas m,medicinas e WHERE a.client_id=u.id AND a.doctor_id=b.id AND a.mascota_id=m.id AND a.medicamento_id=e.id ORDER BY a.fecha desc")
+        cursor.execute("SELECT a.id, a.fecha, b.name as doctor, u.name as cliente, m.nombre_mascota, m.tipo_mascota, e.nombre as medicina, a.aplicacion FROM recetas a, medicinas_receta s, (SELECT id,name FROM users WHERE type='usuario') b,users u,mascotas m,medicinas e WHERE a.client_id=u.id AND a.doctor_id=b.id AND a.mascota_id=m.id AND s.medicinas_id=e.id AND s.receta_id=a.id ORDER BY a.fecha desc")
         lista = cursor.fetchall()
 
     conexion.commit()
@@ -42,17 +42,39 @@ def existen_datos_para_receta():
     conexion.close()
     return True
 
-
-def insertar_receta(id_duenio, id_doctor, id_mascota, id_medicina, aplicacion):
+def agregar_meds(id, lista_meds):
+    for med in lista_meds:
+        agregar_meds_de_receta(id, med)
+        
+def agregar_meds_de_receta(receta_id, medicinas_id):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("INSERT INTO medicinas_receta (receta_id,medicinas_id) VALUES (%s, %s)",
+                       (receta_id, medicinas_id))
+    conexion.commit()
+    conexion.close()
+    
+def insertar_receta(id_duenio, id_doctor, id_mascota, aplicacion):
     conexion = obtener_conexion()
 
     with conexion.cursor() as cursor:
         cursor.execute(
-            "INSERT INTO recetas (client_id,doctor_id, mascota_id, medicamento_id, aplicacion, fecha) VALUES (%s, %s, %s, %s, %s, CURRENT_TIMESTAMP())",
-            (id_duenio, id_doctor, id_mascota, id_medicina, aplicacion))
+            "INSERT INTO recetas (client_id,doctor_id, mascota_id, aplicacion, fecha) VALUES (%s, %s, %s, %s, CURRENT_TIMESTAMP())",
+            (id_duenio, id_doctor, id_mascota, aplicacion))
     conexion.commit()
     conexion.close()
 
+def get_receta_mas_reciente(client_id,doctor_id,mascota_id):
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM recetas WHERE client_id=%s AND doctor_id=%s AND mascota_id=%s ORDER BY fecha desc",
+                       (client_id,doctor_id,mascota_id))
+        lista = cursor.fetchone()
+
+    conexion.commit()
+    conexion.close()
+    return lista
 
 def insertar_medicina(nombre, descripcion, presentacion, medida, stock, precio):
     conexion = obtener_conexion()

@@ -653,18 +653,51 @@ def agregar_atencion():
     
 
 
-@app.route("/agregar_receta")
+@app.route("/agregar_receta", methods=['GET', 'POST'])
 def agregar_receta():
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] != 'cliente':
-                if existen_datos_para_receta():
-                    clientes = get_usuarios_recetables()
-                    return render_template("recetas/escoger_duenio.html", lista_clientes=clientes)
+                if request.method == 'GET':
+                    lista_usuarios = get_lista_usuarios()
+                    lista_doctores = get_usuarios_por_permisos('usuario')
+                    lista_medicinas = get_lista_medicinas_disponibles()
+                    return render_template("recetas/agregar_receta.html", lista_usuarios=lista_usuarios, lista_doctores=lista_doctores,
+                                           lista_medicinas=lista_medicinas)
+                elif request.method == 'POST':
+                    email_cliente = request.form['email']
+                    nombre_cliente = request.form['nombre']
+                    doctor = request.form['doctor']
+                    n_mascota = request.form['mascota']
+                    aplicacion = request.form['aplicacion']
+
+                    print(doctor)
+                    
+                    doc_usr = get_usuario('email',doctor)
+                    #Si no existe el usuario, lo va a crear como cliente
+                    #la contraseña temporal del cliente sera el email con el que se registra
+                    if usuario_existe('email', email_cliente) == False:
+                        username = email_cliente.split('@')[0]
+                        insertar_usuario(email_cliente, username, sha256_crypt.encrypt(email_cliente), nombre_cliente, 'cliente')
+                        usr = get_usuario('email', email_cliente)
+                        insertar_mascota(usr['id'], n_mascota, '')
+                    else:
+                    #Si el usuario existe, pero la mascota no esta en la bd, se agrega la nueva mascota
+                        usr = get_usuario('email', email_cliente)
+                        if mascota_existe(n_mascota, usr['id']) == False:
+                            insertar_mascota(usr['id'], n_mascota, '')
+                
+                    mascota = get_mascota(n_mascota, usr['id'])
+                    
+                    insertar_receta(usr['id'],doc_usr['id'],mascota['id'],aplicacion)
+                    r = get_receta_mas_reciente(usr['id'],doc_usr['id'], mascota['id'])
+                    agregar_meds(r['id'],lista_medicinas_sel)
+                    lista_medicinas_sel.clear()
+                    print('CLEAR',lista_servicios_sel)
+                    return redirect('/historial_recetas')
                 else:
-                    return render_template("recetas/escoger_duenio.html")
-
-
+                    # Cuando quieren acceder sin los permisos o estar logeado
+                    abort(403)
             else:
                 abort(403)
         else:
@@ -905,22 +938,6 @@ def informe_ventas_rango():
     else:
         abort(403)
 
-@app.route("/select/<email>")
-def usuario(email):
-    usuario = get_usuario('email', email)
-    mascotas = get_lista_mascotas(usuario['id'])
-    seleccion = []
-    if not mascotas:
-        seleccion.append(
-            {'name': usuario['name'], 'id': '', 'nombre_mascota': '', 'tipo_mascota': ''})
-    else:
-        for mascota in mascotas:
-            seleccion.append({'name': usuario['name'], 'id': mascota['id'], 'nombre_mascota': mascota['nombre_mascota'],
-                              'tipo_mascota': mascota['tipo_mascota']})
-
-    print(seleccion)
-    return jsonify({'info': seleccion})
-
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
@@ -964,6 +981,30 @@ def remove(tipo, id):
         print('REMOVE S',lista_servicios_sel)
         lista = get_servicio(id)
     return jsonify({'info': lista})
+
+@app.route("/select/<email>")
+def usuario(email):
+    usuario = get_usuario('email', email)
+    print(usuario)
+    mascotas = get_lista_mascotas(usuario['id'])
+    seleccion = []
+    if not mascotas:
+        seleccion.append(
+            {'name': usuario['name'], 'id': '', 'nombre_mascota': '', 'tipo_mascota': ''})
+    else:
+        for mascota in mascotas:
+            seleccion.append({'name': usuario['name'], 'id': mascota['id'], 'nombre_mascota': mascota['nombre_mascota'],
+                              'tipo_mascota': mascota['tipo_mascota']})
+
+    print(seleccion)
+    return jsonify({'info': seleccion})
+
+@app.route("/mascota_select/<email>/<n_mascota>")
+def mascota_select(email, n_mascota):
+    usuario = get_usuario('email', email)
+    mascota = get_mascota(n_mascota, usuario['id'])
+    print(mascota)
+    return jsonify({'info': mascota})
 
 if __name__ == '__main__':
     app.run(debug=True)

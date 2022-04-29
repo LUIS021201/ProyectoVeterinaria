@@ -44,12 +44,10 @@ CREATE TABLE recetas(
 	client_id int unsigned NOT NULL,
 	doctor_id int unsigned NOT NULL,
 	mascota_id int unsigned NOT NULL,
-	medicamento_id int unsigned NOT NULL,
 	aplicacion varchar(500),
 	FOREIGN KEY (client_id) REFERENCES users (id),
 	FOREIGN KEY (doctor_id) REFERENCES users (id),
 	FOREIGN KEY (mascota_id) REFERENCES mascotas (id),
-	FOREIGN KEY (medicamento_id) REFERENCES medicinas (id),
 	PRIMARY KEY (id)
 ) ENGINE=MyISAM default char set=latin1;
 
@@ -101,5 +99,12 @@ CREATE TABLE medicinas_atencion (
 	atencion_id int unsigned NOT NULL,
 	medicinas_id int unsigned NOT NULL,
 	FOREIGN KEY (atencion_id) REFERENCES atenciones (id),
+	FOREIGN KEY (medicinas_id) REFERENCES medicinas (id)
+)ENGINE=MyISAM default char set=latin1;
+
+CREATE TABLE medicinas_receta (
+	receta_id int unsigned NOT NULL,
+	medicinas_id int unsigned NOT NULL,
+	FOREIGN KEY (receta_id) REFERENCES recetas (id),
 	FOREIGN KEY (medicinas_id) REFERENCES medicinas (id)
 )ENGINE=MyISAM default char set=latin1;

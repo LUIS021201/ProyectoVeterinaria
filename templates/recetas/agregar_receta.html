@@ -1,102 +1,96 @@
-{%  extends "base.html"  %}
-{%  set log = log %}
-{% block title %}Agregar receta
+{% extends "base.html" %}
+{% set log = log %}
+{% block title %}Agregar atención
 {% endblock %}
-
 {% block body %}
 {% include "navbar.html" %}
 
 <div class="row">
-    {% with path="/agregar_receta" %}
+    {% with path=request.path %}
     {% include "menu.html" %}
     {% endwith %}
-    <div class="col-lg-9 container my-5 text-center justify-content-center">
-        <h3 class="mb-3">Agregar Nueva Receta</h3>
+    <div class="col-lg-6 container text-center my-5">
+        <h3 class="" style="padding: 1rem;">Agregar una Receta</h3>
         <div class="container-sm">
             <form class="needs-validation" action="" method="POST">
-                <div class="input-group ">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" style="height: 3rem;"
-                               for="id_duenio">Dueño</label>
-                    </div>
-                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
-                            aria-label=".form-select-lg example"
-                            id="id_duenio" name="id_duenio">
-
-                        <option value="{{duenio['id']}}" selected>{{duenio['name']}}</option>
-
-                    </select>
-                </div>
-
-                <div class="input-group ">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" style="height: 3rem;"
-                               for="doctor">Doctor</label>
-                    </div>
-                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
-                            aria-label=".form-select-lg example"
-                            id="doctor" name="doctor">
-                        {% if usuario['type']=='admin' %}
-                            {% for doctor in lista_doctores %}
-                            <option value="{{doctor['id']}}">{{doctor['name']}}</option>
-                            {% endfor %}
-
-                        {% else %}
-                            <option value="{{usuario['user_id']}}" selected >{{usuario['name']}}</option>
-
-
-                        {% endif %}
-                    </select>
-                </div>
-
-                <div class="input-group ">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" style="height: 3rem;"
-                               for="mascota">Mascota</label>
-                    </div>
-                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
-                            aria-label=".form-select-lg example"
-                            id="mascota" name="mascota">
-
-                        {% for mascota in lista_mascotas %}
-                        <option value="{{mascota['id']}}">{{mascota['nombre_mascota']}}</option>
+                <div class="mb-3">
+                    <select name='doctor' class="form-select" name="lista" id="lista_doc">
+                        <option value="0" selected disabled>Seleccionar doctor...</option>
+                        {% for usr in lista_doctores %}
+                        <option value="{{usr['email']}}">{{usr['name']}}</option>
                         {% endfor %}
-
                     </select>
                 </div>
-                <div class="input-group ">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" style="height: 3rem;"
-                               for="medicina">Medicina</label>
-                    </div>
-                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
-                            aria-label=".form-select-lg example"
-                            id="medicina" name="medicina">
 
+                <div class="mb-3" id='sel_email'>
+
+
+                    <input class="form-control" id='email' type="email" placeholder="Ingrese el email del cliente..."
+                           list="lista_email" name="email" required onChange="get_data(this)"/>
+                    <datalist name="lista" id="lista_email">
+                        {% for usr in lista_usuarios %}
+                        <option value="{{usr['email']}}">{{usr['email']}}</option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+
+
+                <div id='dueno' class="form-floating mb-3">
+
+                    <input type="text" style="text-transform: capitalize;" placeholder="Nombre del dueño"
+                           class="form-control" id="nombre" required name="nombre">
+                    <label class="form-label" for="nombre">Nombre del dueño</label>
+
+                </div>
+                <div id='input_mascota' class="mb-3">
+                    <input id="m_input" placeholder="Nombre de la mascota" class="form-control"
+                            list="mascotas" name="mascota"
+                           onChange="get_data_masc(this)"/>
+
+
+                    <datalist id="mascotas">
+
+                    </datalist>
+                </div>
+
+                <div class="form-floating mb-3">
+
+                    <textarea type="text" style="height: 200px;" placeholder="Forma de aplicación"
+                           class="form-control" id="descripcion" required name="aplicacion"
+                           maxlength="500"></textarea>
+
+                    <label class="form-label" for="descripcion">Forma de aplicación</label>
+
+                </div>
+
+                <div class="row mb-3 text-start">
+                <label >Agrega las medicinas recetadas:</label>
+                    </div>
+                <div class="row mb-3">
+                <div class="col-5">
+                    <select class="form-control" name="medicinas" id="lista_medicinas">
+                        <option class="opcion" disabled selected>Seleccionar medicina...</option>
                         {% for medicina in lista_medicinas %}
                         <option value="{{medicina['id']}}">{{medicina['nombre']}}</option>
                         {% endfor %}
-
                     </select>
                 </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="validationServer01"
-                           placeholder="Escriba la aplicacion de la medicina" name="aplicacion">
-                    <label for="validationServer01">Forma de aplicación del medicamento</label>
+                <div class="col-1">
+                    <button onClick="add('MEDICINA')"  type="button" class="btn boton_pie" id="add_btn">+</button>
                 </div>
-                {% if usuario['type']!='cliente' %}
+                </div>
+               
+                <div id="lista" class="mb-3">
+                </div>
+
                 <div class="contenedor_btns">
-                    <input class="btn boton_pie" type="submit" name="enviar" value="Guardar Receta"> <h6
-                        style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
+                    <input class="btn boton_pie" type="submit" name="enviar" value="Agregar Receta">
                 </div>
-                {% endif %}
             </form>
+
         </div>
+
 
     </div>
 </div>
-
-
-{% endblock %}
-{% block footer %}
 {% endblock %}

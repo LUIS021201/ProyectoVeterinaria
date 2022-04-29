@@ -12,8 +12,19 @@
     {% endwith %}
     <div class="col-lg-9 container my-5 justify-content-center">
         <div class="mx-5 table-responsive">
-            <input class="form-control mb-3" type="text" id="searchbox" onkeyup="buscar()"
-                   placeholder="Buscar...">
+            <div class="row justify-content-between mb-3">
+                <div class="col-auto">
+                <input class="form-control" type="text" id="searchbox" onkeyup="buscar()"
+                       placeholder="Buscar...">
+                </div>
+                {% if session['type']!='cliente' %}
+
+                <div class="col-auto">
+                    <a href="/agregar_atencion" class="btn boton_pie">Agregar Atención</a>
+                </div>
+
+                {% endif %}
+            </div>
             <table id="table" class="table table-hover">
                 <thead class="table-light">
                 <tr>
@@ -51,7 +62,7 @@
                     <td>{{atencion['iva']}}</td>
                     <td>{{atencion['total']}}</td>
                     {% if lista_servicios %}
-                    <td><a onclick="solo_desplegar_uno('servicios{{atencion['id']}}')" class="btn btn-primary"
+                    <td><a onclick="solo_desplegar_uno(servicios[atencion['id']])" class="btn btn-primary"
                         data-bs-toggle="collapse" href="#servicios{{atencion['id']}}"
                         role="button"
                         aria-expanded="false" aria-controls="collapseExample">
@@ -60,11 +71,11 @@
                     {% else %}
                     <td>Ningún Servicio</td>
 
-                    {% endif %}
+                    {% endif %} -->
 
 
                     {% if lista_meds %}
-                    <td><a onclick="solo_desplegar_uno('medicinas{{atencion['id']}}')" class="btn btn-primary"
+                    <td><a onclick="solo_desplegar_uno(medicinas[atencion['id']])" class="btn btn-primary"
                         data-bs-toggle="collapse" href="#medicinas{{atencion['id']}}"
                         role="button"
                         aria-expanded="false" aria-controls="collapseExample">
@@ -75,7 +86,7 @@
                     {% else %}
                     <td>Ninguna Medicina</td>
 
-                    {% endif %}
+                    {% endif %} -->
                     <!--                    {% for serv in lista_servicios %}-->
                     <!--                    <td>{{serv['nombre']}}</td>-->
                     <!--                    <td>{{serv['precio']}}</td>-->
@@ -175,9 +186,6 @@
             </div>
 
             {% endfor %}
-            {% if session['type']!='cliente' %}
-            <a href="/agregar_atencion" class="btn boton_pie">Agregar atencion</a>
-            {% endif %}
         </div>
 
 
@@ -187,44 +195,4 @@
 
 {% endblock %}
 {% block footer %}
-<script>
-    function solo_desplegar_uno(id) {
-        // Declare variables
-        var tabla_recetas, num_tr, div_medicinas, div_servicios;
-        tabla_recetas = document.getElementById("table");
-        num_tr = tabla_recetas.getElementsByTagName("tr").length  ;
-        console.log("El id es:"+ id)
-        for (let k = 1; k < num_tr; k++) {
-            div_medicinas = document.getElementById("medicinas"+k);
-            div_servicios = document.getElementById("servicios"+k);
-            if ("medicinas"+k === id) {
-                if (div_medicinas.className === 'collapse'){
-                                    div_medicinas.className = "collapse show";
-
-                }else{
-                    div_medicinas.className = "collapse";
-                }
-            } else {
-                div_medicinas.className = "collapse";
-            }
-            if ("servicios"+k === id) {
-                if (div_servicios.className === 'collapse'){
-                                    div_servicios.className = "collapse show";
-
-                }else{
-                    div_servicios.className = "collapse";
-                }
-            } else {
-                div_servicios.className = "collapse"
-            }
-
-            // div_servicios.style.display = "none";
-            // div_medicinas.style.display = "none";
-        }
-
-
-
-
-    }
-</script>
 {% endblock %}

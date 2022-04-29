@@ -20,7 +20,7 @@
         <h1 class="h2">Informe de Ventas</h1>
 
             <form class="btn-toolbar mb-2 mb-md-0", action="", method="POST">
-              <button type="button" class="me-2 btn btn-sm btn-outline-secondary" >Exportar</button>
+              <button type="button" class="me-2 btn btn-sm btn-outline-secondary" onclick="print()">Exportar</button>
 
                 <div class="dropdown">
                 <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -111,36 +111,6 @@
 
         </div>
         
-      <h4 class="mx-2 pt-3 pb-2 mb-3 border-bottom">Clientes nuevos</h4>
-        <div class="mx-2 table-responsive">
-            <input class="form-control mb-2" type="text" id="searchbox" onkeyup="buscar();"
-                   placeholder="Buscar...">
-            <table id="table" class="table table-hover">
-                <thead class="table-light">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Modificar</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    {% for usuario in lista_usuarios %}
-                    <th scope="row">{{usuario['id']}}</th>
-                    <td>{{usuario['name']}}</td>
-                    <td>{{usuario['email']}}</td>
-                    <td>{{usuario['username']}}</td>
-                    <td><a href="/mod_usuario/{{usuario['username']}}" class="btn boton_pie">Modificar</a></td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-
-
         <h4 class="mx-2 pt-3 pb-2 mb-3 border-bottom">Atenciones</h4>
             <div class="mx-2 table-responsive">
                 <input class="form-control mb-2" type="text" id="searchbox2" onkeyup="buscar();"
@@ -151,18 +121,11 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Fecha</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Mascota</th>
-                        <th scope="col">Tipo de mascota</th>
-                        <th scope="col">Descripción</th>
+                        <th scope="col">Servicio</th>
+                        <th scope="col">Medicina</th>
                         <th scope="col">Subtotal</th>
                         <th scope="col">IVA</th>
                         <th scope="col">Total</th>
-                        <th scope="col">Servicio</th>
-                        <th scope="col">Costo de servicio</th>
-                        <th scope="col">Medicina</th>
-                        <th scope="col">Costo Medicina</th>
-                        <th scope="col">Presentación</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -170,46 +133,70 @@
                         {% for atencion in lista_atenciones %}
                         <th scope="row">{{atencion['id']}}</th>
                         <td>{{atencion['fecha']}}</td>
-                        <td>{{atencion['cliente']}}</td>
-                        <td>{{atencion['nombre_mascota']}}</td>
-                        <td>{{atencion['tipo_mascota']}}</td>
-                        <td>{{atencion['descripcion']}}</td>
+                        <td>
+                          {% for servicio in lista_servicios %}
+                          {% if servicio['atencion_id'] == atencion['id']%}
+                          <p>{{servicio['nombre']}} - {{servicio['precio']}}</p>
+                          {% endif %}
+                          {% endfor %}
+                      </td>
+                      <td>
+                        {% for medicina in lista_meds %}
+                        {% if medicina['atencion_id'] == atencion['id']%}
+                        <p>{{medicina['nombre']}} - {{medicina['precio']}}</p>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
                         <td>{{atencion['subtotal']}}</td>
                         <td>{{atencion['iva']}}</td>
                         <td>{{atencion['total']}}</td>
-                        {% for serv in lista_servicios %}
-                        <td>{{serv['nombre']}}</td>
-                        <td>{{serv['precio']}}</td>
-                        {% endfor %}
-                        {% for med in lista_meds %}
-                        {% if med['atencion_id'] == atencion['id']%}
-
-                        <td>{{med['nombre']}}</td>
-                        <td>{{med['precio']}}</td>
-                        <td>{{med['presentacion']}}</td>
-                        {% endif %}
-                        {% endfor %}
-
+                        
 
                     </tr>
                     {% endfor %}
                     <tr>
-                        <td></td>
-                                                <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>{{total_atenciones_subtotal}}</td>
-                        <td>{{total_atenciones_iva}}</td>
-                        <td>{{total_atenciones_total}}</td>
-
-
+                      <th scope="col">Total</th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                      <th scope="col">{{total_atenciones_subtotal}}</th>
+                      <th scope="col">{{total_atenciones_iva}}</th>
+                      <th scope="col">{{total_atenciones_total}}</th>
                     </tr>
                     </tbody>
                 </table>
             </div>
+
+            <h4 class="mx-2 pt-3 pb-2 mb-3 border-bottom">Clientes nuevos</h4>
+            <div class="mx-2 table-responsive">
+                <input class="form-control mb-2" type="text" id="searchbox" onkeyup="buscar();"
+                       placeholder="Buscar...">
+                <table id="table" class="table table-hover">
+                    <thead class="table-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Modificar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% for usuario in lista_usuarios %}
+                        <th scope="row">{{usuario['id']}}</th>
+                        <td>{{usuario['name']}}</td>
+                        <td>{{usuario['email']}}</td>
+                        <td>{{usuario['username']}}</td>
+                        <td><a href="/mod_usuario/{{usuario['username']}}" class="btn boton_pie">Modificar</a></td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
+            </div>
+
+            
             </div>
 
             
