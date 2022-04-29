@@ -198,14 +198,24 @@
             div_medicinas = document.getElementById("medicinas"+k);
             div_servicios = document.getElementById("servicios"+k);
             if ("medicinas"+k === id) {
-                div_medicinas.style.display = "";
+                if (div_medicinas.className === 'collapse'){
+                                    div_medicinas.className = "collapse show";
+
+                }else{
+                    div_medicinas.className = "collapse";
+                }
             } else {
-                div_medicinas.style.display = "none";
+                div_medicinas.className = "collapse";
             }
             if ("servicios"+k === id) {
-                div_servicios.style.display = "";
+                if (div_servicios.className === 'collapse'){
+                                    div_servicios.className = "collapse show";
+
+                }else{
+                    div_servicios.className = "collapse";
+                }
             } else {
-                div_servicios.style.display = "none"
+                div_servicios.className = "collapse"
             }
 
             // div_servicios.style.display = "none";

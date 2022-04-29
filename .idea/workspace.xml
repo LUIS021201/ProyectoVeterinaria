@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="487affaf-6cc8-4e9a-a519-f3ab67625ddf" name="Changes" comment="Corregir query para acceder a las citas de un usuario en específico">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_13_04_2022_11_45_a__m__[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_13_04_2022_11_45_a__m___Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/atencion.py" beforeDir="false" afterPath="$PROJECT_DIR$/atencion.py" afterDir="false" />
+    <list default="true" id="487affaf-6cc8-4e9a-a519-f3ab67625ddf" name="Changes" comment="Corregir apariencia de historial de atenciones. Agregar metod de js para mostra servicios y medicamentos de atenciones">
       <change beforePath="$PROJECT_DIR$/templates/atenciones/lista_atenciones.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/atenciones/lista_atenciones.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -188,7 +184,7 @@
       <workItem from="1650729223141" duration="7070000" />
       <workItem from="1650762211357" duration="1843000" />
       <workItem from="1651080412669" duration="3314000" />
-      <workItem from="1651214090700" duration="5382000" />
+      <workItem from="1651214090700" duration="5783000" />
     </task>
     <task id="LOCAL-00001" summary="Cambiar contraseña(sin bd) pd todavia no se como usar la bd">
       <created>1649755793121</created>
@@ -330,7 +326,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651082445081</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Corregir apariencia de historial de atenciones. Agregar metod de js para mostra servicios y medicamentos de atenciones">
+      <created>1651219799840</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1651219799840</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -376,7 +379,8 @@
     <MESSAGE value="Corregir problemas por falta de información al momento de agregar una receta." />
     <MESSAGE value="Agregar metodo &quot;recetas()&quot; a app.py. Agregar metodo &quot;get_lista_recetas()&quot; a recetas.py para obtener datos de las recetas. Agregar template lista_recetas.html." />
     <MESSAGE value="Corregir metodos de historiales para que los usuarios accedan a la informacion segun sus permisos" />
-    <option name="LAST_COMMIT_MESSAGE" value="Corregir metodos de historiales para que los usuarios accedan a la informacion segun sus permisos" />
+    <MESSAGE value="Corregir apariencia de historial de atenciones. Agregar metod de js para mostra servicios y medicamentos de atenciones" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corregir apariencia de historial de atenciones. Agregar metod de js para mostra servicios y medicamentos de atenciones" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ProyectoVeterinaria$ProyectoVeterinaria.coverage" NAME="ProyectoVeterinaria Coverage Results" MODIFIED="1651214817302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
