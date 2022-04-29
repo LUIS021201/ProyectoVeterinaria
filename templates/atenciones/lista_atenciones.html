@@ -26,13 +26,14 @@
                     <th scope="col">Subtotal</th>
                     <th scope="col">IVA</th>
                     <th scope="col">Total</th>
-                    <th scope="col">Servicio</th>
-                    <th scope="col">Costo de servicio</th>
-                    <th scope="col">Medicina</th>
-                    <th scope="col">Costo Medicina</th>
-                    <th scope="col">Presentación</th>
+                    <th scope="col">Servicios</th>
+                    <th scope="col">Medicinas</th>
+                    <!--                    <th scope="col">Servicio</th>-->
+                    <!--                    <th scope="col">Costo de servicio</th>-->
+                    <!--                    <th scope="col">Medicina</th>-->
+                    <!--                    <th scope="col">Costo Medicina</th>-->
+                    <!--                    <th scope="col">Presentación</th>-->
                     <th scope="col">PDF</th>
-
 
 
                 </tr>
@@ -49,25 +50,131 @@
                     <td>{{atencion['subtotal']}}</td>
                     <td>{{atencion['iva']}}</td>
                     <td>{{atencion['total']}}</td>
-                    {% for serv in lista_servicios %}
-                    <td>{{serv['nombre']}}</td>
-                    <td>{{serv['precio']}}</td>
-                    {% endfor %}
-                    {% for med in lista_meds %}
-                    {% if med['atencion_id'] == atencion['id']%}
+                    {% if lista_servicios %}
+                    <td><a onclick="solo_desplegar_uno('servicios{{atencion['id']}}')" class="btn btn-primary"
+                        data-bs-toggle="collapse" href="#servicios{{atencion['id']}}"
+                        role="button"
+                        aria-expanded="false" aria-controls="collapseExample">
+                        Ver Servicios
+                        </a></td>
+                    {% else %}
+                    <td>Ningún Servicio</td>
 
-                    <td>{{med['nombre']}}</td>
-                    <td>{{med['precio']}}</td>
-                    <td>{{med['presentacion']}}</td>
                     {% endif %}
-                    {% endfor %}
+
+
+                    {% if lista_meds %}
+                    <td><a onclick="solo_desplegar_uno('medicinas{{atencion['id']}}')" class="btn btn-primary"
+                        data-bs-toggle="collapse" href="#medicinas{{atencion['id']}}"
+                        role="button"
+                        aria-expanded="false" aria-controls="collapseExample">
+
+
+                        Ver Medicinas
+                        </a></td>
+                    {% else %}
+                    <td>Ninguna Medicina</td>
+
+                    {% endif %}
+                    <!--                    {% for serv in lista_servicios %}-->
+                    <!--                    <td>{{serv['nombre']}}</td>-->
+                    <!--                    <td>{{serv['precio']}}</td>-->
+                    <!--                    {% endfor %}-->
+                    <!--                    {% for med in lista_meds %}-->
+                    <!--                    {% if med['atencion_id'] == atencion['id']%}-->
+
+                    <!--                    <td>{{med['nombre']}}</td>-->
+                    <!--                    <td>{{med['precio']}}</td>-->
+                    <!--                    <td>{{med['presentacion']}}</td>-->
+                    <!--                    {% endif %}-->
+                    <!--                    {% endfor %}-->
+                    <!--                    <p>-->
+                    <!--                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"-->
+                    <!--                           aria-expanded="false" aria-controls="collapseExample">-->
+                    <!--                            Link with href-->
+                    <!--                        </a>-->
+
+                    <!--                    </p>-->
+
+
                     <td><a href="#" class="btn boton_pie">Descargar PDF</a></td>
 
 
                 </tr>
                 {% endfor %}
                 </tbody>
+
             </table>
+            {% for atencion in lista_atenciones %}
+            <div class="collapse" id="servicios{{atencion['id']}}">
+                <div class="card card-body">
+
+                    <table id="table1" class="table table-hover">
+                        <thead class="table-light">
+                        <tr>
+                            <th scope="col">Servicio</th>
+                            <th scope="col">Costo de servicio</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for serv in lista_servicios %}
+                        <tr>
+
+
+                            {% if serv['atencion_id'] == atencion['id']%}
+                            <td>{{serv['nombre']}}</td>
+                            <td>{{serv['precio']}}</td>
+                            {% endif %}
+
+
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+
+            <div class="collapse" id="medicinas{{atencion['id']}}">
+                <div class="card card-body">
+
+                    <table id="table2" class="table table-hover">
+                        <thead class="table-light">
+                        <tr>
+
+                            <th scope="col">Medicina</th>
+                            <th scope="col">Costo de Medicina</th>
+                            <th scope="col">Presentacion</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+
+
+                            {% for med in lista_meds %}
+                            {% if med['atencion_id'] == atencion['id']%}
+
+                            <td>{{med['nombre']}}</td>
+                            <td>{{med['precio']}}</td>
+                            <td>{{med['presentacion']}}</td>
+                            {% endif %}
+                            {% endfor %}
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+
+            {% endfor %}
             {% if session['type']!='cliente' %}
             <a href="/agregar_atencion" class="btn boton_pie">Agregar atencion</a>
             {% endif %}
@@ -78,8 +185,36 @@
 </div>
 
 
-
-
 {% endblock %}
 {% block footer %}
+<script>
+    function solo_desplegar_uno(id) {
+        // Declare variables
+        var tabla_recetas, num_tr, div_medicinas, div_servicios;
+        tabla_recetas = document.getElementById("table");
+        num_tr = tabla_recetas.getElementsByTagName("tr").length  ;
+        console.log("El id es:"+ id)
+        for (let k = 1; k < num_tr; k++) {
+            div_medicinas = document.getElementById("medicinas"+k);
+            div_servicios = document.getElementById("servicios"+k);
+            if ("medicinas"+k === id) {
+                div_medicinas.style.display = "";
+            } else {
+                div_medicinas.style.display = "none";
+            }
+            if ("servicios"+k === id) {
+                div_servicios.style.display = "";
+            } else {
+                div_servicios.style.display = "none"
+            }
+
+            // div_servicios.style.display = "none";
+            // div_medicinas.style.display = "none";
+        }
+
+
+
+
+    }
+</script>
 {% endblock %}

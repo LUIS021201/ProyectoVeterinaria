@@ -9,19 +9,24 @@ def insertar_atencion(fecha, user_id, mascota_id, descripcion, subtotal, iva, to
     conexion.commit()
     conexion.close()
 
+
 def get_suma_atenciones(fecha1, fecha2):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT SUM(total), SUM(iva), SUM(subtotal) FROM atenciones WHERE (fecha BETWEEN %s and %s)", (fecha1, fecha2))
+        cursor.execute("SELECT SUM(total), SUM(iva), SUM(subtotal) FROM atenciones WHERE (fecha BETWEEN %s and %s)",
+                       (fecha1, fecha2))
         atencion = cursor.fetchone()
     conexion.commit()
     conexion.close()
     return atencion
 
-def get_suma_atenciones_mes(anio,mes):
+
+def get_suma_atenciones_mes(anio, mes):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT SUM(total), SUM(iva), SUM(subtotal) FROM atenciones WHERE (YEAR(fecha) =  %s and MONTH(fecha)= %s)", (anio, mes))
+        cursor.execute(
+            "SELECT SUM(total), SUM(iva), SUM(subtotal) FROM atenciones WHERE (YEAR(fecha) =  %s and MONTH(fecha)= %s)",
+            (anio, mes))
         atencion = cursor.fetchone()
     conexion.commit()
     conexion.close()
@@ -144,24 +149,28 @@ def get_lista_atenciones() -> list:
     conexion.close()
     return lista
 
+
 def get_lista_atenciones_fechas(fecha1, fecha2) -> list:
     conexion = obtener_conexion()
     lista = []
     with conexion.cursor() as cursor:
         cursor.execute(
-            "SELECT a.id, a.fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE (fecha BETWEEN %s and %s) and u.id=a.user_id and m.id=a.mascota_id", (fecha1, fecha2))
+            "SELECT a.id, a.fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE (fecha BETWEEN %s and %s) and u.id=a.user_id and m.id=a.mascota_id",
+            (fecha1, fecha2))
         lista = cursor.fetchall()
 
     conexion.commit()
     conexion.close()
     return lista
 
+
 def get_lista_atenciones_mes(anio, mes) -> list:
     conexion = obtener_conexion()
     lista = []
     with conexion.cursor() as cursor:
         cursor.execute(
-            "SELECT a.id, a.fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE (YEAR(fecha) =  %s and MONTH(fecha)= %s) and u.id=a.user_id and m.id=a.mascota_id", (anio, mes))
+            "SELECT a.id, a.fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE (YEAR(fecha) =  %s and MONTH(fecha)= %s) and u.id=a.user_id and m.id=a.mascota_id",
+            (anio, mes))
         lista = cursor.fetchall()
 
     conexion.commit()
@@ -174,7 +183,8 @@ def get_lista_atenciones_por_usuario(user_id) -> list:
     lista = []
     with conexion.cursor() as cursor:
         cursor.execute(
-            "SELECT a.id, a.fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE u.id=a.user_id and m.id=a.mascota_id and a.user_id=%s ORDER BY a.fecha desc",(user_id))
+            "SELECT a.id, a.fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE u.id=a.user_id and m.id=a.mascota_id and a.user_id=%s ORDER BY a.fecha desc",
+            (user_id))
         lista = cursor.fetchall()
 
     conexion.commit()
