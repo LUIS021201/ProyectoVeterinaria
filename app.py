@@ -612,7 +612,8 @@ def agregar_atencion():
                     nombre = request.form['nombre']
                     n_mascota = request.form['mascota']
                     descripcion = request.form['descripcion']
-                    fecha = request.form['fecha']
+                    fecha_hoy = get_cur_datetime()
+                    fecha=fecha_hoy['now']
                     subtotal = request.form['subtotal']
                     iva = request.form['iva']
                     total = request.form['total']
@@ -633,7 +634,7 @@ def agregar_atencion():
                 
                     mascota = get_mascota(n_mascota, usr['id'])
 
-                    insertar_atencion(fecha, usr['id'], mascota['id'], descripcion, subtotal, iva, total)
+                    insertar_atencion(usr['id'], mascota['id'], descripcion, subtotal, iva, total)
                     print(lista_servicios_sel)
                     a = get_atencion(fecha, usr['id'], mascota['id'])
                     agregar_servicios_y_meds(a['id'],lista_servicios_sel,lista_medicinas_sel)
@@ -796,14 +797,30 @@ def informe_ventas_diario():
                     total_atenciones_iva = suma['SUM(iva)']
                     total_atenciones_total = suma['SUM(total)']
                     print(desde, hasta, suma)
-
+                    datos_tabla1 = get_valores_tabla_horas(1)
+                    datos_tabla2 = get_valores_tabla_horas(2)
+                    datos_tabla3 = get_valores_tabla_horas(3)
+                    datos_tabla4 = get_valores_tabla_horas(4)
+                    datos_tabla5 = get_valores_tabla_horas(5)
+                    if datos_tabla1['sum(total)'] == None:
+                        datos_tabla1['sum(total)'] = 0
+                    if datos_tabla2['sum(total)'] == None:
+                        datos_tabla2['sum(total)'] = 0
+                    if datos_tabla3['sum(total)'] == None:
+                        datos_tabla3['sum(total)'] = 0
+                    if datos_tabla4['sum(total)'] == None:
+                        datos_tabla4['sum(total)'] = 0
+                    if datos_tabla5['sum(total)'] == None:
+                        datos_tabla5['sum(total)'] = 0
                     return render_template("reporte/reporte.html", lista_usuarios=usuarios,
                                            total_atenciones_subtotal=total_atenciones_subtotal,
                                            total_atenciones_iva=total_atenciones_iva,
                                            total_atenciones_total=total_atenciones_total,
                                            lista_atenciones=atenciones, lista_servicios=servicios,
-                                           lista_meds=medicinas, tipo='Diario', 
-                                            date=fecha['now'])
+                                           lista_meds=medicinas, tipo='Diario',
+                                            date=fecha['now'],
+                                           dato1=datos_tabla1['sum(total)'], dato2=datos_tabla2['sum(total)'], dato3=datos_tabla3['sum(total)'],
+                                           dato4=datos_tabla4['sum(total)'], dato5=datos_tabla5['sum(total)'])
 
                 if request.method == 'POST':
                     fecha = request.form['fecha']
@@ -851,13 +868,24 @@ def informe_ventas_mensual():
                     total_atenciones_iva = suma['SUM(iva)']
                     total_atenciones_total = suma['SUM(total)']
                     print(año, hasta, suma)
-
+                    datos_tabla1 = get_valores_tabla(1)
+                    datos_tabla2 = get_valores_tabla(2)
+                    datos_tabla3 = get_valores_tabla(3)
+                    datos_tabla4 = get_valores_tabla(4)
+                    datos_tabla5 = get_valores_tabla(5)
+                    datos_tabla1['sum(total)'] = 0
+                    datos_tabla2['sum(total)'] = 0
+                    datos_tabla3['sum(total)'] = 0
+                    datos_tabla4['sum(total)'] = 0
+                    datos_tabla5['sum(total)'] = 0
                     return render_template("reporte/reporte.html", lista_usuarios=usuarios,
                                            total_atenciones_subtotal=total_atenciones_subtotal,
                                            total_atenciones_iva=total_atenciones_iva,
                                            total_atenciones_total=total_atenciones_total,
                                            lista_atenciones=atenciones, lista_servicios=servicios,
-                                           lista_meds=medicinas, tipo='Mensual', date=fecha['now'])
+                                           lista_meds=medicinas, tipo='Mensual',  date=fecha['now'],
+                                           dato1=datos_tabla1['sum(total)'], dato2=datos_tabla2['sum(total)'], dato3=datos_tabla3['sum(total)'],
+                                           dato4=datos_tabla4['sum(total)'], dato5=datos_tabla5['sum(total)'])
                 if request.method == 'POST':
 
                     mes1=request.form['mes']
@@ -874,13 +902,29 @@ def informe_ventas_mensual():
                     total_atenciones_iva = suma['SUM(iva)']
                     total_atenciones_total = suma['SUM(total)']
                     print(anio, mes, suma)
-
+                    datos_tabla1 = get_valores_tabla(1)
+                    datos_tabla2 = get_valores_tabla(2)
+                    datos_tabla3 = get_valores_tabla(3)
+                    datos_tabla4 = get_valores_tabla(4)
+                    datos_tabla5 = get_valores_tabla(5)
+                    if datos_tabla1['sum(total)'] == None:
+                        datos_tabla1['sum(total)'] = 0
+                    if datos_tabla2['sum(total)'] == None:
+                        datos_tabla2['sum(total)'] = 0
+                    if datos_tabla3['sum(total)'] == None:
+                        datos_tabla3['sum(total)'] = 0
+                    if datos_tabla4['sum(total)'] == None:
+                        datos_tabla4['sum(total)'] = 0
+                    if datos_tabla5['sum(total)'] == None:
+                        datos_tabla5['sum(total)'] = 0
                     return render_template("reporte/reporte.html", lista_usuarios=usuarios,
                                            total_atenciones_subtotal=total_atenciones_subtotal,
                                            total_atenciones_iva=total_atenciones_iva,
                                            total_atenciones_total=total_atenciones_total,
                                            lista_atenciones=atenciones, lista_servicios=servicios,
-                                           lista_meds=medicinas, tipo='Mensual', date=mes1)
+                                           lista_meds=medicinas, tipo='Mensual', date=mes1,
+                                           dato1=datos_tabla1['sum(total)'], dato2=datos_tabla2['sum(total)'], dato3=datos_tabla3['sum(total)'],
+                                           dato4=datos_tabla4['sum(total)'], dato5=datos_tabla5['sum(total)'])
 
             else:
                 abort(403)

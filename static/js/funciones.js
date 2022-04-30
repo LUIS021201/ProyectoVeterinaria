@@ -124,6 +124,104 @@ function add(type) {
     });
   });
 }
+function tabla_dia() {
+  'use strict'
+
+  feather.replace({ 'aria-hidden': 'true' })
+
+  // Graphs
+  var ctx = document.getElementById('myChart')
+  // eslint-disable-next-line no-unused-vars
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [
+        '00-04 hrs',
+        '05-09 hrs',
+        '10-14 hrs',
+        '15-19 hrs',
+        '20-24 hrs'
+      ],
+      datasets: [{
+        data: [
+          15339,
+          21345,
+          18483,
+          24003,
+          23489,
+          24092,
+          12034
+        ],
+        lineTension: 0,
+        backgroundColor: 'transparent',
+        borderColor: '#007bff',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: false
+          }
+        }]
+      },
+      legend: {
+        display: false
+      }
+    }
+  })
+}
+
+function tabla_mes(valor1,valor2,valor3,valor4,valor5, nombre1,nombre2,nombre3,nombre4,nombre5) {
+  'use strict'
+
+  feather.replace({ 'aria-hidden': 'true' })
+
+  // Graphs
+  var ctx = document.getElementById('myChart')
+  // eslint-disable-next-line no-unused-vars
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [
+        'Semana 1',
+        'Semana 2',
+        'Semana 3',
+        'Semana 4',
+        'Semana 5'
+      ],
+      datasets: [{
+        data: [
+          valor1,
+          valor2,
+          valor3,
+          valor4,
+          valor5
+        ],
+        lineTension: 0,
+        backgroundColor: 'transparent',
+        borderColor: '#007bff',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: false
+          }
+        }]
+      },
+      legend: {
+        display: false
+      }
+    }
+  })
+}
+
 
 function remove(elem) {
   id = elem.id;
