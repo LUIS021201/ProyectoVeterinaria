@@ -7,7 +7,7 @@
 {% include "navbar.html" %}
 
 
-  <body onload="tabla();">
+  <body onload="tabla()">
 
     <!-- Template de la gráfica conseguido de Bootstrap -->
 
@@ -15,12 +15,12 @@
 			{% with path=request.path %}
 			{% include "menu.html" %}
 			{% endwith %}
-			<div class="col-lg-8 container my-5 " >
+			<div class="col-lg-8 container my-5">
       <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Informe de Ventas</h1>
 
             <form class="btn-toolbar mb-2 mb-md-0", action="", method="POST">
-              <button type="button" class="me-2 btn btn-sm btn-outline-secondary" onclick="print()">Exportar</button>
+              <button type="button" class="me-2 btn btn-sm btn-outline-secondary" onclick="download('Informe{{tipo}}{{date}}')">Exportar</button>
 
                 <div class="dropdown">
                 <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -40,23 +40,20 @@
           <div class="row justify-content-between mx-2">
             <div class="col-6">
                 <form class="fechas_validation" action="" method="POST">
-                {% if bandera_rango == False and bandera_mes == False%}
+                {% if tipo=='Diario'%}
                 <div class="form-floating mb-3">
-                    <input type="date" class="form-control"  id="validationServer04" required name="desde" readonly
-                           , value="{{today}}">
-                    <label for="validationServer04">Desde</label>
+                    <input type="date" class="form-control"  id="validationServer04" required name="fecha"
+                            value="{{date}}">
+                    <label for="validationServer04">Fecha</label>
                 </div>
-                <div class="form-floating mb-3">
-                    <input type="date" class="form-control" id="validationServer05" required name="hasta" readonly
-                           , value="{{today}}">
-                    <label for="validationServer04">Hasta</label>
-                </div>
+                <input class="campo_login btn boton_login" type="submit" name="enviar" value="Enviar">
+
                 </form>
                 {% endif %}
-                {% if bandera_rango == True and bandera_mes == False%}
+                {% if tipo=='Rango'%}
                 <div class="form-floating mb-3">
                     <input type="date" class="form-control" id="validationServer04" required name="desde"
-                           value="{{date_desde}}">
+                           value="{{date}}">
                     <label for="validationServer04">Desde</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -69,11 +66,11 @@
                 {% endif %}
                 <h3>{{mensaje}}</h3>
 
-                {% if bandera_rango == False and bandera_mes == True %}
+                {% if tipo=="Mensual" %}
                  <div class="form-floating mb-3">
-                    <input type="month" class="form-control" id="validationServer04" required name="mes"
-                           value="{{date_today}}">
-                    <label for="validationServer04">Mes</label>
+                    <input type="date" class="form-control" id="validationServer04" required name="mes"
+                           value="{{date}}">
+                    <label for="validationServer04">Fecha</label>
                 </div>
                 <br>
                 <input class="campo_login btn boton_login" type="submit" name="enviar" value="Enviar">
@@ -110,13 +107,16 @@
 
 
         </div>
-        
-        <h4 class="mx-2 pt-3 pb-2 mb-3 border-bottom">Atenciones</h4>
+        <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+        <h4 class="">Atenciones</h4>
+      
+      </div>
             <div class="mx-2 table-responsive">
-                <input class="form-control mb-2" type="text" id="searchbox2" onkeyup="buscar();"
+                <input class="form-control mb-2" type="text" id="searchbox2" onkeyup="buscar('searchbox2','reporte_{{tipo}}')"
                        placeholder="Buscar...">
 
-                <table id="table2" class="table table-hover">
+                <table id="Informe{{tipo}}{{date}}" class="table table-hover">
                     <thead class="table-light">
                     <tr>
                         <th scope="col">#</th>
@@ -166,10 +166,9 @@
                     </tbody>
                 </table>
             </div>
-
             <h4 class="mx-2 pt-3 pb-2 mb-3 border-bottom">Clientes nuevos</h4>
             <div class="mx-2 table-responsive">
-                <input class="form-control mb-2" type="text" id="searchbox" onkeyup="buscar();"
+                <input class="form-control mb-2" type="text" id="searchbox" onkeyup="buscar('searchbox','table')"
                        placeholder="Buscar...">
                 <table id="table" class="table table-hover">
                     <thead class="table-light">
@@ -194,6 +193,7 @@
                     </tbody>
                 </table>
             </div>
+        
             </div>
 
             

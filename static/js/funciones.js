@@ -52,7 +52,34 @@ function get_data_masc(elem) {
   });
 }
 
+function download(id) {
+  var doc = new jsPDF('p', 'pt');
+  headerImgData = document.getElementById('myChart');
 
+
+  var header = function(data) {
+    doc.setFontSize(18);
+    doc.setTextColor(40);
+    doc.setFontStyle('normal');
+    doc.addImage(headerImgData, 'PNG', data.settings.margin.left, 60, 500, 250);
+    doc.text("Informe de Ventas", data.settings.margin.left, 50);
+  };
+
+  var res = doc.autoTableHtmlToJson(document.getElementById(id));
+  var options = {
+    beforePageContent: header,
+    
+    startY: doc.autoTableEndPosY() + 320
+  };
+
+  doc.autoTable(res.columns, res.data, options);
+
+  
+
+  
+
+  doc.save(id+".pdf");
+}
 
 function add(type) {
   var elem;
@@ -178,13 +205,12 @@ function tabla() {
   });
 }
 
-function buscar() {
+function buscar(id, table_id) {
   // Declare variables
   var input, filter, table, tr, td, i, txtValue, j,count,tamanio;
-
-  input = document.getElementById("searchbox");
+  input = document.getElementById(id);
   filter = input.value.toLowerCase();
-  table = document.getElementById("table");
+  table = document.getElementById(table_id);
   tr = table.getElementsByTagName("tr");
 
   // Loop through all table rows, and hide those who don't match the search query

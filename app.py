@@ -784,8 +784,6 @@ def informe_ventas_diario():
         if session['logged_in']:
             if session['type'] == 'admin':
                 if request.method == 'GET' :
-                    bandera_rango=False
-                    bandera_mes = False
                     fecha = get_cur_datetime()
                     desde = fecha['now']
                     hasta = fecha['now']
@@ -804,11 +802,29 @@ def informe_ventas_diario():
                                            total_atenciones_iva=total_atenciones_iva,
                                            total_atenciones_total=total_atenciones_total,
                                            lista_atenciones=atenciones, lista_servicios=servicios,
-                                           lista_meds=medicinas, tipo='Diario', bandera_rango=bandera_rango,
-                                            today=fecha['now'], bandera_mes=bandera_mes)
+                                           lista_meds=medicinas, tipo='Diario', 
+                                            date=fecha['now'])
 
                 if request.method == 'POST':
-                    abort(403)
+                    fecha = request.form['fecha']
+
+                    atenciones = get_lista_atenciones_fechas(fecha, fecha)
+                    usuarios = get_lista_usuarios_fechas(fecha, fecha)
+                    servicios = get_lista_serv_de_atenciones()
+                    medicinas = get_lista_meds_de_atenciones()
+                    suma = get_suma_atenciones(fecha, fecha)
+                    total_atenciones_subtotal = suma['SUM(subtotal)']
+                    total_atenciones_iva = suma['SUM(iva)']
+                    total_atenciones_total = suma['SUM(total)']
+                    print(fecha, fecha, suma)
+
+                    return render_template("reporte/reporte.html", lista_usuarios=usuarios,
+                                           total_atenciones_subtotal=total_atenciones_subtotal,
+                                           total_atenciones_iva=total_atenciones_iva,
+                                           total_atenciones_total=total_atenciones_total,
+                                           lista_atenciones=atenciones, lista_servicios=servicios,
+                                           lista_meds=medicinas, tipo='Diario',
+                                            date=fecha)
             else:
                 abort(403)
         else:
@@ -823,8 +839,6 @@ def informe_ventas_mensual():
         if session['logged_in']:
             if session['type'] == 'admin':
                 if request.method == 'GET':
-                    bandera_rango=False
-                    bandera_mes=True
                     fecha = get_cur_datetime()
                     año = fecha['now']
                     hasta = fecha['now']
@@ -843,16 +857,12 @@ def informe_ventas_mensual():
                                            total_atenciones_iva=total_atenciones_iva,
                                            total_atenciones_total=total_atenciones_total,
                                            lista_atenciones=atenciones, lista_servicios=servicios,
-                                           lista_meds=medicinas, tipo='Mensual', bandera_rango=bandera_rango,
-                                           bandera_mes=bandera_mes)
+                                           lista_meds=medicinas, tipo='Mensual', date=fecha['now'])
                 if request.method == 'POST':
 
                     mes1=request.form['mes']
                     mes=mes1.split("-")
                     print(mes)
-                    bandera_rango = False
-                    bandera_mes = True
-
                     anio = mes[0]
                     mes = mes[1]
                     atenciones = get_lista_atenciones_mes(anio, mes)
@@ -870,8 +880,7 @@ def informe_ventas_mensual():
                                            total_atenciones_iva=total_atenciones_iva,
                                            total_atenciones_total=total_atenciones_total,
                                            lista_atenciones=atenciones, lista_servicios=servicios,
-                                           lista_meds=medicinas, tipo='Mensual', bandera_rango=bandera_rango,
-                                           bandera_mes=bandera_mes, date_today=mes1)
+                                           lista_meds=medicinas, tipo='Mensual', date=mes1)
 
             else:
                 abort(403)
@@ -898,7 +907,7 @@ def informe_ventas_rango():
 
                     return render_template("reporte/reporte.html",
                                            bandera_rango=bandera_rango,
-                                           bandera_mes=bandera_mes, tipo='Rango')
+                                           bandera_mes=bandera_mes, tipo='Rango', date=desde, date_hasta=hasta)
 
                 if request.method == 'POST':
                     bandera_rango = True
@@ -938,6 +947,10 @@ def informe_ventas_rango():
     else:
         abort(403)
 
+
+
+
+# Páginas que arrojan errores
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
