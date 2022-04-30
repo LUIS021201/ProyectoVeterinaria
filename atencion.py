@@ -13,7 +13,7 @@ def insertar_atencion(user_id, mascota_id, descripcion, subtotal, iva, total):
 def get_suma_atenciones(fecha1, fecha2):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT SUM(total), SUM(iva), SUM(subtotal) FROM atenciones WHERE (fecha BETWEEN %s and %s)",
+        cursor.execute("SELECT SUM(total), SUM(iva), SUM(subtotal) FROM atenciones WHERE (DATE(fecha) BETWEEN %s and %s)",
                        (fecha1, fecha2))
         atencion = cursor.fetchone()
     conexion.commit()
@@ -41,15 +41,6 @@ def get_valores_tabla(semana):
     conexion.close()
     return atencion
 
-def get_valores_tabla_horas(divisor): #1-5
-    conexion = obtener_conexion()
-    with conexion.cursor() as cursor:
-        cursor.execute("SELECT sum(total) FROM atenciones WHERE  FLOOR((HOUR(fecha))/6)+1 =%s", (divisor))
-        atencion = cursor.fetchone()
-    conexion.commit()
-    conexion.close()
-    return atencion
-
 def insertar_servicio(nombre, precio, habilitado):
     conexion = obtener_conexion()
     nombre = nombre.capitalize()
@@ -69,11 +60,11 @@ def agregar_servicios_y_meds(id, lista_serv, lista_meds):
         agregar_meds_de_atencion(id, med)
 
 
-def get_atencion(fecha, user_id, mascota_id) -> list:
+def get_atencion(user_id, mascota_id) -> list:
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT * FROM atenciones WHERE fecha=%s and user_id=%s and mascota_id=%s",
-                       (fecha, user_id, mascota_id))
+        cursor.execute("SELECT * FROM atenciones WHERE user_id=%s and mascota_id=%s order by fecha desc",
+                       (user_id, mascota_id))
         atencion = cursor.fetchone()
     conexion.commit()
     conexion.close()
@@ -172,7 +163,7 @@ def get_lista_atenciones_fechas(fecha1, fecha2) -> list:
     lista = []
     with conexion.cursor() as cursor:
         cursor.execute(
-            "SELECT a.id, a.fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE (fecha BETWEEN %s and %s) and u.id=a.user_id and m.id=a.mascota_id",
+            "SELECT a.id, a.fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE (DATE(fecha) BETWEEN %s and %s) and u.id=a.user_id and m.id=a.mascota_id",
             (fecha1, fecha2))
         lista = cursor.fetchall()
 

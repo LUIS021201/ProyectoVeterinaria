@@ -7,15 +7,8 @@
 {% include "navbar.html" %}
 
 
-  {% if tipo=='Diario' %}
-  <body  onload="tabla_dia('{{dato1}}', '{{dato2}}', '{{dato3}}', '{{dato4}}', '{{dato5}}')">
-    {% endif %}
-    {% if tipo=='Mensual' %}
-    <body  onload="tabla_mes('{{dato1}}', '{{dato2}}', '{{dato3}}', '{{dato4}}', '{{dato5}}')">
-    {% endif %}
-    {% tipo=='Rango' %}
-     <body>
-    {% endif %}
+<body  onload="tabla('{{data}}')">
+
     <!-- Template de la gráfica conseguido de Bootstrap -->
 
 		<div class="row">
@@ -25,7 +18,6 @@
 			<div class="col-lg-8 container my-5">
       <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Informe de Ventas</h1>
-
             <form class="btn-toolbar mb-2 mb-md-0", action="", method="POST">
               <button type="button" class="me-2 btn btn-sm btn-outline-secondary" onclick="download('Informe{{tipo}}{{date}}')">Exportar</button>
 
@@ -60,7 +52,7 @@
                 {% if tipo=='Rango'%}
                 <div class="form-floating mb-3">
                     <input type="date" class="form-control" id="validationServer04" required name="desde"
-                           value="{{date}}">
+                           value="{{date_desde}}">
                     <label for="validationServer04">Desde</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -75,7 +67,7 @@
 
                 {% if tipo=="Mensual" %}
                  <div class="form-floating mb-3">
-                    <input type="date" class="form-control" id="validationServer04" required name="mes"
+                    <input type="month" class="form-control" id="validationServer04" required name="mes"
                            value="{{date}}">
                     <label for="validationServer04">Fecha</label>
                 </div>
@@ -110,9 +102,7 @@
           </div>
 
         </div>
-        {% if bandera_rango == False %}
         <canvas class="my-4 w-100" id="myChart" width="900" height="380"> </canvas>
-        {% endif %}
 
         </div>
         <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">

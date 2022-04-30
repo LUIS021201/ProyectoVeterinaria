@@ -1,5 +1,7 @@
 from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for, abort
 from citas import *
+import json 
+from informes import get_datos_grafica_mensual, get_datos_grafica_diaria, get_datos_grafica_rango
 from random import randint
 from menu import get_dicc_menu
 from funciones import mandar_correo_codigo
@@ -636,7 +638,7 @@ def agregar_atencion():
 
                     insertar_atencion(usr['id'], mascota['id'], descripcion, subtotal, iva, total)
                     print(lista_servicios_sel)
-                    a = get_atencion(fecha, usr['id'], mascota['id'])
+                    a = get_atencion(usr['id'], mascota['id'])
                     agregar_servicios_y_meds(a['id'],lista_servicios_sel,lista_medicinas_sel)
                     lista_servicios_sel.clear()
                     lista_medicinas_sel.clear()
@@ -785,6 +787,7 @@ def informe_ventas_diario():
         if session['logged_in']:
             if session['type'] == 'admin':
                 if request.method == 'GET' :
+                    horas = []
                     fecha = get_cur_datetime()
                     desde = fecha['now']
                     hasta = fecha['now']
@@ -796,32 +799,17 @@ def informe_ventas_diario():
                     total_atenciones_subtotal = suma['SUM(subtotal)']
                     total_atenciones_iva = suma['SUM(iva)']
                     total_atenciones_total = suma['SUM(total)']
-                    print(desde, hasta, suma)
-                    datos_tabla1 = get_valores_tabla_horas(1)
-                    datos_tabla2 = get_valores_tabla_horas(2)
-                    datos_tabla3 = get_valores_tabla_horas(3)
-                    datos_tabla4 = get_valores_tabla_horas(4)
-                    datos_tabla5 = get_valores_tabla_horas(5)
-                    if datos_tabla1['sum(total)'] == None:
-                        datos_tabla1['sum(total)'] = 0
-                    if datos_tabla2['sum(total)'] == None:
-                        datos_tabla2['sum(total)'] = 0
-                    if datos_tabla3['sum(total)'] == None:
-                        datos_tabla3['sum(total)'] = 0
-                    if datos_tabla4['sum(total)'] == None:
-                        datos_tabla4['sum(total)'] = 0
-                    if datos_tabla5['sum(total)'] == None:
-                        datos_tabla5['sum(total)'] = 0
+                    
+                    data_dict = get_datos_grafica_diaria(desde)
+
                     return render_template("reporte/reporte.html", lista_usuarios=usuarios,
                                            total_atenciones_subtotal=total_atenciones_subtotal,
                                            total_atenciones_iva=total_atenciones_iva,
                                            total_atenciones_total=total_atenciones_total,
                                            lista_atenciones=atenciones, lista_servicios=servicios,
                                            lista_meds=medicinas, tipo='Diario',
-                                            date=fecha['now'],
-                                           dato1=datos_tabla1['sum(total)'], dato2=datos_tabla2['sum(total)'], dato3=datos_tabla3['sum(total)'],
-                                           dato4=datos_tabla4['sum(total)'], dato5=datos_tabla5['sum(total)'])
-
+                                            date=fecha['now'], data=json.dumps(data_dict))
+ 
                 if request.method == 'POST':
                     fecha = request.form['fecha']
 
@@ -835,13 +823,14 @@ def informe_ventas_diario():
                     total_atenciones_total = suma['SUM(total)']
                     print(fecha, fecha, suma)
 
+                    data_dict = get_datos_grafica_diaria(fecha)
                     return render_template("reporte/reporte.html", lista_usuarios=usuarios,
                                            total_atenciones_subtotal=total_atenciones_subtotal,
                                            total_atenciones_iva=total_atenciones_iva,
                                            total_atenciones_total=total_atenciones_total,
                                            lista_atenciones=atenciones, lista_servicios=servicios,
                                            lista_meds=medicinas, tipo='Diario',
-                                            date=fecha)
+                                            date=fecha, data=json.dumps(data_dict))
             else:
                 abort(403)
         else:
@@ -857,35 +846,27 @@ def informe_ventas_mensual():
             if session['type'] == 'admin':
                 if request.method == 'GET':
                     fecha = get_cur_datetime()
-                    año = fecha['now']
-                    hasta = fecha['now']
-                    atenciones = get_lista_atenciones_mes(año, hasta)
-                    usuarios = get_lista_usuarios_fechas(año, hasta)
+                    fecha = fecha['now'].split('-')
+                    mes_anio = fecha[0]+"-"+fecha[1]
+                    print(mes_anio)
+                    atenciones = get_lista_atenciones_mes(fecha[0], fecha[1])
+                    usuarios = get_lista_usuarios_fechas(fecha[0], fecha[1])
                     servicios = get_lista_serv_de_atenciones()
                     medicinas = get_lista_meds_de_atenciones()
-                    suma = get_suma_atenciones_mes(año, hasta)
+                    suma = get_suma_atenciones_mes(fecha[0], fecha[1])
                     total_atenciones_subtotal = suma['SUM(subtotal)']
                     total_atenciones_iva = suma['SUM(iva)']
                     total_atenciones_total = suma['SUM(total)']
-                    print(año, hasta, suma)
-                    datos_tabla1 = get_valores_tabla(1)
-                    datos_tabla2 = get_valores_tabla(2)
-                    datos_tabla3 = get_valores_tabla(3)
-                    datos_tabla4 = get_valores_tabla(4)
-                    datos_tabla5 = get_valores_tabla(5)
-                    datos_tabla1['sum(total)'] = 0
-                    datos_tabla2['sum(total)'] = 0
-                    datos_tabla3['sum(total)'] = 0
-                    datos_tabla4['sum(total)'] = 0
-                    datos_tabla5['sum(total)'] = 0
+                    print(fecha[0], fecha[1], suma)
+                    
+                    data_dict = get_datos_grafica_mensual(mes_anio)
                     return render_template("reporte/reporte.html", lista_usuarios=usuarios,
                                            total_atenciones_subtotal=total_atenciones_subtotal,
                                            total_atenciones_iva=total_atenciones_iva,
                                            total_atenciones_total=total_atenciones_total,
                                            lista_atenciones=atenciones, lista_servicios=servicios,
-                                           lista_meds=medicinas, tipo='Mensual',  date=fecha['now'],
-                                           dato1=datos_tabla1['sum(total)'], dato2=datos_tabla2['sum(total)'], dato3=datos_tabla3['sum(total)'],
-                                           dato4=datos_tabla4['sum(total)'], dato5=datos_tabla5['sum(total)'])
+                                           lista_meds=medicinas, tipo='Mensual',  date=mes_anio,
+                                           data=json.dumps(data_dict))
                 if request.method == 'POST':
 
                     mes1=request.form['mes']
@@ -893,6 +874,7 @@ def informe_ventas_mensual():
                     print(mes)
                     anio = mes[0]
                     mes = mes[1]
+                    mes_anio = anio+'-'+mes
                     atenciones = get_lista_atenciones_mes(anio, mes)
                     usuarios = get_lista_usuarios_mes(anio, mes)
                     servicios = get_lista_serv_de_atenciones()
@@ -902,29 +884,15 @@ def informe_ventas_mensual():
                     total_atenciones_iva = suma['SUM(iva)']
                     total_atenciones_total = suma['SUM(total)']
                     print(anio, mes, suma)
-                    datos_tabla1 = get_valores_tabla(1)
-                    datos_tabla2 = get_valores_tabla(2)
-                    datos_tabla3 = get_valores_tabla(3)
-                    datos_tabla4 = get_valores_tabla(4)
-                    datos_tabla5 = get_valores_tabla(5)
-                    if datos_tabla1['sum(total)'] == None:
-                        datos_tabla1['sum(total)'] = 0
-                    if datos_tabla2['sum(total)'] == None:
-                        datos_tabla2['sum(total)'] = 0
-                    if datos_tabla3['sum(total)'] == None:
-                        datos_tabla3['sum(total)'] = 0
-                    if datos_tabla4['sum(total)'] == None:
-                        datos_tabla4['sum(total)'] = 0
-                    if datos_tabla5['sum(total)'] == None:
-                        datos_tabla5['sum(total)'] = 0
+                    data_dict = get_datos_grafica_mensual(mes_anio)
+
                     return render_template("reporte/reporte.html", lista_usuarios=usuarios,
                                            total_atenciones_subtotal=total_atenciones_subtotal,
                                            total_atenciones_iva=total_atenciones_iva,
                                            total_atenciones_total=total_atenciones_total,
                                            lista_atenciones=atenciones, lista_servicios=servicios,
                                            lista_meds=medicinas, tipo='Mensual', date=mes1,
-                                           dato1=datos_tabla1['sum(total)'], dato2=datos_tabla2['sum(total)'], dato3=datos_tabla3['sum(total)'],
-                                           dato4=datos_tabla4['sum(total)'], dato5=datos_tabla5['sum(total)'])
+                                           data=json.dumps(data_dict))
 
             else:
                 abort(403)
@@ -939,8 +907,6 @@ def informe_ventas_rango():
         if session['logged_in']:
             if session['type'] == 'admin':
                 if request.method == 'GET':
-                    bandera_rango = True
-                    bandera_mes = False
                     fecha = get_cur_datetime()
                     desde = fecha['now']
                     hasta = fecha['now']
@@ -948,14 +914,11 @@ def informe_ventas_rango():
                     usuarios = get_lista_usuarios_fechas(desde, hasta)
                     servicios = get_lista_serv_de_atenciones()
                     medicinas = get_lista_meds_de_atenciones()
-
-                    return render_template("reporte/reporte.html",
-                                           bandera_rango=bandera_rango,
-                                           bandera_mes=bandera_mes, tipo='Rango', date=desde, date_hasta=hasta)
+                    data_dict = get_datos_grafica_rango(desde, hasta)
+                    return render_template("reporte/reporte.html",tipo='Rango', date_desde=desde, date_hasta=hasta,
+                                            data=json.dumps(data_dict))
 
                 if request.method == 'POST':
-                    bandera_rango = True
-                    bandera_mes = False
                     desde = request.form['desde']
                     hasta = request.form['hasta']
                     desde_date= time.strptime(desde, "%Y-%m-%d")
@@ -969,19 +932,19 @@ def informe_ventas_rango():
                         total_atenciones_subtotal = suma['SUM(subtotal)']
                         total_atenciones_iva = suma['SUM(iva)']
                         total_atenciones_total = suma['SUM(total)']
+                        data_dict = get_datos_grafica_rango(desde, hasta)
+
                         return render_template("reporte/reporte.html", lista_usuarios=usuarios,
                                        total_atenciones_subtotal=total_atenciones_subtotal,
                                        total_atenciones_iva=total_atenciones_iva,
                                        total_atenciones_total=total_atenciones_total,
                                        lista_atenciones=atenciones, lista_servicios=servicios,
-                                       lista_meds=medicinas, tipo='Rango', bandera_rango=bandera_rango,
-                                       bandera_mes=bandera_mes, date_hasta=hasta, date_desde=desde)
+                                       lista_meds=medicinas, tipo='Rango', date_hasta=hasta, date_desde=desde,
+                                       data=json.dumps(data_dict))
                     else:
-                        bandera_rango = True
-                        bandera_mes = False
                         return render_template("reporte/reporte.html",
-                                               bandera_rango=bandera_rango,date_today=desde, today1=hasta,
-                                               bandera_mes=bandera_mes, tipo='Rango', mensaje='Ingrese una fecha Mayor')
+                                               date_desde=desde, date_hasta=hasta,
+                                               tipo='Rango', mensaje='Ingrese una fecha Mayor')
                 else:
                     abort(403)
             else:
@@ -1006,7 +969,7 @@ def page_not_found(e):
     return render_template('errors/403.html'), 403
 
 # MÉTODOS LIGADOS A FUNCIONES DE JAVASCRIPT
-@app.route("/select/<tipo>/<id>")
+@app.route("/add/<tipo>/<id>")
 def add(tipo, id):
     lista = []
     if tipo == 'MEDICINA':
@@ -1020,6 +983,8 @@ def add(tipo, id):
         lista_servicios_sel.append(id)
         print('ADD S',lista_servicios_sel)
         lista = get_servicio(id)
+    lista['precio']=float(lista['precio'])
+    print(lista)
     return jsonify({'info': lista})
 
 
@@ -1037,6 +1002,7 @@ def remove(tipo, id):
         lista_servicios_sel.remove(id)
         print('REMOVE S',lista_servicios_sel)
         lista = get_servicio(id)
+    lista['precio']=float(lista['precio'])
     return jsonify({'info': lista})
 
 @app.route("/select/<email>")
