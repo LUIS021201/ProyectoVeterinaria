@@ -1,11 +1,11 @@
 from bd import obtener_conexion
 
 
-def insertar_atencion(fecha, user_id, mascota_id, descripcion, subtotal, iva, total):
+def insertar_atencion(user_id, mascota_id, descripcion, subtotal, iva, total):
     conexion = obtener_conexion()
-    query = "INSERT INTO atenciones (fecha, user_id, mascota_id, descripcion,subtotal,iva,total) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+    query = "INSERT INTO atenciones (fecha, user_id, mascota_id, descripcion,subtotal,iva,total) VALUES (CURRENT_TIMESTAMP(), %s, %s, %s, %s, %s, %s)"
     with conexion.cursor() as cursor:
-        cursor.execute(query, (fecha, user_id, mascota_id, descripcion, subtotal, iva, total))
+        cursor.execute(query, (user_id, mascota_id, descripcion, subtotal, iva, total))
     conexion.commit()
     conexion.close()
 
@@ -32,6 +32,23 @@ def get_suma_atenciones_mes(anio, mes):
     conexion.close()
     return atencion
 
+def get_valores_tabla(semana):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT sum(total) FROM atenciones WHERE  FLOOR((DayOfMonth(fecha)-1)/7)+1 =%s",(semana))
+        atencion = cursor.fetchone()
+    conexion.commit()
+    conexion.close()
+    return atencion
+
+def get_valores_tabla_horas(divisor): #1-5
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT sum(total) FROM atenciones WHERE  FLOOR((HOUR(fecha))/6)+1 =%s", (divisor))
+        atencion = cursor.fetchone()
+    conexion.commit()
+    conexion.close()
+    return atencion
 
 def insertar_servicio(nombre, precio, habilitado):
     conexion = obtener_conexion()

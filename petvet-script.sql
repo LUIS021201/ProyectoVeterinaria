@@ -75,7 +75,7 @@ CREATE TABLE servicios(
 
 CREATE TABLE atenciones(
 	id int unsigned AUTO_INCREMENT NOT NULL,
-	fecha date NOT NULL,
+	fecha datetime NOT NULL,
 	user_id int unsigned NOT NULL,
 	mascota_id int unsigned NOT NULL,
 	descripcion varchar(500),
