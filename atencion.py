@@ -59,8 +59,17 @@ def agregar_servicios_y_meds(id, lista_serv, lista_meds):
     for med in lista_meds:
         agregar_meds_de_atencion(id, med)
 
+def get_atencion(atencion_id) -> list:
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT a.id, DATE(a.fecha) AS fecha, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.descripcion, a.subtotal, a.iva, a.total FROM atenciones a, users u, mascotas m WHERE u.id=a.user_id and m.id=a.mascota_id and a.id=%s",
+                       (atencion_id))
+        atencion = cursor.fetchone()
+    conexion.commit()
+    conexion.close()
+    return atencion
 
-def get_atencion(user_id, mascota_id) -> list:
+def get_atencion_mas_reciente(user_id, mascota_id) -> list:
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
         cursor.execute("SELECT * FROM atenciones WHERE user_id=%s and mascota_id=%s order by fecha desc",
@@ -144,6 +153,29 @@ def get_lista_meds_de_atenciones() -> list:
     conexion.close()
     return lista
 
+def get_servs_atencion(atencion_id) -> list:
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM servicios_atencion sa, servicios s WHERE sa.servicio_id=s.id and sa.atencion_id=%s",
+                       (atencion_id))
+        lista = cursor.fetchall()
+
+    conexion.commit()
+    conexion.close()
+    return lista
+
+def get_meds_atencion(atencion_id) -> list:
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM medicinas_atencion ma, medicinas m WHERE ma.medicinas_id=m.id and ma.atencion_id=%s",
+                       (atencion_id))
+        lista = cursor.fetchall()
+
+    conexion.commit()
+    conexion.close()
+    return lista
 
 def get_lista_atenciones() -> list:
     conexion = obtener_conexion()

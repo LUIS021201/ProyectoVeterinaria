@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@700&&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@500&&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&&display=swap');
+@page {
+    size: letter;
+    margin: 2cm;
+}
+
+html {
+    color: rgb(126, 126, 126);
+    font-family: Source Sans Pro;
+    font-size: 12pt;
+    line-height: 1.5;
+}
+
+header h1 {
+    color: #aacbfa;
+    font-family: Comfortaa;
+    font-size: 19pt;
+    margin: 0;
+}
+
+.column {
+    display: flex;
+}
+
+.left {
+    flex: 25%;
+    text-align: left;
+}
+
+.right {
+    flex: 75%;
+    margin-top: 30px;
+    text-align: center;
+    color: #AACBFA;
+    line-height: 1.2;
+}
+
+.box {
+    margin-top: 30px;
+    width: 100%;
+    height: 12cm;
+    border: 1px solid lightgray;
+}
+
+h3 {
+    font-size: 20pt;
+    font-weight: 600;
+    margin: 0;
+}
+
+h5 {
+    font-size: 13pt;
+    font-weight: 400;
+    margin: 0;
+}
+
+hr {
+    border-top: 2px solid #AACBFA;
+    border-bottom: none;
+    margin: 5mm 0;
+}
+
+p {
+    margin: 0;
+    font-size: 13pt;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 10px 0;
+}
+
+td:last-of-type {
+    font-weight: bold;
+    text-align: right;
+}
+
+th,
+td {
+    text-align: center;
+}
+
+th:first-of-type,
+td:first-of-type {
+    text-align: left;
+}
+
+th:last-of-type,
+td:last-of-type {
+    text-align: right;
+}

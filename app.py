@@ -9,6 +9,7 @@ from passlib.hash import sha256_crypt
 from recetas import *
 from atencion import *
 from usuarios import *
+from flask_weasyprint import HTML,render_pdf
 import time
 
 app = Flask(__name__)
@@ -124,7 +125,6 @@ def forgot_password():
             email = request.form['email']
             username = request.form['email']
             usr = get_usuario('username', username)
-            print(usr['email'])
             if usuario_existe('username', username):
                 mensaje = f'Se envió un código para cambiar la contraseña a su correo ({email})'
                 codigo = ''
@@ -638,7 +638,7 @@ def agregar_atencion():
 
                     insertar_atencion(usr['id'], mascota['id'], descripcion, subtotal, iva, total)
                     print(lista_servicios_sel)
-                    a = get_atencion(usr['id'], mascota['id'])
+                    a = get_atencion_mas_reciente(usr['id'], mascota['id'])
                     agregar_servicios_y_meds(a['id'],lista_servicios_sel,lista_medicinas_sel)
                     lista_servicios_sel.clear()
                     lista_medicinas_sel.clear()
@@ -749,7 +749,8 @@ def recetas():
             if session['type'] == 'admin':
 
                 recetas = get_lista_recetas()
-                return render_template("recetas/lista_recetas.html", lista_recetas=recetas)
+                medicinas = get_meds_recetas()
+                return render_template("recetas/lista_recetas.html", lista_recetas=recetas, lista_meds=medicinas)
             else:
                 recetas = get_lista_recetas_por_usuario(session['user_id'])
                 return render_template("recetas/lista_recetas.html", lista_recetas=recetas)
@@ -954,8 +955,26 @@ def informe_ventas_rango():
     else:
         abort(403)
 
-
-
+# Crear PDF
+@app.route("/<tipo>_<id>.pdf")
+def crear_PDF(tipo, id):
+    if 'logged_in' in session.keys():
+        if session['logged_in']:
+            if tipo == 'atencion':
+                atencion = get_atencion(id)
+                lista_servicios = get_servs_atencion(id)
+                lista_medicinas = get_meds_atencion(id)
+                html = render_template('pdf/atencion_pdf.html', atencion=atencion, lista_servicios=lista_servicios, lista_medicinas=lista_medicinas)
+            elif tipo == 'receta':
+                receta = get_receta(id)
+                lista_medicinas = get_meds_receta(id)
+                html = render_template('pdf/receta_pdf.html', receta=receta, lista_medicinas=lista_medicinas)
+            return render_pdf(HTML(string=html))
+        else:
+            abort(403)
+    else:
+        abort(403)
+                     
 
 # Páginas que arrojan errores
 @app.errorhandler(404)
@@ -983,6 +1002,9 @@ def add(tipo, id):
         lista_servicios_sel.append(id)
         print('ADD S',lista_servicios_sel)
         lista = get_servicio(id)
+    elif tipo == 'RECETA':
+        lista = get_medicina(id)
+        lista_medicinas_sel.append(id)
     lista['precio']=float(lista['precio'])
     print(lista)
     return jsonify({'info': lista})
@@ -1002,6 +1024,9 @@ def remove(tipo, id):
         lista_servicios_sel.remove(id)
         print('REMOVE S',lista_servicios_sel)
         lista = get_servicio(id)
+    elif tipo == 'RECETA':
+        lista = get_medicina(id)
+        lista_medicinas_sel.remove(id)
     lista['precio']=float(lista['precio'])
     return jsonify({'info': lista})
 
@@ -1029,5 +1054,6 @@ def mascota_select(email, n_mascota):
     print(mascota)
     return jsonify({'info': mascota})
 
+ 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,15 +1,6 @@
 from datetime import date, datetime, timedelta
 from bd import obtener_conexion
 
-
-def get_horas() -> list:
-    # se crea una lista de los horarios disponibles para agendar cita
-    # las horas de atencion son de 8am a 8pm
-    times = []
-    for i in range(8, 20):
-        times.append(f"{i}:00:00")
-    return times
-
 def horas_veterinaria() -> list:
     # se crea una lista de los horarios disponibles para agendar cita
     # las horas de atencion son de 8am a 8pm

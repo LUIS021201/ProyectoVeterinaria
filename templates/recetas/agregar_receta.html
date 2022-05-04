@@ -1,14 +1,7 @@
-{% extends "base.html" %}
-{% set log = log %}
-{% block title %}Agregar atención
-{% endblock %}
-{% block body %}
-{% include "navbar.html" %}
+{% extends "base.html" %} {% set log = log %} {% block title %}Agregar atención {% endblock %} {% block body %} {% include "navbar.html" %}
 
 <div class="row">
-    {% with path=request.path %}
-    {% include "menu.html" %}
-    {% endwith %}
+    {% with path=request.path %} {% include "menu.html" %} {% endwith %}
     <div class="col-lg-6 container text-center my-5">
         <h3 class="" style="padding: 1rem;">Agregar una Receta</h3>
         <div class="container-sm">
@@ -25,8 +18,7 @@
                 <div class="mb-3" id='sel_email'>
 
 
-                    <input class="form-control" id='email' type="email" placeholder="Ingrese el email del cliente..."
-                           list="lista_email" name="email" required onChange="get_data(this)"/>
+                    <input class="form-control" id='email' type="email" placeholder="Ingrese el email del cliente..." list="lista_email" name="email" required onChange="get_data(this)" />
                     <datalist name="lista" id="lista_email">
                         {% for usr in lista_usuarios %}
                         <option value="{{usr['email']}}">{{usr['email']}}</option>
@@ -37,15 +29,12 @@
 
                 <div id='dueno' class="form-floating mb-3">
 
-                    <input type="text" style="text-transform: capitalize;" placeholder="Nombre del dueño"
-                           class="form-control" id="nombre" required name="nombre">
+                    <input type="text" style="text-transform: capitalize;" placeholder="Nombre del dueño" class="form-control" id="nombre" required name="nombre">
                     <label class="form-label" for="nombre">Nombre del dueño</label>
 
                 </div>
                 <div id='input_mascota' class="mb-3">
-                    <input id="m_input" placeholder="Nombre de la mascota" class="form-control"
-                            list="mascotas" name="mascota"
-                           onChange="get_data_masc(this)"/>
+                    <input id="m_input" placeholder="Nombre de la mascota" class="form-control" list="mascotas" name="mascota" />
 
 
                     <datalist id="mascotas">
@@ -55,31 +44,29 @@
 
                 <div class="form-floating mb-3">
 
-                    <textarea type="text" style="height: 200px;" placeholder="Forma de aplicación"
-                           class="form-control" id="descripcion" required name="aplicacion"
-                           maxlength="500"></textarea>
+                    <textarea type="text" style="height: 200px;" placeholder="Forma de aplicación" class="form-control" id="descripcion" required name="aplicacion" maxlength="500"></textarea>
 
                     <label class="form-label" for="descripcion">Forma de aplicación</label>
 
                 </div>
 
                 <div class="row mb-3 text-start">
-                <label >Agrega las medicinas recetadas:</label>
-                    </div>
+                    <label>Agrega las medicinas recetadas:</label>
+                </div>
                 <div class="row mb-3">
-                <div class="col-5">
-                    <select class="form-control" name="medicinas" id="lista_medicinas">
+                    <div class="col-5">
+                        <select class="form-control" name="medicinas" id="lista_medicinas">
                         <option class="opcion" disabled selected>Seleccionar medicina...</option>
                         {% for medicina in lista_medicinas %}
                         <option value="{{medicina['id']}}">{{medicina['nombre']}}</option>
                         {% endfor %}
                     </select>
+                    </div>
+                    <div class="col-1">
+                        <button onClick="add('RECETA')" type="button" class="btn boton_pie" id="add_btn">+</button>
+                    </div>
                 </div>
-                <div class="col-1">
-                    <button onClick="add('MEDICINA')"  type="button" class="btn boton_pie" id="add_btn">+</button>
-                </div>
-                </div>
-               
+
                 <div id="lista" class="mb-3">
                 </div>
 

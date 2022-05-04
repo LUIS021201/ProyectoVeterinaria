@@ -5,7 +5,7 @@ def get_lista_recetas() -> list:
     lista = []
 
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT a.id, a.fecha, b.name as doctor, u.name as cliente, m.nombre_mascota, m.tipo_mascota, e.nombre as medicina, a.aplicacion FROM recetas a, medicinas_receta s, (SELECT id,name FROM users WHERE type='usuario') b,users u,mascotas m,medicinas e WHERE a.client_id=u.id AND a.doctor_id=b.id AND a.mascota_id=m.id AND s.medicinas_id=e.id AND s.receta_id=a.id ORDER BY a.fecha desc")
+        cursor.execute("SELECT a.id, a.fecha, b.name as doctor, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.aplicacion FROM recetas a, (SELECT id,name FROM users WHERE type='usuario') b,users u,mascotas m WHERE a.client_id=u.id AND a.doctor_id=b.id AND a.mascota_id=m.id ORDER BY a.fecha desc")
         lista = cursor.fetchall()
 
     conexion.commit()
@@ -16,7 +16,7 @@ def get_lista_recetas_por_usuario(user_id) -> list:
     conexion = obtener_conexion()
     lista = []
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT a.id, a.fecha, b.name as doctor, u.name as cliente, m.nombre_mascota, m.tipo_mascota, e.nombre as medicina, a.aplicacion FROM recetas a, (SELECT id,name FROM users WHERE type='usuario') b,users u,mascotas m,medicinas e WHERE (a.client_id=u.id AND a.doctor_id=b.id AND a.mascota_id=m.id AND a.medicamento_id=e.id) AND (a.client_id=%s OR a.doctor_id=%s) ORDER BY a.fecha desc",(user_id,user_id))
+        cursor.execute("SELECT a.id, a.fecha, b.name as doctor, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.aplicacion FROM recetas a, (SELECT id,name FROM users WHERE type='usuario') b,users u,mascotas m,medicinas e WHERE (a.client_id=u.id AND a.doctor_id=b.id AND a.mascota_id=m.id) AND (a.client_id=%s OR a.doctor_id=%s) ORDER BY a.fecha desc",(user_id,user_id))
         lista = cursor.fetchall()
 
     conexion.commit()
@@ -63,6 +63,41 @@ def insertar_receta(id_duenio, id_doctor, id_mascota, aplicacion):
             (id_duenio, id_doctor, id_mascota, aplicacion))
     conexion.commit()
     conexion.close()
+
+def get_receta(receta_id):
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT a.id, DATE(a.fecha) as fecha, b.name as doctor, u.name as cliente, m.nombre_mascota, m.tipo_mascota, a.aplicacion FROM recetas a, (SELECT id,name FROM users WHERE type='usuario') b,users u,mascotas m WHERE a.client_id=u.id AND a.doctor_id=b.id AND a.mascota_id=m.id  AND a.id=%s",
+                       (receta_id))
+        lista = cursor.fetchone()
+
+    conexion.commit()
+    conexion.close()
+    return lista
+
+def get_meds_receta(receta_id):
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT m.nombre, m.descripcion, m.precio , mr.receta_id FROM medicinas m,  medicinas_receta mr, recetas r WHERE m.id=mr.medicinas_id and r.id=%s",
+                       (receta_id))
+        lista = cursor.fetchall()
+
+    conexion.commit()
+    conexion.close()
+    return lista
+
+def get_meds_recetas():
+    conexion = obtener_conexion()
+    lista = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT r.id, m.nombre, m.descripcion, m.precio, m.presentacion, mr.receta_id FROM medicinas m,  medicinas_receta mr, recetas r WHERE m.id=mr.medicinas_id and r.id=mr.receta_id")
+        lista = cursor.fetchall()
+
+    conexion.commit()
+    conexion.close()
+    return lista
 
 def get_receta_mas_reciente(client_id,doctor_id,mascota_id):
     conexion = obtener_conexion()

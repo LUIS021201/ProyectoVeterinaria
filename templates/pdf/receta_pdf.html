@@ -1,0 +1,63 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{request.url}}</title>
+    <link href="/static/css/receta.css" rel="stylesheet">
+    <meta name="description" content="Letter demo sample">
+</head>
+
+<body>
+    <header class="column">
+        <div class="left">
+            <img src="/static/logo.svg" style="height: 70px;">
+            <h1>PetVet</h1>
+        </div>
+        <div class="right">
+            <h3>Dr(a). {{receta['doctor']}}</h3>
+            <h5>26 rue Emile Decorps · Hermosillo, SON</h5>
+            <h5>(662) 122 1213</h5>
+        </div>
+    </header>
+
+
+
+    <hr>
+
+    <div>
+        <div style="display: flex;">
+            <p style="flex: 50%;"><b>Nombre del cliente:   </b>{{receta['cliente']}}</p>
+            <p style="flex: 50%; text-align: right;"><b>Fecha:   </b>{{receta['fecha']}}</p>
+        </div>
+        <div style="display: flex;">
+            <p style="flex: 50%;"><b>Nombre de la mascota:   </b>{{receta['nombre_mascota']}}</p>
+            <p style="flex: 50%; text-align: right;"><b>Tipo de mascota:   </b>{{receta['tipo_mascota']}}</p>
+        </div>
+        <br>
+        <p><b>Medicinas recetadas:</b>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for med in lista_medicinas %} {% if med['receta_id'] == receta['id']%}
+
+                    <tr>
+                        <td>{{med['nombre']}}</td>
+                        <td>${{med['precio']}}</td>
+                    </tr>
+                    {% endif %} {% endfor %}
+                </tbody>
+            </table>
+            <p><b>Indicaciones:</b></p>
+            <div class="box">
+                <h5 style="margin: 10px 10px;">{{receta['aplicacion']}}</h5>
+            </div>
+    </div>
+
+</body>
+
+</html>

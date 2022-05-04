@@ -1,21 +1,12 @@
-{%  extends "base.html"  %}
-{%  set log = log %}
-{% block title %}Historial de recetas
-{% endblock %}
-
-{% block body %}
-{% include "navbar.html" %}
+{% extends "base.html" %} {% set log = log %} {% block title %}Historial de recetas {% endblock %} {% block body %} {% include "navbar.html" %}
 
 <div class="row">
-    {% with path=request.path %}
-    {% include "menu.html" %}
-    {% endwith %}
+    {% with path=request.path %} {% include "menu.html" %} {% endwith %}
     <div class="col-lg-9 container my-5 justify-content-center">
         <div class="mx-5 table-responsive">
             <div class="row justify-content-between mb-3">
-            <div class="col-auto">
-                <input class="form-control" type="text" id="searchbox" onkeyup="buscar('searchbox','table')"
-                       placeholder="Buscar...">
+                <div class="col-auto">
+                    <input class="form-control" type="text" id="searchbox" onkeyup="buscar('searchbox','table')" placeholder="Buscar...">
                 </div>
                 {% if session['type']!='cliente' %}
 
@@ -26,40 +17,86 @@
             </div>
             <table id="table" class="table table-hover">
                 <thead class="table-light">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Fecha y Hora</th>
-                    <th scope="col">Cliente</th>
-                    <th scope="col">Mascota</th>
-                    <th scope="col">Tipo de mascota</th>
-                    <th scope="col">Doctor</th>
-                    <th scope="col">Medicamento</th>
-                    <th scope="col">Aplicación</th>
-                    <th scope="col">PDF</th>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Fecha y Hora</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Mascota</th>
+                        <th scope="col">Tipo de mascota</th>
+                        <th scope="col">Doctor</th>
+                        <th scope="col">Aplicación</th>
+                        <th scope="col">Medicinas</th>
+                        <th scope="col">PDF</th>
 
 
 
 
-                </tr>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    {% for receta in lista_recetas %}
-                    <th scope="row">{{receta['id']}}</th>
-                    <td>{{receta['fecha']}}</td>
-                    <td>{{receta['cliente']}}</td>
-                    <td>{{receta['nombre_mascota']}}</td>
-                    <td>{{receta['tipo_mascota']}}</td>
-                    <td>{{receta['doctor']}}</td>
-                    <td>{{receta['medicina']}}</td>
-                    <td>{{receta['aplicacion']}}</td>
-                    <td><a href="#" class="btn boton_pie">Descargar PDF</a></td>
+                    <tr>
+                        {% for receta in lista_recetas %}
+                        <th scope="row">{{receta['id']}}</th>
+                        <td>{{receta['fecha']}}</td>
+                        <td>{{receta['cliente']}}</td>
+                        <td>{{receta['nombre_mascota']}}</td>
+                        <td>{{receta['tipo_mascota']}}</td>
+                        <td>{{receta['doctor']}}</td>
+                        <td>{{receta['aplicacion']}}</td>
+                        {% if lista_meds %}
+                        <td><a onclick="solo_desplegar_uno('medicinas{{receta['id']}}')" class="btn btn-primary" data-bs-toggle="collapse" href="#medicinas{{receta['id']}}" role="button" aria-expanded="false" aria-controls="collapseExample">
 
 
-                </tr>
-                {% endfor %}
+                        Ver Medicinas
+                        </a></td>
+                        {% else %}
+                        <td>Ninguna Medicina</td>
+
+                        {% endif %}
+                        <td><a href="{{ url_for('crear_PDF', tipo='receta', id=receta['id']) }}" target="_blank" class="btn boton_pie">Descargar PDF</a></td>
+
+                    </tr>
+                    {% endfor %}
+
                 </tbody>
             </table>
+            {% for receta in lista_recetas %}
+
+            <div class="collapse" id="medicinas{{receta['id']}}">
+                <div class="card card-body">
+
+                    <table id="table2" class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+
+                                <th scope="col">Medicina</th>
+                                <th scope="col">Costo de Medicina</th>
+                                <th scope="col">Presentacion</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+
+                                {% for med in lista_meds %} {% if med['receta_id'] == receta['id']%}
+
+                                <td>{{med['nombre']}}</td>
+                                <td>{{med['precio']}}</td>
+                                <td>{{med['presentacion']}}</td>
+                                {% endif %} {% endfor %}
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+
+            {% endfor %}
         </div>
 
 
@@ -69,6 +106,4 @@
 
 
 
-{% endblock %}
-{% block footer %}
-{% endblock %}
+{% endblock %} {% block footer %} {% endblock %}

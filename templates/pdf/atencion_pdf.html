@@ -1,0 +1,87 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link href="/static/css/atencion.css" media="print" rel="stylesheet">
+    <title>{{request.url}}</title>
+    <meta name="description" content="Invoice demo sample">
+</head>
+
+<body>
+    <h1><img src="/static/logo.svg" style="height: 50px;"> PetVet</h1>
+
+    <aside>
+        <address id="from">
+		  PetVet Veterinaria
+		  26 rue Emile Decorps
+		  69100 Villeurbanne
+		  Hermosillo, SON
+		</address>
+
+        <address id="to">
+
+
+			Cliente: {{atencion['cliente']}}
+			Macota: {{atencion['nombre_mascota']}}
+		</address>
+
+    </aside>
+
+    <dl id="informations">
+        <dt>No. de Atención</dt>
+        <dd>{{atencion['id']}}</dd>
+        <dt>Fecha</dt>
+        <dd>{{atencion['fecha']}}</dd>
+    </dl>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for servicio in lista_servicios %}
+            <tr>
+                <td>Servicio</td>
+                <td>{{servicio['nombre']}}</td>
+                <td>${{servicio['precio']}}</td>
+            </tr>
+            {% endfor %} {% for med in lista_medicinas %}
+            <tr>
+                <td>Medicamento</td>
+                <td>{{med['nombre']}}</td>
+                <td>${{med['precio']}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table id="total">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Subtotal:</td>
+                <td>${{atencion['subtotal']}}</td>
+            </tr>
+            <tr>
+                <td>IVA:</td>
+                <td>${{atencion['iva']}}</td>
+            </tr>
+            <tr>
+                <td>Total:</td>
+                <td>${{atencion['total']}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

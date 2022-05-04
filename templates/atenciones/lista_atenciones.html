@@ -1,21 +1,12 @@
-{%  extends "base.html"  %}
-{%  set log = log %}
-{% block title %}Historial de atenciones
-{% endblock %}
-
-{% block body %}
-{% include "navbar.html" %}
+{% extends "base.html" %} {% set log = log %} {% block title %}Historial de atenciones {% endblock %} {% block body %} {% include "navbar.html" %}
 
 <div class="row">
-    {% with path=request.path %}
-    {% include "menu.html" %}
-    {% endwith %}
+    {% with path=request.path %} {% include "menu.html" %} {% endwith %}
     <div class="col-lg-9 container my-5 justify-content-center">
         <div class="mx-5 table-responsive">
             <div class="row justify-content-between mb-3">
                 <div class="col-auto">
-                <input class="form-control" type="text" id="searchbox" onkeyup="buscar('searchbox','table')"
-                       placeholder="Buscar...">
+                    <input class="form-control" type="text" id="searchbox" onkeyup="buscar('searchbox','table')" placeholder="Buscar...">
                 </div>
                 {% if session['type']!='cliente' %}
 
@@ -27,92 +18,83 @@
             </div>
             <table id="table" class="table table-hover">
                 <thead class="table-light">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Cliente</th>
-                    <th scope="col">Mascota</th>
-                    <th scope="col">Tipo de mascota</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Subtotal</th>
-                    <th scope="col">IVA</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Servicios</th>
-                    <th scope="col">Medicinas</th>
-                    <!--                    <th scope="col">Servicio</th>-->
-                    <!--                    <th scope="col">Costo de servicio</th>-->
-                    <!--                    <th scope="col">Medicina</th>-->
-                    <!--                    <th scope="col">Costo Medicina</th>-->
-                    <!--                    <th scope="col">Presentación</th>-->
-                    <th scope="col">PDF</th>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Mascota</th>
+                        <th scope="col">Tipo de mascota</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Subtotal</th>
+                        <th scope="col">IVA</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Servicios</th>
+                        <th scope="col">Medicinas</th>
+                        <!--                    <th scope="col">Servicio</th>-->
+                        <!--                    <th scope="col">Costo de servicio</th>-->
+                        <!--                    <th scope="col">Medicina</th>-->
+                        <!--                    <th scope="col">Costo Medicina</th>-->
+                        <!--                    <th scope="col">Presentación</th>-->
+                        <th scope="col">PDF</th>
 
 
-                </tr>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    {% for atencion in lista_atenciones %}
-                    <th scope="row">{{atencion['id']}}</th>
-                    <td>{{atencion['fecha']}}</td>
-                    <td>{{atencion['cliente']}}</td>
-                    <td>{{atencion['nombre_mascota']}}</td>
-                    <td>{{atencion['tipo_mascota']}}</td>
-                    <td>{{atencion['descripcion']}}</td>
-                    <td>{{atencion['subtotal']}}</td>
-                    <td>{{atencion['iva']}}</td>
-                    <td>{{atencion['total']}}</td>
-                    {% if lista_servicios %}
-                    <td><a onclick="solo_desplegar_uno(servicios[atencion['id']])" class="btn btn-primary"
-                        data-bs-toggle="collapse" href="#servicios{{atencion['id']}}"
-                        role="button"
-                        aria-expanded="false" aria-controls="collapseExample">
+                    <tr>
+                        {% for atencion in lista_atenciones %}
+                        <th scope="row">{{atencion['id']}}</th>
+                        <td>{{atencion['fecha']}}</td>
+                        <td>{{atencion['cliente']}}</td>
+                        <td>{{atencion['nombre_mascota']}}</td>
+                        <td>{{atencion['tipo_mascota']}}</td>
+                        <td>{{atencion['descripcion']}}</td>
+                        <td>{{atencion['subtotal']}}</td>
+                        <td>{{atencion['iva']}}</td>
+                        <td>{{atencion['total']}}</td>
+                        {% if lista_servicios %}
+                        <td><a onclick="solo_desplegar_uno('servicios{{atencion['id']}}')" class="btn btn-primary" data-bs-toggle="collapse" href="#servicios{{atencion['id']}}" role="button" aria-expanded="false" aria-controls="collapseExample">
                         Ver Servicios
                         </a></td>
-                    {% else %}
-                    <td>Ningún Servicio</td>
+                        {% else %}
+                        <td>Ningún Servicio</td>
 
-                    {% endif %} -->
-
-
-                    {% if lista_meds %}
-                    <td><a onclick="solo_desplegar_uno(medicinas[atencion['id']])" class="btn btn-primary"
-                        data-bs-toggle="collapse" href="#medicinas{{atencion['id']}}"
-                        role="button"
-                        aria-expanded="false" aria-controls="collapseExample">
+                        {% endif %} {% if lista_meds %}
+                        <td><a onclick="solo_desplegar_uno('medicinas{{atencion['id']}}')" class="btn btn-primary" data-bs-toggle="collapse" href="#medicinas{{atencion['id']}}" role="button" aria-expanded="false" aria-controls="collapseExample">
 
 
                         Ver Medicinas
                         </a></td>
-                    {% else %}
-                    <td>Ninguna Medicina</td>
+                        {% else %}
+                        <td>Ninguna Medicina</td>
 
-                    {% endif %} -->
-                    <!--                    {% for serv in lista_servicios %}-->
-                    <!--                    <td>{{serv['nombre']}}</td>-->
-                    <!--                    <td>{{serv['precio']}}</td>-->
-                    <!--                    {% endfor %}-->
-                    <!--                    {% for med in lista_meds %}-->
-                    <!--                    {% if med['atencion_id'] == atencion['id']%}-->
+                        {% endif %}
+                        <!--                    {% for serv in lista_servicios %}-->
+                        <!--                    <td>{{serv['nombre']}}</td>-->
+                        <!--                    <td>{{serv['precio']}}</td>-->
+                        <!--                    {% endfor %}-->
+                        <!--                    {% for med in lista_meds %}-->
+                        <!--                    {% if med['atencion_id'] == atencion['id']%}-->
 
-                    <!--                    <td>{{med['nombre']}}</td>-->
-                    <!--                    <td>{{med['precio']}}</td>-->
-                    <!--                    <td>{{med['presentacion']}}</td>-->
-                    <!--                    {% endif %}-->
-                    <!--                    {% endfor %}-->
-                    <!--                    <p>-->
-                    <!--                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"-->
-                    <!--                           aria-expanded="false" aria-controls="collapseExample">-->
-                    <!--                            Link with href-->
-                    <!--                        </a>-->
+                        <!--                    <td>{{med['nombre']}}</td>-->
+                        <!--                    <td>{{med['precio']}}</td>-->
+                        <!--                    <td>{{med['presentacion']}}</td>-->
+                        <!--                    {% endif %}-->
+                        <!--                    {% endfor %}-->
+                        <!--                    <p>-->
+                        <!--                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"-->
+                        <!--                           aria-expanded="false" aria-controls="collapseExample">-->
+                        <!--                            Link with href-->
+                        <!--                        </a>-->
 
-                    <!--                    </p>-->
-
-
-                    <td><a href="#" class="btn boton_pie">Descargar PDF</a></td>
+                        <!--                    </p>-->
 
 
-                </tr>
-                {% endfor %}
+                        <td><a href="{{ url_for('crear_PDF', tipo='atencion', id=atencion['id']) }}" target="_blank" class="btn boton_pie">Descargar PDF</a></td>
+
+
+                    </tr>
+                    {% endfor %}
                 </tbody>
 
             </table>
@@ -122,26 +104,26 @@
 
                     <table id="table1" class="table table-hover">
                         <thead class="table-light">
-                        <tr>
-                            <th scope="col">Servicio</th>
-                            <th scope="col">Costo de servicio</th>
+                            <tr>
+                                <th scope="col">Servicio</th>
+                                <th scope="col">Costo de servicio</th>
 
 
-                        </tr>
+                            </tr>
                         </thead>
                         <tbody>
-                        {% for serv in lista_servicios %}
-                        <tr>
+                            {% for serv in lista_servicios %}
+                            <tr>
 
 
-                            {% if serv['atencion_id'] == atencion['id']%}
-                            <td>{{serv['nombre']}}</td>
-                            <td>{{serv['precio']}}</td>
-                            {% endif %}
+                                {% if serv['atencion_id'] == atencion['id']%}
+                                <td>{{serv['nombre']}}</td>
+                                <td>{{serv['precio']}}</td>
+                                {% endif %}
 
 
-                        </tr>
-                        {% endfor %}
+                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
 
@@ -154,29 +136,27 @@
 
                     <table id="table2" class="table table-hover">
                         <thead class="table-light">
-                        <tr>
+                            <tr>
 
-                            <th scope="col">Medicina</th>
-                            <th scope="col">Costo de Medicina</th>
-                            <th scope="col">Presentacion</th>
+                                <th scope="col">Medicina</th>
+                                <th scope="col">Costo de Medicina</th>
+                                <th scope="col">Presentacion</th>
 
 
-                        </tr>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                            <tr>
 
 
-                            {% for med in lista_meds %}
-                            {% if med['atencion_id'] == atencion['id']%}
+                                {% for med in lista_meds %} {% if med['atencion_id'] == atencion['id']%}
 
-                            <td>{{med['nombre']}}</td>
-                            <td>{{med['precio']}}</td>
-                            <td>{{med['presentacion']}}</td>
-                            {% endif %}
-                            {% endfor %}
+                                <td>{{med['nombre']}}</td>
+                                <td>{{med['precio']}}</td>
+                                <td>{{med['presentacion']}}</td>
+                                {% endif %} {% endfor %}
 
-                        </tr>
+                            </tr>
 
                         </tbody>
                     </table>
@@ -193,6 +173,4 @@
 </div>
 
 
-{% endblock %}
-{% block footer %}
-{% endblock %}
+{% endblock %} {% block footer %} {% endblock %}
