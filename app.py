@@ -1,3 +1,12 @@
+"""
+Equipo:
+Andrea Duarte Hernández
+David Nuñez Gurrola
+Luis Ernesto Hernández López
+link para probar la pagina: http://petvet.pythonanywhere.com
+
+
+"""
 from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for, abort
 from citas import *
 import json 
@@ -12,6 +21,7 @@ from usuarios import *
 from flask_weasyprint import HTML,render_pdf
 import time
 
+
 app = Flask(__name__)
 app.secret_key = 'lwiu74dhn2SuF3j'
 
@@ -22,6 +32,7 @@ lista_medicinas_sel = []
 
 @app.context_processor
 def handle_context():
+    """Controla lo información mostrada dependiendo de si el usuario esta logeado y sus permisos"""
     if 'logged_in' in session.keys():
         if session['logged_in']:
             accesos = diccionario_menu[session['type']]
@@ -43,12 +54,14 @@ def index():
 
 @app.route("/dashboard")
 def mi_cuenta():
+    """Muestra el menú principal desde donde el usuario podrá hacer cambios en el sistema"""
     usuario = get_usuario('email', session['email'])
     return render_template("dashboard.html", usr=usuario)
 
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    """Muestra el template de login y controla el acceso de los usuarios al sistema"""
     if request.method == 'GET':
         return render_template("login.html")
     elif request.method == 'POST':
@@ -88,12 +101,19 @@ def login():
 
 @app.route("/logout", methods=['GET'])
 def logout():
+    """Cierra la sesión del usuario borrando el dicc session y lo redirige a index"""
     session.clear()
     return redirect("/")
 
 
 @app.route("/signup", methods=['GET', 'POST'])
 def register():
+    """Controla el reggistro de usuarios
+    Si la persona no esta logeada, entonces puede registrarse.
+    Una vez introducidos los datos se asegura que no exista una cuenta con la misma información
+    y que las contraseñas coincidan.
+    Se registra al usuario y se redirige a login
+    """
     if 'logged_in' not in session.keys():
         if request.method == 'GET':
             return render_template("signup.html")
@@ -134,6 +154,10 @@ def register():
 
 @app.route("/forgot_password", methods=['GET', 'POST'])
 def forgot_password():
+    """Controla restablecer contraseña.
+    Se asegura que no haya una sesion iniciada.
+    Se confirma que el usuario exista y se envia un codigo de recuperación.
+    Se redirige a reset_code"""
     if 'logged_in' not in session.keys():
         if request.method == 'GET':
             return render_template("password/forgot_password.html")
@@ -180,6 +204,9 @@ def forgot_password():
 
 @app.route("/reset_code", methods=['GET', 'POST'])
 def reset_code():
+    """ Se asegura que no este iniciada alguna sesión.
+    Se asegura que el codigo sea correcto.
+    Se redirige para cambiar contraseña a '/new_password'"""
     if 'logged_in' not in session.keys():
         if request.method == 'GET': 
             return render_template('password/reset_code.html')
@@ -200,6 +227,9 @@ def reset_code():
 
 @app.route("/new_password", methods=['GET', 'POST'])
 def new_password():
+    """Permite al usuario introducir su nueva contraseña.
+    Si las dos coiciden se guardan los camnios.
+    Se redirige a '/password_changed'"""
     if 'logged_in' not in session.keys():
         if request.method == 'GET':
             return render_template("password/new_password.html")
@@ -222,6 +252,7 @@ def new_password():
 
 @app.route("/password_changed", methods=['GET', 'POST'])
 def password_changed():
+    """Muestra la pagina de confirmación de que la contraseña ha sido cambiada"""
     if 'logged_in' not in session.keys():
         if request.method == 'GET':
             return render_template("password/password_changed.html")
@@ -233,6 +264,8 @@ def password_changed():
 
 @app.route("/usuarios", methods=['GET', 'POST'])
 def usuarios():
+    """Controla que se tengan los debidos permisos.
+    Muestra una lista de los usuarios registrados con su respectiva información."""
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type']=='admin':
@@ -248,6 +281,16 @@ def usuarios():
 
 @app.route("/agregar_usuario", methods=['GET', 'POST'])
 def agregar_usuario():
+    """
+    Se asegura que se tengan los debidos permisos.
+    Si el metodo es GET:
+    se muestra el debido template para ingresar nuevo usuario.
+    Si el metodo es POST:
+    Recibe la información del usuario a agregar.
+    Se asegura de que no exista.
+    Inserta el usuario en la bd.
+    Redirige a la lista de ususarios '/usuarios'
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':
@@ -294,6 +337,10 @@ def agregar_usuario():
 
 @app.route("/mod_usuario/<usu>", methods=['GET', 'POST'])
 def mod_usuario(usu):
+    """
+    Muestra el template para hacer las modificaciones de la info del usuario enviado en la variable 'usu'.
+    Si la información no se repite cn otro usuario, los cambios se guardan.
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':  # comprobamos que tenga los permisos
@@ -333,6 +380,11 @@ def mod_usuario(usu):
 
 @app.route("/agendar")
 def agendar_cita():
+    """
+    Se asegura que exista una sesión iniciada.
+    Envia el template para escoger entre veterinaria o boutique.
+
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             return render_template("citas/agendar.html")
@@ -344,6 +396,10 @@ def agendar_cita():
 
 @app.route("/citas_programadas")
 def ver_citas():
+    """
+    Dependiendo de los permisos de la cuenta con la que se inicio sesión, se muestran las citas programadas.
+
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'cliente':
@@ -360,6 +416,10 @@ def ver_citas():
 
 @app.route("/agendar/<tipo>", methods=['GET', 'POST'])
 def agendar_vet(tipo):
+    """
+    Dependiendo del tipo seleccionado se regresa al usuario un template para que escoga entre las fechas disponibles.
+
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if request.method == 'GET':
@@ -382,6 +442,9 @@ def agendar_vet(tipo):
 
 @app.route("/agendar/<tipo>/horarios", methods=['GET', 'POST'])
 def ver_horarios(tipo):
+    """
+    Escogido el tipo y la fecha se regresa un template con las horas disponibles para citas en ese día.
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             fecha = request.args['fecha']
@@ -401,6 +464,12 @@ def ver_horarios(tipo):
 
 @app.route("/agendar/<tipo>/confirmar", methods=['GET', 'POST'])
 def confirmar_cita(tipo):
+    """
+    Habiendo escogido el tipo, la fecha y la hora. Se ingresan los datos del usuario y de la mascota.
+    Se muestran los datos antes seleccionados y se le pide al usuario confirmar toda esta información.
+    Si el usuario no existe se registra automáticamente.
+    Si la fecha y hora de la cita ya están ocupadas se le menciona al usuario.
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             fecha = request.args['fecha']
@@ -457,6 +526,9 @@ def confirmar_cita(tipo):
 
 @app.route("/medicinas")
 def medicinas():
+    """
+    Si el usuario es administrador se le muestra una la lista de las medicinas que hay en el inventario de la veterinaria.
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':
@@ -473,6 +545,11 @@ def medicinas():
 
 @app.route("/medicinas/agregar_medicina", methods=['GET', 'POST'])
 def agregar_medicina():
+    """
+    Se segura que el usuario tenga permisos de administrador.
+    Se muestra el template correspondiente para que le usuario pueda introducri toda la información de la nueva medicina.
+    Si la medicina no esta ya registrada en la bd, se inserta, de lo contrario se le hace saber al usuario.
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':
@@ -506,6 +583,13 @@ def agregar_medicina():
 
 @app.route("/medicinas/<id_med>", methods=['GET', 'POST'])
 def mod_medicina(id_med):
+    """
+    Se asegura que se tengan los permisos de administrador.
+    Se muestra el template con toda la info de la medicina para poder modificarla.
+    Si se cambia info de la propia medicina, se asegura de que esta no exista en la bd.
+    Si se cambia solamente información de stock o precio, se guardan automaticamente los cambios.
+    Se redirige a la la lista de medicinas '/medicinas'
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':  # comprobamos que tenga los permisos
@@ -549,6 +633,10 @@ def mod_medicina(id_med):
 
 @app.route("/servicios", methods=['GET', 'POST'])
 def servicios():
+    """
+    Se asegura que eel usuario tenga permisos de de administrador.
+    Se envia un template con la lista de todos los servicios.
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':
@@ -564,6 +652,12 @@ def servicios():
 
 @app.route("/agregar_servicio", methods=['GET', 'POST'])
 def agregar_servicio():
+    """
+    Se asegura que tenga permisos de administrador.
+    Se muestran el template correspondiente para que el usuario pueda introducri la información del servicio.
+    Se inserta servicio a la bd.
+    Se redirige a la lista de servicios '/servicios'
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':
@@ -590,6 +684,13 @@ def agregar_servicio():
 
 @app.route("/mod_servicio/<id>", methods=['GET', 'POST'])
 def mod_servicio(id):
+    """
+    Se recibe el id del serevicio.
+    Se asegura que se tengan los pemisos de administrador.
+    Devuelve un template con la info del servicio correspondiente al id recibido.
+    Esto para que el usuario pueda observar y cambiar la información del servicio.
+    Se actualiza la información del servicio y se redirige a la lista de servicios '/servicios'
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':  # comprobamos que tenga los permisos
@@ -622,6 +723,14 @@ def mod_servicio(id):
 
 @app.route("/agregar_atencion", methods=['GET', 'POST'])
 def agregar_atencion():
+    """
+    Se asegura que la sesion tenga permisos de usuario o de administrador.
+    Se envía la un template para que el usuario registre una nueva atencion.
+    El template se muestra con opciuones predeterminadas obtenidas de la información guardada en la bd.
+    Se registra automaticamente el usuario si la atención se le hace a un usuario no registrado en la bd.
+    Se registra la información introducida por el usuario.
+    Se redirige al menú.
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin' or session['type'] == 'usuario':
@@ -681,6 +790,13 @@ def agregar_atencion():
 
 @app.route("/agregar_receta", methods=['GET', 'POST'])
 def agregar_receta():
+    """
+    Se asegura que la sesión tenga permisos de usuario o de administrador.
+    Se regresa un template con la información guardada en la bd para que el usuario pueda hacer la nueva receta.
+    Si el usuario o la mascota no existen, estos se agregan a la bd.
+    Se guarda la receta en la bd.
+    Se redirige a la lista de recetas '/historial_recetas'
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] != 'cliente':
@@ -734,6 +850,12 @@ def agregar_receta():
 
 @app.route("/agregar_receta/<id_duenio>", methods=['GET', 'POST'])
 def escribir_receta(id_duenio):
+    """
+    Se asegura que la sesión tenga permisos de usuario o de administrador.
+    Se devuelve un tamplate con la info del dueño del id recibido para que agreguen la nueva receta.
+    Se guarda la nueva receta en la bd.
+    Se le redirige al historial de recetas '/historial_recetas'
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] != 'cliente':
@@ -767,6 +889,10 @@ def escribir_receta(id_duenio):
 
 @app.route("/historial_recetas", methods=['GET', 'POST'])
 def recetas():
+    """
+    Si la sesión tiene los permisos de administrador, se mostrará todas las recetas.
+    De lo contrario se mostrarán todas las recetas en las que le usuario logeado aparezca.
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':
@@ -785,6 +911,10 @@ def recetas():
 
 @app.route("/historial_atencion", methods=['GET', 'POST'])
 def atenciones():
+    """
+    Si la cuenta tiene permisos de administrador, muestra todas las atenciones.
+    De lo contrario muestra solo las atenciones del usuario logeado.
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':
@@ -807,6 +937,11 @@ def atenciones():
 
 @app.route("/informe_ventas/diaria", methods=['GET', 'POST'])
 def informe_ventas_diario():
+    """
+    Se asegura que la cuenta tenga permisos de administrador.
+    Regresa el template con toda la información del sistema para mostrar su respectivo informe de ventas.
+    Si se selecciona alguna fecha en especifico la información cambia dependiendo de la misma.
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':
@@ -865,6 +1000,11 @@ def informe_ventas_diario():
 
 @app.route("/informe_ventas/mensual", methods=['GET', 'POST'])
 def informe_ventas_mensual():
+    """
+      Se asegura que la cuenta tenga permisos de administrador.
+      Regresa el template con toda la información del sistema para mostrar su respectivo informe de ventas divido por meses.
+      Si se selecciona alguna fecha en especifico la información cambia dependiendo de la misma.
+      """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':
@@ -927,6 +1067,11 @@ def informe_ventas_mensual():
 
 @app.route("/informe_ventas/rango", methods=['GET', 'POST'])
 def informe_ventas_rango():
+    """
+      Se asegura que la cuenta tenga permisos de administrador.
+      Regresa el template con toda la información del sistema para mostrar su respectivo informe de ventas.
+      Si se selecciona algun rango de fechas en especifico la información cambia dependiendo de la misma.
+      """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if session['type'] == 'admin':
@@ -982,6 +1127,11 @@ def informe_ventas_rango():
 # Crear PDF
 @app.route("/<tipo>_<id>.pdf")
 def crear_PDF(tipo, id):
+    """
+    Dependioendo de lo que se quiere hacer pdf.
+    Se recolecta la inforamción necesaria a traves del id y del tipo.
+    Se genera el template pra despues hacerlo pdf y que el usuario lo pueda descargar.
+    """
     if 'logged_in' in session.keys():
         if session['logged_in']:
             if tipo == 'atencion':
@@ -1003,6 +1153,9 @@ def crear_PDF(tipo, id):
 # Páginas que arrojan errores
 @app.errorhandler(404)
 def page_not_found(e):
+    """
+    Devuelve el template correspondiende cuando sucede alguún error.
+    """
     # note that we set the 404 status explicitly
     return render_template('errors/404.html'), 404
 
@@ -1014,6 +1167,10 @@ def page_not_found(e):
 # MÉTODOS LIGADOS A FUNCIONES DE JAVASCRIPT
 @app.route("/add/<tipo>/<id>")
 def add(tipo, id):
+    """
+    Recolecta la información necesaria de alguna medicina, servicio o receta
+    para despues enviarla en formato tipo json y ser utilizado por javascript.
+    """
     lista = []
     if tipo == 'MEDICINA':
         lista = get_medicina(id)
@@ -1056,6 +1213,9 @@ def remove(tipo, id):
 
 @app.route("/select/<email>")
 def usuario(email):
+    """
+    Recoleta la información de un usuario seleccionado para depués devolverlo en formato json y ser utilizado por javascript
+    """
     usuario = get_usuario('email', email)
     print(usuario)
     mascotas = get_lista_mascotas(usuario['id'])
@@ -1073,6 +1233,9 @@ def usuario(email):
 
 @app.route("/mascota_select/<email>/<n_mascota>")
 def mascota_select(email, n_mascota):
+    """
+    Recoleta la información de una mascota seleccionado para depués devolverlo en formato json y ser utilizado por javascript
+    """
     usuario = get_usuario('email', email)
     mascota = get_mascota(n_mascota, usuario['id'])
     print(mascota)
@@ -1080,4 +1243,7 @@ def mascota_select(email, n_mascota):
 
  
 if __name__ == '__main__':
+    """
+    Ejecución del programa 
+    """
     app.run(debug=True)
