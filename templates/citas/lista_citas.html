@@ -1,100 +1,53 @@
-{%  extends "base.html"  %}
-{%  set log = log %}
-{% block title %}Citas
-{% endblock %}
-
-{% block body %}
-{% include "navbar.html" %}
+{% extends "base.html" %} {% set log = log %} {% block title %}Citas {% endblock %} {% block body %} {% include "navbar.html" %}
 
 <div class="row">
-    {% with path=request.path %}
-    {% include "menu.html" %}
-    {% endwith %}
-    <div class="col-lg-9 container my-5 justify-content-center">
-        <div class="mx-5 table-responsive">
-            <div class="row justify-content-between mb-3">
-                <div class="col-auto">
-                <input class="form-control" type="text" id="searchbox" onkeyup="buscar('searchbox','table')"
-                       placeholder="Buscar...">
-                </div>
-                <div class="col-auto">
-                    <a href="/agendar" class="btn boton_pie">Agendar cita</a>
+    {% with path=request.path %} {% include "menu.html" %} {% endwith %}
+    <div class="col-lg-8 container my-5 justify-content-center">
+        <div class="table-responsive">
+            <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="">Citas programadas</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="/agendar" class="me-2 btn btn-sm btn-outline-secondary">Agendar nueva cita</a>
                 </div>
             </div>
+            <div class="col-auto mb-3 ">
+                <input class="form-control " type="text " id="searchbox" onkeyup="buscar('searchbox', 'table') " placeholder="Buscar... ">
+            </div>
+
             <table id="table" class="table table-hover">
                 <thead class="table-light">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Dueño</th>
-                    <th scope="col">Mascota</th>
-                    <th scope="col">Tipo De Mascota</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Hora</th>
-                    <th scope="col">Tipo de atencion</th>
-                </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Dueño</th>
+                        <th scope="col">Mascota</th>
+                        <th scope="col">Tipo De Mascota</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Hora</th>
+                        <th scope="col">Tipo de atencion</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    {% for cita in lista_citas %}
-                    <th scope="row">{{cita['id']}}</th>
-                    <td>{{cita['cliente']}}</td>
-                    <td>{{cita['nombre_mascota']}}</td>
-                    <td>{{cita['tipo_mascota']}}</td>
-                    <td>{{cita['fecha']}}</td>
-                    <td>{{cita['hora']}}</td>
-                    <td>{{cita['atencion']}}</td>
-                    <!--                <td><a href="/mod_usuario/{{usuario['username']}}" class="btn boton_pie">Modificar</a></td>-->
-                </tr>
-                {% endfor %}
+                    <tr>
+                        {% for cita in lista_citas %}
+                        <th scope="row">{{cita['id']}}</th>
+                        <td>{{cita['cliente']}}</td>
+                        <td>{{cita['nombre_mascota']}}</td>
+                        <td>{{cita['tipo_mascota']}}</td>
+                        <td>{{cita['fecha']}}</td>
+                        <td>{{cita['hora']}}</td>
+                        <td>{{cita['atencion']}}</td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <!-- <h3 class="">Lista De Usuarios</h3>
-        <ul class="listado">
-            {% for usuario in lista_usuarios %}
-            <li class="elemento_lista">{{usuario['name']}} | <a href="/mod_usuario/{{usuario['username']}}" class="elemento_lista">Editar usuario</a></li>
-            {% endfor %}
-        </ul>
-        <div class="contenedor_btns">
-            <a href="/agregar_usuario" class="btn boton_pie">Agregar Usuario</a>
-        </div> -->
     </div>
 </div>
-<!-- <div class="contenido">
-    <h3 class="titulo">Lista De Usuarios</h3>
-    <div class="contenedor_main">
-        <div >
-    <div class="contenedor_accesos">
-        <ul class="list-group">
-            {% for link,nombre in accesos.items() %}
-            {% if nombre=='Usuarios' %}
-            <a href="{{link}}">
-                <li class="list-group-item active no-border elemento_accesos" aria-current="true">{{nombre}}</li>
-            </a>
-            {% else %}
-            <a href="{{link}}">
-                <li class="list-group-item no-border elemento_accesos" aria-current="true">{{nombre}}</li>
-            </a>
-            {% endif %}
-            {% endfor %}
-        </ul>
-    </div></div>
-    <div class="contenedor_info">
-        <ul class="listado">
-            {% for usuario in lista_usuarios %}
-            <li class="elemento_lista">{{usuario['name']}} | <a href="/mod_usuario/{{usuario['username']}}" class="elemento_lista">Editar usuario</a></li>
-            {% endfor %}
-        </ul>
-        <div class="contenedor_btns">
-            <a href="/agregar_usuario" class="btn boton_pie">Agregar Usuario</a>
-        </div>
-    </div>
+
 </div>
-</div> -->
 
+</div>
+</div>
 
-
-{% endblock %}
-{% block footer %}
-{% endblock %}
+{% endblock %} {% block footer %} {% endblock %}

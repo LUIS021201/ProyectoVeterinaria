@@ -3,20 +3,16 @@
         <div class="container-fluid">
             {% if logged=='yes' %}
 
-            <a href="#offcanvasExample" data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasExample"
-               class="me-3 float-start d-lg-none" style="font-size: 1.5rem; color: #aacbfa;">
+            <a href="#offcanvasExample" data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasExample" class="me-3 float-start d-lg-none" style="font-size: 1.5rem; color: #aacbfa;">
                 <i class="bi bi-person-circle"></i>
             </a>
 
             {% endif %}
-            <a class="navbar-brand" href="/"><img class="me-1" src="/static/logo.svg" width="40"
-                                                  height="36"></img>PetVet
+            <a class="navbar-brand" href="/"><img class="me-1" src="/static/logo.svg" width="40" height="36"></img>PetVet
 
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -27,10 +23,10 @@
                         <a class="nav-link" aria-current="page" href="/">INICIO</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">SOBRE NOSOTROS</a>
+                        <a class="nav-link" href="#about-us">SOBRE NOSOTROS</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">SERVICIOS</a>
+                        <a class="nav-link" href="#servicios">SERVICIOS</a>
                     </li>
                     {% if logged=='yes' %}
                     <li class="d-none d-lg-block nav-item">
@@ -65,8 +61,7 @@
     <div class="offcanvas-body">
         <div class="menu">
             {% for link,nombre in accesos.items() %}
-            <a class="d-block p-3 text-light" href="{{link}}"><i class="{{nombre[0]}} me-3"></i>{{nombre[1]}}</a>
-            {% endfor %}
+            <a class="d-block p-3 text-light" href="{{link}}"><i class="{{nombre[0]}} me-3"></i>{{nombre[1]}}</a> {% endfor %}
         </div>
     </div>
 </div>

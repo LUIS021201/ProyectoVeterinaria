@@ -1,49 +1,41 @@
-{%  extends "base.html"  %}
-{%  set log = log %}
-{% block title %}Usuarios
-
-{% endblock %}
-{% block body %}
-{% include "navbar.html" %}
+{% extends "base.html" %} {% set log = log %} {% block title %}Usuarios {% endblock %} {% block body %} {% include "navbar.html" %}
 
 
 <div class="row">
-    {% with path=request.path %}
-    {% include "menu.html" %}
-    {% endwith %}
-    <div class="col-lg-9 container my-5 justify-content-center">
-        <div class="mx-5 table-responsive">
-            <div class="row justify-content-between mb-3">
-                <div class="col-auto">
-                <input class="form-control" type="text" id="searchbox" onkeyup="buscar('searchbox','table')"
-                       placeholder="Buscar...">
+    {% with path=request.path %} {% include "menu.html" %} {% endwith %}
+    <div class="col-lg-8 container my-5 justify-content-center">
+        <div class="table-responsive">
+            <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="">Usuarios</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="/agregar_usuario" class="me-2 btn btn-sm btn-outline-secondary">Agregar usuario</a>
                 </div>
-                <div class="col-auto">
-                    <a href="/agregar_usuario" class="btn boton_pie">Agregar usuario</a>
-                </div>
+            </div>
+            <div class="col-auto mb-3 ">
+                <input class="form-control " type="text " id="searchbox" onkeyup="buscar( 'searchbox', 'table') " placeholder="Buscar... ">
             </div>
             <table id="table" class="table table-hover">
                 <thead class="table-light">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Modificar</th>
-                </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Modificar</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    {% for usuario in lista_usuarios %}
-                    <th scope="row">{{usuario['id']}}</th>
-                    <td>{{usuario['name']}}</td>
-                    <td>{{usuario['email']}}</td>
-                    <td>{{usuario['username']}}</td>
-                    <td>{{usuario['type']}}</td>
-                    <td><a href="/mod_usuario/{{usuario['username']}}" class="btn boton_pie">Modificar</a></td>
-                </tr>
-                {% endfor %}
+                    <tr>
+                        {% for usuario in lista_usuarios %}
+                        <th scope="row">{{usuario['id']}}</th>
+                        <td>{{usuario['name']}}</td>
+                        <td>{{usuario['email']}}</td>
+                        <td>{{usuario['username']}}</td>
+                        <td>{{usuario['type']}}</td>
+                        <td><a href="/mod_usuario/{{usuario['username']}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -92,6 +84,4 @@
 </div> -->
 
 
-{% endblock %}
-{% block footer %}
-{% endblock %}
+{% endblock %} {% block footer %} {% endblock %}

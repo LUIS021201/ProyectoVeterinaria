@@ -1,44 +1,33 @@
-{%  extends "base.html"  %}
-{%  set log = log %}
-{% block title %}Olvidar contraseña{% endblock %}
-{% block body %}
+{% extends "base.html" %} {% set log = log %} {% block title %}Olvidar contraseña{% endblock %} {% block body %}
+
 <body class="body_login">
 
-<div class="contenedor_logo">
-    <a class="logo" href="#"><img class="me-1" src="/static/logo.svg" width="40"
-                                  height="36" alt="logo">PetVet</a>
-</div>
-
-<div class="fondo_login">
-
-
-    <div class="login">
-        <form class="form_login" action="" method="POST">
-            <h1 class="mb-3">Verificación de Codigo</h1>
-
-            <h6 class="mb-3" style="color:red;">{{mensaje}}</h6>
-            <!--            <div class="form-floating  contenedor_campo mb-3">-->
-            <!--                <input type="email" class="form-control campo_login input_login" id="floatingInput" placeholder="name@example.com" name="email">-->
-            <!--                <label class="label_login" for="floatingInput">Email address</label>-->
-            <!--            </div>-->
-            <!--            <div class="form-floating contenedor_campo mb-3" >-->
-            <!--                <input type="password" class="form-control campo_login input_login" id="floatingPassword" placeholder="Password" name="password">-->
-            <!--                <label class="label_login" for="floatingPassword">Password</label>-->
-            <!--            </div>-->
-            <div class="contenedor_campo">
-                <label class="campo_login label_login" for="validationDefault01">Código:</label>
-                <input class="form-control campo_login input_login" min="0" type="number" id="validationDefault01" name="codigo"
-                       required><br>
-            </div>
-            <input class="campo_login btn boton_login" type="submit" name="enviar" value="Enviar">
-            <br>
-
-        </form>
+    <div class="contenedor_logo">
+        <a class="logo" href="#"><img class="me-1" src="/static/logo.svg" width="40" height="36" alt="logo">PetVet</a>
     </div>
-</div>
+
+    <div class="fondo_login">
+
+
+        <div class="login">
+            <form class="form_login" action="" method="POST">
+                <h1 class="mb-3 login-h1">Verificación de Codigo</h1>
+
+                {% for message in get_flashed_messages() %}
+                <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                    {{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                <div class="contenedor_campo">
+                    <label class="campo_login label_login" for="validationDefault01">Código:</label>
+                    <input class="form-control campo_login input_login" min="0" type="number" id="validationDefault01" name="codigo" required><br>
+                </div>
+                <input class="campo_login btn boton_login" type="submit" name="enviar" value="Enviar">
+                <br>
+
+            </form>
+        </div>
+    </div>
 </body>
-{% endblock %}
-{% block footer %}
-{% endblock %}
-
-
+{% endblock %} {% block footer %} {% endblock %}

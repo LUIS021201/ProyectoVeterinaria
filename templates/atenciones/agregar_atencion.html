@@ -1,23 +1,27 @@
-{% extends "base.html" %}
-{% set log = log %}
-{% block title %}Agregar atención
-{% endblock %}
-{% block body %}
-{% include "navbar.html" %}
+{% extends "base.html" %} {% set log = log %} {% block title %}Agregar atención {% endblock %} {% block body %} {% include "navbar.html" %}
 
 <div class="row">
-    {% with path=request.path %}
-    {% include "menu.html" %}
-    {% endwith %}
-    <div class="col-lg-6 container text-center my-5">
-        <h3 class="" style="padding: 1rem;">Agregar una Atención</h3>
+    {% with path=request.path %} {% include "menu.html" %} {% endwith %}
+    <div class="col-lg-8 container text-center my-5">
+        <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a href="/historial_atencion" class="ms-4 elemento_lista"><i class="fa-solid fa-chevron-left"></i> Regresar</a>
+            </div>
+
+        </div>
+        <h3 class="my-3 ms-4">Agregar atención</h3>
         <div class="container-sm">
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
             <form class="needs-validation" action="" method="POST">
                 <div class="mb-3" id='sel_email'>
 
 
-                    <input class="form-control" id='email' type="email" placeholder="Ingrese el email del cliente..."
-                           list="lista_email" name="email" required onChange="get_data(this)"/>
+                    <input class="form-control" id='email' type="email" placeholder="Ingrese el email del cliente..." list="lista_email" name="email" required onChange="get_data(this)" />
                     <datalist name="lista" id="lista_email">
                         {% for usr in lista_usuarios %}
                         <option value="{{usr['email']}}">{{usr['email']}}</option>
@@ -28,15 +32,12 @@
 
                 <div id='dueno' class="form-floating mb-3">
 
-                    <input type="text" style="text-transform: capitalize;" placeholder="Nombre del dueño"
-                           class="form-control" id="nombre" required name="nombre">
+                    <input type="text" style="text-transform: capitalize;" placeholder="Nombre del dueño" class="form-control" id="nombre" required name="nombre">
                     <label class="form-label" for="nombre">Nombre del dueño</label>
 
                 </div>
                 <div id='input_mascota' class="mb-3">
-                    <input id="m_input" placeholder="Nombre de la mascota" class="form-control"
-                            list="mascotas" name="mascota"
-                           />
+                    <input id="m_input" placeholder="Nombre de la mascota" class="form-control" list="mascotas" name="mascota" />
 
 
                     <datalist id="mascotas">
@@ -46,71 +47,65 @@
 
                 <div class="form-floating mb-3">
 
-                    <textarea type="text" style="height: 200px;" placeholder="Descripción"
-                           class="form-control" id="descripcion" required name="descripcion"
-                           maxlength="500"></textarea>
+                    <textarea type="text" style="height: 200px;" placeholder="Descripción" class="form-control" id="descripcion" required name="descripcion" maxlength="500"></textarea>
 
                     <label class="form-label" for="descripcion">Descripción</label>
 
                 </div>
 
                 <div class="row mb-3 text-start">
-                <label >Agrega los servicios y/o medicinas utilizados</label>
-                    </div>
+                    <label>Agrega los servicios y/o medicinas utilizados</label>
+                </div>
                 <div class="row mb-3">
                     <div class="col-5">
-                    <select class="form-control" name="servicios" id="lista_servicios">
+                        <select class="form-control" name="servicios" id="lista_servicios">
                         <option class="opcion" disabled selected>Seleccionar servicio...</option>
                         {% for servicio in lista_servicios %}
                         <option value="{{servicio['id']}}">{{servicio['nombre']}}</option>
                         {% endfor %}
                     </select>
-                </div>
-                <div class="col-1">
-                    <button type="button" onClick="add('SERVICIO')" class="btn boton_pie" id="add_btn">+</button>
-                </div>
-                <div class="col-5">
-                    <select class="form-control" name="medicinas" id="lista_medicinas">
+                    </div>
+                    <div class="col-1">
+                        <button type="button" onClick="add('SERVICIO')" class="btn boton_pie" id="add_btn">+</button>
+                    </div>
+                    <div class="col-5">
+                        <select class="form-control" name="medicinas" id="lista_medicinas">
                         <option class="opcion" disabled selected>Seleccionar medicina...</option>
                         {% for medicina in lista_medicinas %}
                         <option value="{{medicina['id']}}">{{medicina['nombre']}}</option>
                         {% endfor %}
                     </select>
+                    </div>
+                    <div class="col-1">
+                        <button onClick="add('MEDICINA')" type="button" class="btn boton_pie" id="add_btn">+</button>
+                    </div>
                 </div>
-                <div class="col-1">
-                    <button onClick="add('MEDICINA')"  type="button" class="btn boton_pie" id="add_btn">+</button>
-                </div>
-                </div>
-               
+
                 <div id="lista" class="mb-3">
                 </div>
 
                 <div class="form-floating mb-3 col-4 align-self-end">
 
-                    <input type="number" placeholder="Subtotal"
-                           class="form-control" id="subtotal" required min="0.00" value="0.00" name="subtotal" readonly>
+                    <input type="number" placeholder="Subtotal" class="form-control" id="subtotal" required min="0.00" value="0.00" name="subtotal" readonly>
                     <label class="form-label" for="subtotal">Subtotal</label>
 
                 </div>
 
                 <div class="form-floating mb-3 col-4 align-self-end">
 
-                    <input type="number" placeholder="IVA"
-                           class="form-control " id="iva" min="0.00" value="0.00" required name="iva" readonly>
+                    <input type="number" placeholder="IVA" class="form-control " id="iva" min="0.00" value="0.00" required name="iva" readonly>
                     <label class="form-label" for="iva">IVA</label>
 
                 </div>
 
                 <div class="form-floating mb-3 col-4 align-self-end">
 
-                    <input type="number" placeholder="Total"
-                           class="form-control " id="total" required min="0.00" value="0.00" name="total" readonly>
+                    <input type="number" placeholder="Total" class="form-control " id="total" required min="0.00" value="0.00" name="total" readonly>
                     <label class="form-label" for="total">Total</label>
 
                 </div>
                 <div class="contenedor_btns">
                     <input class="btn boton_pie" type="submit" name="enviar" value="Agregar">
-                    <h6 style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
                 </div>
             </form>
 
@@ -120,8 +115,4 @@
     </div>
 </div>
 
-{% endblock %}
-{% block footer %}
-
-
-{% endblock %}
+{% endblock %} {% block footer %} {% endblock %}

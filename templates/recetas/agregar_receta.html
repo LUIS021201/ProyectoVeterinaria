@@ -2,17 +2,25 @@
 
 <div class="row">
     {% with path=request.path %} {% include "menu.html" %} {% endwith %}
-    <div class="col-lg-6 container text-center my-5">
-        <h3 class="" style="padding: 1rem;">Agregar una Receta</h3>
+    <div class="col-lg-8 container text-center my-5">
+        <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a href="/historial_recetas" class="ms-4 elemento_lista"><i class="fa-solid fa-chevron-left"></i> Regresar</a>
+            </div>
+
+        </div>
+        <h3 class="my-3 ms-4">Agregar receta</h3>
         <div class="container-sm">
             <form class="needs-validation" action="" method="POST">
                 <div class="mb-3">
+                    {% if session['type'] == 'admin' %}
                     <select name='doctor' class="form-select" name="lista" id="lista_doc">
                         <option value="0" selected disabled>Seleccionar doctor...</option>
                         {% for usr in lista_doctores %}
                         <option value="{{usr['email']}}">{{usr['name']}}</option>
                         {% endfor %}
-                    </select>
+                    </select> {% else %}
+                    <input placeholder="Nombre del doctor" class="form-control" name="doctor" readonly value="{{session['name']}}" /> {% endif %}
                 </div>
 
                 <div class="mb-3" id='sel_email'>

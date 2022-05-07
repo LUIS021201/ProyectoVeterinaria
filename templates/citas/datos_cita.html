@@ -1,19 +1,14 @@
-{%  extends "base.html"  %}
-{%  set log = log %}
-{% block title %}Agendar cita
-{% endblock %}
-
-{% block body %}
-{% include "navbar.html" %}
+{% extends "base.html" %} {% set log = log %} {% block title %}Agendar cita {% endblock %} {% block body %} {% include "navbar.html" %}
 
 
 <div class="row">
-    {% with path="/agendar" %}
-    {% include "menu.html" %}
-    {% endwith %}
-    <div class="col-lg-6 container text-center my-5">
-        <h3 class="">Agendar Cita</h3>
-        <p class="text-muted pt-2">Selecciona una fecha para mostrar los horarios disponibles:</p>
+    {% with path="/agendar" %} {% include "menu.html" %} {% endwith %}
+    <div class="col-lg-8 container my-5">
+        <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h3 class="">Agendar cita</h3>
+
+        </div>
+        <h6 class="text-muted mx-2 mb-4">Selecciona una fecha para mostrar los horarios disponibles:</h6>
         <div class="row justify-content-center mx-5">
             <form class="needs-validation" action="" method="POST">
                 <!-- <div class="form-floating mb-3">
@@ -35,13 +30,12 @@
                     <label for="validationServer05">Tipo de mascota</label>
                 </div> -->
                 <div class="form-floating mb-3">
-                    <input type="date" class="form-control" id="validationServer04" required name="fecha"
-                           min="{{date_min}}" max="{{date_max}}">
+                    <input type="date" class="form-control" id="validationServer04" required name="fecha" min="{{date_min}}" max="{{date_max}}">
                     <label for="validationServer04">Fecha</label>
                 </div>
                 <div class="contenedor_btns">
-                    <input class="btn boton_pie" type="submit" name="enviar" value="Mostrar horarios"> <h6
-                        style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
+                    <input class="btn boton_pie" type="submit" name="enviar" value="Mostrar horarios">
+                    <h6 style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
                 </div>
             </form>
         </div>
@@ -91,6 +85,4 @@
 </div> -->
 
 
-{% endblock %}
-{% block footer %}
-{% endblock %}
+{% endblock %} {% block footer %} {% endblock %}

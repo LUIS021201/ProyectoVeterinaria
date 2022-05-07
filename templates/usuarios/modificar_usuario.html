@@ -1,37 +1,36 @@
-{%  extends "base.html"  %}
-{%  set log = log %}
-{% block title %}Modificar usuario
-
-{% endblock %}
-{% block body %}
-{% include "navbar.html" %}
+{% extends "base.html" %} {% set log = log %} {% block title %}Modificar usuario {% endblock %} {% block body %} {% include "navbar.html" %}
 
 <div class="row">
-    {% with path="/usuarios" %}
-    {% include "menu.html" %}
-    {% endwith %}
-    <div class="col-lg-9 container my-5 justify-content-center">
-        <a href="/usuarios" class="ms-4 elemento_lista"><i class="fa-solid fa-chevron-left"></i> Regresar</a>
-        <h3 class="mb-3 text-center">Modificar usuario</h3>
+    {% with path="/usuarios" %} {% include "menu.html" %} {% endwith %}
+    <div class="col-lg-8 container my-5 text-center justify-content-center">
+        <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a href="/usuarios" class="ms-4 elemento_lista"><i class="fa-solid fa-chevron-left"></i> Regresar</a>
+            </div>
+
+        </div>
+        <h3 class="my-3 ms-4">Modificar usuario</h3>
         <div class="container-sm">
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
             <form class="needs-validation" action="" method="POST">
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="email" name="email" value="{{dicc_usuario['email']}}"
-                           required>
+                    <input type="email" class="form-control" id="email" name="email" value="{{dicc_usuario['email']}}" required>
                     <label for="email">Email</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="username" required name="username"
-                           value="{{dicc_usuario['username']}}">
+                    <input type="text" class="form-control" id="username" required name="username" value="{{dicc_usuario['username']}}">
                     <label for="username">Username</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="validationServer03" required placeholder="Nombre"
-                           name="nombre" value="{{dicc_usuario['name']}}">
+                    <input type="text" class="form-control" id="validationServer03" required placeholder="Nombre" name="nombre" value="{{dicc_usuario['name']}}">
                     <label for="validationServer03">Nombre</label>
                 </div>
-                <select class="form-select form-select-lg mb-3 form-floating" aria-label=".form-select-lg example"
-                        id="tipo" name="tipo">
+                <select class="form-select form-select-lg mb-3 form-floating" aria-label=".form-select-lg example" id="tipo" name="tipo">
 
                     <option value="admin" {% if dicc_usuario[
                     'type']=='admin' %}selected{% endif %} >Administrador</option>
@@ -41,8 +40,7 @@
                     'type']=='cliente' %}selected{% endif %} >Cliente</option>
                 </select>
                 <div class="contenedor_btns">
-                    <input class="btn boton_pie" type="submit" name="enviar" value="Guardar Cambios"> <h6
-                        style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
+                    <input class="btn boton_pie" type="submit" name="enviar" value="Guardar Cambios">
                 </div>
             </form>
         </div>
@@ -50,6 +48,4 @@
 </div>
 
 
-{% endblock %}
-{% block footer %}
-{% endblock %}
+{% endblock %} {% block footer %} {% endblock %}

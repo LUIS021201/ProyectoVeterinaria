@@ -4,6 +4,7 @@ mascota_select = document.getElementById('mascotas');
 tipo = document.getElementById('tipo_mascota');
 email = input_email.value;
 
+
 function get_data(elem) {
 
     nombre.readonly = false;
@@ -179,9 +180,9 @@ function tabla(dict) {
                 data: Object.values(data_from_python),
                 lineTension: 0,
                 backgroundColor: 'transparent',
-                borderColor: '#007bff',
+                borderColor: '#6398e3',
                 borderWidth: 4,
-                pointBackgroundColor: '#007bff'
+                pointBackgroundColor: '#6398e3'
             }]
         },
         options: {
@@ -234,6 +235,20 @@ function buscar(id, table_id) {
             tr[i].style.display = "";
         }
     }
+}
+
+function search() {
+    const searchbox = document.getElementById('searchbox');
+    const buscar = searchbox.value.toLowerCase();
+
+    $("#list td").each((id, elem) => {
+        if (elem.innerText.toLowerCase().includes(buscar)) {
+            elem.style.display = "block";
+        } else {
+            elem.style.display = "none";
+        }
+    });
+
 }
 
 function solo_desplegar_uno(id) {

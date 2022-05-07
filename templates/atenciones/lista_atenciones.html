@@ -2,40 +2,39 @@
 
 <div class="row">
     {% with path=request.path %} {% include "menu.html" %} {% endwith %}
-    <div class="col-lg-9 container my-5 justify-content-center">
-        <div class="mx-5 table-responsive">
-            <div class="row justify-content-between mb-3">
-                <div class="col-auto">
-                    <input class="form-control" type="text" id="searchbox" onkeyup="buscar('searchbox','table')" placeholder="Buscar...">
-                </div>
+    <div class="col-lg-8 container my-5 justify-content-center">
+        <div class="table-responsive">
+            <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="">Historial de Atención</h1>
                 {% if session['type']!='cliente' %}
-
-                <div class="col-auto">
-                    <a href="/agregar_atencion" class="btn boton_pie">Agregar Atención</a>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="/agregar_atencion" class="me-2 btn btn-sm btn-outline-secondary">Agregar atención</a>
                 </div>
-
                 {% endif %}
             </div>
-            <table id="table" class="table table-hover">
-                <thead class="table-light">
+            <div class="col-auto mb-3 ">
+                <input class="form-control " type="text " id="searchbox" onkeyup="buscar( 'searchbox', 'table') " placeholder="Buscar... ">
+            </div>
+            <table id="table" class="table table-hover ">
+                <thead class="table-light ">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Mascota</th>
-                        <th scope="col">Tipo de mascota</th>
-                        <th scope="col">Descripción</th>
-                        <th scope="col">Subtotal</th>
-                        <th scope="col">IVA</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Servicios</th>
-                        <th scope="col">Medicinas</th>
-                        <!--                    <th scope="col">Servicio</th>-->
-                        <!--                    <th scope="col">Costo de servicio</th>-->
-                        <!--                    <th scope="col">Medicina</th>-->
-                        <!--                    <th scope="col">Costo Medicina</th>-->
-                        <!--                    <th scope="col">Presentación</th>-->
-                        <th scope="col">PDF</th>
+                        <th scope="col ">#</th>
+                        <th scope="col ">Fecha</th>
+                        <th scope="col ">Cliente</th>
+                        <th scope="col ">Mascota</th>
+                        <th scope="col ">Tipo de mascota</th>
+                        <th scope="col ">Descripción</th>
+                        <th scope="col ">Subtotal</th>
+                        <th scope="col ">IVA</th>
+                        <th scope="col ">Total</th>
+                        <th scope="col ">Servicios</th>
+                        <th scope="col ">Medicinas</th>
+                        <!--                    <th scope="col ">Servicio</th>-->
+                        <!--                    <th scope="col ">Costo de servicio</th>-->
+                        <!--                    <th scope="col ">Medicina</th>-->
+                        <!--                    <th scope="col ">Costo Medicina</th>-->
+                        <!--                    <th scope="col ">Presentación</th>-->
+                        <th scope="col ">PDF</th>
 
 
                     </tr>
@@ -43,7 +42,7 @@
                 <tbody>
                     <tr>
                         {% for atencion in lista_atenciones %}
-                        <th scope="row">{{atencion['id']}}</th>
+                        <th scope="row ">{{atencion['id']}}</th>
                         <td>{{atencion['fecha']}}</td>
                         <td>{{atencion['cliente']}}</td>
                         <td>{{atencion['nombre_mascota']}}</td>
@@ -53,14 +52,14 @@
                         <td>{{atencion['iva']}}</td>
                         <td>{{atencion['total']}}</td>
                         {% if lista_servicios %}
-                        <td><a onclick="solo_desplegar_uno('servicios{{atencion['id']}}')" class="btn btn-primary" data-bs-toggle="collapse" href="#servicios{{atencion['id']}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <td><a onclick="solo_desplegar_uno( 'servicios{{atencion['id ']}}') " class="btn btn-primary " data-bs-toggle="collapse " href="#servicios{{atencion[ 'id']}} " role="button " aria-expanded="false " aria-controls="collapseExample ">
                         Ver Servicios
                         </a></td>
                         {% else %}
                         <td>Ningún Servicio</td>
 
                         {% endif %} {% if lista_meds %}
-                        <td><a onclick="solo_desplegar_uno('medicinas{{atencion['id']}}')" class="btn btn-primary" data-bs-toggle="collapse" href="#medicinas{{atencion['id']}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <td><a onclick="solo_desplegar_uno( 'medicinas{{atencion['id ']}}') " class="btn btn-primary " data-bs-toggle="collapse " href="#medicinas{{atencion[ 'id']}} " role="button " aria-expanded="false " aria-controls="collapseExample ">
 
 
                         Ver Medicinas
@@ -82,15 +81,15 @@
                         <!--                    {% endif %}-->
                         <!--                    {% endfor %}-->
                         <!--                    <p>-->
-                        <!--                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"-->
-                        <!--                           aria-expanded="false" aria-controls="collapseExample">-->
+                        <!--                        <a class="btn btn-primary " data-bs-toggle="collapse " href="#collapseExample " role="button "-->
+                        <!--                           aria-expanded="false " aria-controls="collapseExample ">-->
                         <!--                            Link with href-->
                         <!--                        </a>-->
 
                         <!--                    </p>-->
 
 
-                        <td><a href="{{ url_for('crear_PDF', tipo='atencion', id=atencion['id']) }}" target="_blank" class="btn boton_pie">Descargar PDF</a></td>
+                        <td><a href="{{ url_for( 'crear_PDF', tipo='atencion' , id=atencion[ 'id']) }} " target="_blank "><i class="fa-solid fa-download"></i></a></td>
 
 
                     </tr>
@@ -99,14 +98,14 @@
 
             </table>
             {% for atencion in lista_atenciones %}
-            <div class="collapse" id="servicios{{atencion['id']}}">
-                <div class="card card-body">
+            <div class="collapse " id="servicios{{atencion[ 'id']}} ">
+                <div class="card card-body ">
 
-                    <table id="table1" class="table table-hover">
-                        <thead class="table-light">
+                    <table id="table1 " class="table table-hover ">
+                        <thead class="table-light ">
                             <tr>
-                                <th scope="col">Servicio</th>
-                                <th scope="col">Costo de servicio</th>
+                                <th scope="col ">Servicio</th>
+                                <th scope="col ">Costo de servicio</th>
 
 
                             </tr>
@@ -131,16 +130,16 @@
                 </div>
             </div>
 
-            <div class="collapse" id="medicinas{{atencion['id']}}">
-                <div class="card card-body">
+            <div class="collapse " id="medicinas{{atencion[ 'id']}} ">
+                <div class="card card-body ">
 
-                    <table id="table2" class="table table-hover">
-                        <thead class="table-light">
+                    <table id="table2 " class="table table-hover ">
+                        <thead class="table-light ">
                             <tr>
 
-                                <th scope="col">Medicina</th>
-                                <th scope="col">Costo de Medicina</th>
-                                <th scope="col">Presentacion</th>
+                                <th scope="col ">Medicina</th>
+                                <th scope="col ">Costo de Medicina</th>
+                                <th scope="col ">Presentacion</th>
 
 
                             </tr>

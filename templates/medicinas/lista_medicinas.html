@@ -1,55 +1,47 @@
-{%  extends "base.html"  %}
-{%  set log = log %}
-{% block title %}Medicinas
-{% endblock %}
-
-{% block body %}
-{% include "navbar.html" %}
+{% extends "base.html" %} {% set log = log %} {% block title %}Medicinas {% endblock %} {% block body %} {% include "navbar.html" %}
 
 <div class="row">
-    {% with path=request.path %}
-    {% include "menu.html" %}
-    {% endwith %}
-    <div class="col-lg-9 container my-5 justify-content-center">
-        <div class="mx-5 table-responsive">
-            <div class="row justify-content-between mb-3">
-                <div class="col-auto">
-                <input class="form-control" type="text" id="searchbox" onkeyup="buscar('searchbox','table')"
-                       placeholder="Buscar...">
+    {% with path=request.path %} {% include "menu.html" %} {% endwith %}
+    <div class="col-lg-8 container my-5 justify-content-center">
+        <div class="table-responsive">
+            <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="">Medicinas</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="/medicinas/agregar_medicina" class="me-2 btn btn-sm btn-outline-secondary">Agregar medicina</a>
                 </div>
-                <div class="col-auto">
-                    <a href="/agregar_medicina" class="btn boton_pie">Agregar Medicina</a>
-                </div>
+            </div>
+            <div class="col-auto mb-3 ">
+                <input class="form-control " type="text " id="searchbox" onkeyup="buscar( 'searchbox', 'table') " placeholder="Buscar... ">
             </div>
             <table id="table" class="table table-hover">
                 <thead class="table-light">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Presentación</th>
-                    <th scope="col">Medida</th>
-                    <th scope="col">Precio</th>
-<th scope="col">En existencia</th>
-<th scope="col">Modificar</th>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Presentación</th>
+                        <th scope="col">Medida</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">En existencia</th>
+                        <th scope="col">Modificar</th>
 
 
-                </tr>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    {% for medicina in lista_medicinas %}
-                    <th scope="row">{{medicina['id']}}</th>
-                    <td>{{medicina['nombre']}}</td>
-                    <td>{{medicina['descripcion']}}</td>
-                    <td>{{medicina['presentacion']}}</td>
-                    <td>{{medicina['medida']}}</td>
-                    <td>{{medicina['precio']}}</td>
-                    <td>{{medicina['stock']}}</td>
+                    <tr>
+                        {% for medicina in lista_medicinas %}
+                        <th scope="row">{{medicina['id']}}</th>
+                        <td>{{medicina['nombre']}}</td>
+                        <td>{{medicina['descripcion']}}</td>
+                        <td>{{medicina['presentacion']}}</td>
+                        <td>{{medicina['medida']}}</td>
+                        <td>{{medicina['precio']}}</td>
+                        <td>{{medicina['stock']}}</td>
 
-                    <td><a href="medicinas/{{medicina['id']}}" class="btn boton_pie">Modificar</a></td>
-                </tr>
-                {% endfor %}
+                        <td><a href="medicinas/{{medicina['id']}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -99,6 +91,4 @@
 
 
 
-{% endblock %}
-{% block footer %}
-{% endblock %}
+{% endblock %} {% block footer %} {% endblock %}

@@ -43,7 +43,8 @@ def index():
 
 @app.route("/dashboard")
 def mi_cuenta():
-    return render_template("dashboard.html")
+    usuario = get_usuario('email', session['email'])
+    return render_template("dashboard.html", usr=usuario)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -51,23 +52,38 @@ def login():
     if request.method == 'GET':
         return render_template("login.html")
     elif request.method == 'POST':
-        email = request.form['email']
+        usuario = request.form['usuario']
         password = request.form['password']
-        if usuario_existe('email', email):
-            usr = get_usuario('email', email)
+        if usuario_existe('email', usuario):
+            usr = get_usuario('email', usuario)
             if sha256_crypt.verify(password, usr['password']):
                 session['user_id'] = usr['id']
-                session['email'] = email
+                session['email'] = usr['email']
                 session['name'] = usr['name']
                 session['logged_in'] = True
                 session['type'] = usr['type']
                 return redirect("/dashboard")
             else:
                 mensaje = 'Contraseña incorrecta'
-                return render_template("login.html", mensaje=mensaje)
+                flash(mensaje)
+                return render_template("login.html")
+        elif usuario_existe('username',usuario):
+            usr = get_usuario('username', usuario)
+            if sha256_crypt.verify(password, usr['password']):
+                session['user_id'] = usr['id']
+                session['email'] = usr['email']
+                session['name'] = usr['name']
+                session['logged_in'] = True
+                session['type'] = usr['type']
+                return redirect("/dashboard")
+            else:
+                mensaje = 'Contraseña incorrecta'
+                flash(mensaje)
+                return render_template("login.html")
         else:
-            mensaje = 'Ese correo no esta registrado'
-            return render_template("login.html", mensaje=mensaje)
+            mensaje = 'Ese correo o usuario no esta registrado'
+            flash(mensaje)
+            return render_template("login.html")
 
 
 @app.route("/logout", methods=['GET'])
@@ -91,15 +107,15 @@ def register():
             # checar si usuario o email ya existen
             # checamos que el email no sea usado por otra cuenta
             if usuario_existe('email', email):
-                return render_template("signup.html",
-                                       mensaje='El email pertenece a otro usuario existente')
+                flash('El email pertenece a otro usuario existente')
+                return render_template("signup.html")
             # checamos que el username no sea usado por otra cuenta
             if usuario_existe('username', username):
-                return render_template("signup.html",
-                                       mensaje='El username pertenece a otro usuario existente')
+                flash('El username pertenece a otro usuario existente')
+                return render_template("signup.html")
             if password1 != password2:
-                return render_template("signup.html",
-                                       mensaje='Contraseñas no concuerdan, intente de nuevo')
+                flash('Contraseñas no concuerdan, intente de nuevo')
+                return render_template("signup.html")
             else:
                 # lista_usuarios[email] = {
                 #     'email': email,
@@ -126,7 +142,8 @@ def forgot_password():
             username = request.form['email']
             usr = get_usuario('username', username)
             if usuario_existe('username', username):
-                mensaje = f'Se envió un código para cambiar la contraseña a su correo ({email})'
+                correo = usr['email']
+                mensaje = f'Se envió un código para cambiar la contraseña a su correo ({correo})'
                 codigo = ''
                 for i in range(4):
                     numero = randint(0, 9)
@@ -136,10 +153,12 @@ def forgot_password():
                 # MANDAR CODIGO POR CORREO DE LA PERSONA
                 mandar_correo_codigo('PetVetReal@gmail.com',
                                      usr['email'], '..:Phi3GcAzJGwJ', codigo)
-                return redirect('/reset_code', mensaje='Se ha mandado un código a su correo electronico')
+                flash(mensaje)
+                return redirect('/reset_code')
             # por email
             if usuario_existe('email', email) and email != 'PetVetReal@gmail.com':
-                mensaje = f'Se envió un código para cambiar la contraseña a su correo ({email})'
+                correo = usr['email']
+                mensaje = f'Se envió un código para cambiar la contraseña a su correo ({correo})'
                 codigo = ''
                 for i in range(4):
                     numero = randint(0, 9)
@@ -149,10 +168,12 @@ def forgot_password():
                 # MANDAR CODIGO POR CORREO DE LA PERSONA
                 mandar_correo_codigo('PetVetReal@gmail.com',
                                      email, '..:Phi3GcAzJGwJ', codigo)
+                flash(mensaje)
                 return redirect('/reset_code')
             else:
-                mensaje = 'El correo no está registrado'
-                return render_template("password/forgot_password.html", mensaje=mensaje)
+                mensaje = 'El correo o usuario no está registrado'
+                flash(mensaje)
+                return render_template("password/forgot_password.html")
     else:
         return redirect("/")
 
@@ -160,7 +181,7 @@ def forgot_password():
 @app.route("/reset_code", methods=['GET', 'POST'])
 def reset_code():
     if 'logged_in' not in session.keys():
-        if request.method == 'GET':
+        if request.method == 'GET': 
             return render_template('password/reset_code.html')
         elif request.method == 'POST':
             codigo_usuario = request.form['codigo']
@@ -171,7 +192,8 @@ def reset_code():
                 return redirect('/new_password')
             else:
                 mensaje = 'Codigo Incorrecto, pruebe de nuevo'
-                return render_template('password/reset_code.html', mensaje=mensaje)
+                flash(mensaje)
+                return render_template('password/reset_code.html')
     else:
         return redirect("/")
 
@@ -192,7 +214,8 @@ def new_password():
                 return redirect('/password_changed')
             else:
                 mensaje = 'Contraseñas no concuerdan, intente de nuevo'
-                return render_template("password/new_password.html", mensaje=mensaje)
+                flash(mensaje)
+                return render_template("password/new_password.html")
     else:
         return redirect("/")
 
@@ -240,12 +263,12 @@ def agregar_usuario():
                     # checar si usuario o email ya existen
                     # checamos que el email no sea usado por otra cuenta
                     if usuario_existe('email', email):
-                        return render_template("usuarios/agregar_usuario.html",
-                                               mensaje='El email pertenece a otro usuario existente')
+                        flash('El email pertenece a otro usuario existente')
+                        return render_template("usuarios/agregar_usuario.html")
                     # checamos que el username no sea usado por otra cuenta
                     if usuario_existe('username', username):
-                        return render_template("usuarios/agregar_usuario.html",
-                                               mensaje='El username pertenece a otro usuario existente')
+                        flash('El username pertenece a otro usuario existente')
+                        return render_template("usuarios/agregar_usuario.html")
                     else:
                         # lista_usuarios[email] = {
                         #     'email': email,
@@ -289,11 +312,11 @@ def mod_usuario(usu):
 
                     # checar que el email y usuarios a actualizar no se encuentren registrados
                     if email not in usuario['email'] and usuario_existe('email', email):
-                        return render_template("usuarios/modificar_usuario.html", dicc_usuario=usuario,
-                                               mensaje='El email pertenece a otro usuario existente')
+                        flash('El email pertenece a otro usuario existente')
+                        return render_template("usuarios/modificar_usuario.html", dicc_usuario=usuario)
                     if username not in usuario['username'] and usuario_existe('username', username):
-                        return render_template("usuarios/modificar_usuario.html", dicc_usuario=usuario,
-                                               mensaje='El username pertenece a otro usuario existente')
+                        flash('El username pertenece a otro usuario existente')
+                        return render_template("usuarios/modificar_usuario.html", dicc_usuario=usuario)
 
                     actualizar_todo_usuario(email, username, name, type, id)
 
@@ -465,8 +488,8 @@ def agregar_medicina():
                     # info = nombre + " " + descripcion + " " +str(precio) + " " + presentacion + " " +medida+ " " + stock
                     # return  info
                     if medicina_existe(nombre, descripcion, presentacion, medida):
-                        return render_template("medicinas/lista_medicinas.html",
-                                               mensaje='Esta medicina ya esta registrada en el inventario')
+                        flash('Esta medicina ya esta registrada en el inventario')
+                        return render_template("medicinas/lista_medicinas.html")
                     else:
                         insertar_medicina(nombre, descripcion,
                                           presentacion, medida, stock, precio)
@@ -504,8 +527,8 @@ def mod_medicina(id_med):
                         if medicina['nombre'] != nombre or medicina['descripcion'] != descripcion or medicina[
                             'medida'] != medida or medicina['presentacion'] != presentacion:
                             if medicina_existe(nombre, descripcion, presentacion, medida):
-                                return render_template("medicinas/modificar_medicina.html", dicc_medicina=medicina,
-                                                       mensaje='Ya existe una medicina con estos datos')
+                                flash('Ya existe una medicina con estos datos')
+                                return render_template("medicinas/modificar_medicina.html", dicc_medicina=medicina)
                             else:
                                 modificar_medicina(id, nombre, descripcion, presentacion, medida, stock, precio)
                                 return redirect('/medicinas')
@@ -943,9 +966,10 @@ def informe_ventas_rango():
                                        lista_meds=medicinas, tipo='Rango', date_hasta=hasta, date_desde=desde,
                                        data=json.dumps(data_dict))
                     else:
+                        flash('Ingrese una fecha Mayor')
                         return render_template("reporte/reporte.html",
                                                date_desde=desde, date_hasta=hasta,
-                                               tipo='Rango', mensaje='Ingrese una fecha Mayor')
+                                               tipo='Rango')
                 else:
                     abort(403)
             else:

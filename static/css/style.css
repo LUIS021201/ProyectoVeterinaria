@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 html,
 body {
-    font-family: 'Roboto';
+    font-family: 'Open Sans';
     font-size: 15px;
     line-height: 1.5;
     box-sizing: border-box;
@@ -22,8 +22,25 @@ a {
     font-weight: 300;
 }
 
+h1 {
+    font-family: 'Open Sans';
+    font-weight: 700;
+    color: #94bcf3;
+    font-size: 1.7rem;
+}
+
 a:hover {
     color: #aacbfa;
+    transition: all .4s ease-in-out;
+}
+
+h2 {
+    font-weight: 300;
+}
+
+p {
+    font-size: 13pt;
+    text-align: justify;
 }
 
 .no-border {
@@ -41,6 +58,34 @@ a:hover {
     padding: 1rem 0;
     display: block;
     text-decoration: none;
+}
+
+.image {
+    height: 600px;
+}
+
+.carousel-item:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.carousel-caption {
+    z-index: 100;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: initial;
+}
+
+.image img {
+    width: 100%;
+    height: 100% !important;
+    object-fit: cover;
 }
 
 .navbar-brand {
@@ -143,14 +188,14 @@ a:hover {
 }
 
 .boton_login {
-    background-color: #a9caf9;
+    background-color: #C0CDF1;
     color: #000000;
     padding: 0.7rem 3rem;
     font-size: 1.1rem;
 }
 
 .boton_login:hover {
-    background-color: #6398e3;
+    background-color: #7e95d5;
     color: white;
 }
 
@@ -170,6 +215,7 @@ a:hover {
     font-size: 1rem;
     width: 20rem;
     height: 3rem;
+    transition: all 0.4s ease-in-out;
 }
 
 .contenedor_campo {
@@ -186,6 +232,7 @@ a:hover {
 .olvide_contrasenia:hover {
     color: #010181;
     text-decoration: underline;
+    transition: all 0.2s ease-in-out;
 }
 
 .contenedor_logo {
@@ -225,11 +272,10 @@ a:hover {
     min-height: 100%;
 }
 
-.titulo {
-    padding: 2rem;
-    color: white;
-    text-align: center;
-    font-size: 3rem;
+#titulo {
+    font-size: 2rem;
+    color: #7e95d5;
+    font-weight: 400;
 }
 
 .contenedor_accesos {
@@ -266,24 +312,22 @@ a:hover {
 /*}*/
 
 .elemento_lista {
-    color: #6e92c4;
+    color: black;
     font-size: 1.1rem;
 }
 
 .boton_pie {
-    font-weight: 500;
+    background-color: #aacbfa;
+    color: black;
+    padding: 0.7rem 1rem;
+    font-size: 1.1rem;
+    font-weight: 300;
 }
 
-.boton_pie,
-.elemento_accesos:hover {
-    background-color: #6398e3;
+.boton_pie:hover {
+    background-color: #6583AD;
     color: white;
-}
-
-.boton_pie:hover,
-.elemento_accesos {
-    background-color: #4973ae;
-    color: white;
+    transition: all 0.4s ease-in-out;
 }
 
 .contenedor_btns {
@@ -313,11 +357,43 @@ a:hover {
     transition: all .3s ease-in-out;
 }
 
-.cards {
-    background-color: #cbddf7 !important;
+a .cards {
+    background-color: #c7defc !important;
     margin: 35px;
     padding: 20px 15px 30px 15px;
     border-radius: 30px;
+}
+
+a:hover .cards {
+    background-color: #aacbfa !important;
+    transition: all 0.4s ease-in-out;
+}
+
+.box {
+    background-color: white !important;
+    box-shadow: 1px 1px 10px #6583ad3d;
+    border-radius: 30px;
+    padding: 20px;
+    margin: 30px;
+}
+
+.box i {
+    font-size: 1rem;
+    margin-left: 20px;
+    margin-right: 15px;
+    color: #6583AD;
+}
+
+.box p {
+    font-size: 1.2rem;
+    margin-right: 20px;
+}
+
+.box h5 {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #6583AD;
+    font-weight: 600;
 }
 
 .item {
@@ -339,12 +415,19 @@ a:hover {
     font-weight: 900;
     padding: 1.5rem;
     color: #6398e3;
+}
+
+#servicios .item i {
+    font-size: 3rem;
+    font-weight: 900;
+    padding: 1.5rem;
+    color: #6398e3;
     border: 2px solid #6398e300;
     border-radius: 50%;
     transition: all 0.4s ease-in-out;
 }
 
-.item i:hover {
+#servicios .item i:hover {
     background-color: #a9caf9;
     color: white;
 }
@@ -378,26 +461,27 @@ a:hover .dropdown-menu {
 .sidebar-container {
     padding: 20px 0 0 2rem;
     height: 100%;
-    min-height: 100vh;
-    background-color: #C4DBFB !important;
+    min-height: 90vh;
+    background-color: #C7DEFF !important;
 }
 
 h3 {
-    color: #6e92c4;
+    color: #6398e3;
     margin-left: 10px;
     font-size: 1.5rem;
+    font-weight: 400;
     margin-bottom: 0px;
 }
 
 h5 {
     margin-left: 10px;
-    color: #8aa8d2;
+    color: #6583AD;
     font-size: 1.2rem;
 }
 
 .menu a {
     font-size: 1rem;
-    color: #6e92c4 !important;
+    color: #6583AD !important;
     height: 100%;
 }
 
@@ -411,7 +495,7 @@ h5 {
 .offcanvas-body .menu a:hover {
     background-color: rgba(0, 0, 0, .03);
     border-radius: 0;
-    color: #a9caf9 !important;
+    color: #94bcf3 !important;
     transition: all .4s ease-in-out;
 }
 
@@ -421,8 +505,29 @@ h5 {
     background-color: white;
 }
 
+td a {
+    font-size: 1.5rem;
+    color: #000000;
+}
+
+td a:hover {
+    color: #94bcf3;
+    transition: all 0.4s ease-in-out;
+}
+
 #content {
     display: inline-block;
+}
+
+.pie {
+    color: #636FA4;
+    font-size: 12pt;
+    font-weight: 200;
+}
+
+.mapa-titulo {
+    top: 110px;
+    left: 0;
 }
 
 @media only screen and (max-width: 991px) {
@@ -447,6 +552,10 @@ h5 {
     .dropdown-menu {
         border: none;
     }
+    .mapa-titulo {
+        top: 60px;
+        left: 0;
+    }
 }
 
 @page {
@@ -455,3 +564,7 @@ h5 {
 }
 
 @media print {}
+
+* {
+    scroll-behavior: smooth !important;
+}

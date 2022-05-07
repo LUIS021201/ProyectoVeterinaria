@@ -1,46 +1,44 @@
-{%  extends "base.html"  %}
-{%  set log = log %}
-{% block title %}Modificar medicina
-{% endblock %}
-
-{% block body %}
-{% include "navbar.html" %}
+{% extends "base.html" %} {% set log = log %} {% block title %}Modificar medicina {% endblock %} {% block body %} {% include "navbar.html" %}
 
 <div class="row">
-    {% with path="/medicinas" %}
-    {% include "menu.html" %}
-    {% endwith %}
-    <div class="col-lg-9 container my-5 justify-content-center">
-        <a href="/usuarios" class="ms-4 elemento_lista"><i class="fa-solid fa-chevron-left"></i> Regresar</a>
-        <h3 class="mb-3 text-center">Modificar Medicina</h3>
+    {% with path="/medicinas" %} {% include "menu.html" %} {% endwith %}
+    <div class="col-lg-8 container my-5 text-center justify-content-center">
+        <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a href="/medicinas" class="ms-4 elemento_lista"><i class="fa-solid fa-chevron-left"></i> Regresar</a>
+            </div>
+
+        </div>
+        <h3 class="my-3 ms-4">Modificar medicina</h3>
+
         <div class="container-sm">
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
             <form class="needs-validation" action="" method="POST">
                 <div class="form-floating mb-3">
-                    <input readonly type="number" class="form-control" id="id" name="id" value="{{dicc_medicina['id']}}"
-                           required>
+                    <input readonly type="number" class="form-control" id="id" name="id" value="{{dicc_medicina['id']}}" required>
                     <label for="id">ID</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="nombre" name="nombre"
-                           value="{{dicc_medicina['nombre']}}"
-                           required>
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="{{dicc_medicina['nombre']}}" required>
                     <label for="nombre">Nombre de medicamento</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="descripcion" name="descripcion"
-                           value="{{dicc_medicina['descripcion']}}" required>
+                    <textarea type="text" style="height: 200px;" placeholder="Descripción" class="form-control" id="descripcion" required name="descripcion" maxlength="500">{{dicc_medicina['descripcion']}}</textarea>
+
                     <label for="descripcion">Descripción</label>
                 </div>
 
 
                 <div class="input-group ">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" style="height: 3rem;"
-                               >Presentacion</label>
+                        <label class="input-group-text" style="height: 3rem;">Presentacion</label>
                     </div>
-                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
-                            aria-label=".form-select-lg example"
-                            id="presentacion" name="presentacion">
+                    <select class="custom-select form-select form-select-lg mb-3 form-floating" aria-label=".form-select-lg example" id="presentacion" name="presentacion">
 
                         <option value="Pomada" {% if dicc_medicina['presentacion']=='Pomada' %}selected {% endif %}>Pomada</option>
                         <option value="Pastillas" {% if dicc_medicina['presentacion']=='Pastillas' %}selected {% endif %}>Pastillas</option>
@@ -52,32 +50,24 @@
 
                 <div class="input-group ">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" style="height: 3rem;" >Medida</label>
+                        <label class="input-group-text" style="height: 3rem;">Medida</label>
                     </div>
-                    <select class="custom-select form-select form-select-lg mb-3 form-floating"
-                            aria-label=".form-select-lg example"
-                            id="medida" name="medida">
+                    <select class="custom-select form-select form-select-lg mb-3 form-floating" aria-label=".form-select-lg example" id="medida" name="medida">
 
                         <option value="mg" {% if dicc_medicina['medida']=='mg' %}selected {% endif %}>Miligramos</option>
                         <option value="ml" {% if dicc_medicina['medida']=='ml' %}selected {% endif %}>Mililitros</option>
                     </select>
                 </div>
-                 <div class="form-floating mb-3">
-                    <input type="number" min='0' step=".01" pattern='[0-9]+(\\.[0-9][0-9]?)?' class="form-control"
-                           id="validationServer06" required
-                           placeholder="Escriba el precio"
-                           name="precio" value="{{dicc_medicina['precio']}}">
+                <div class="form-floating mb-3">
+                    <input type="number" min='0' step=".01" pattern='[0-9]+(\\.[0-9][0-9]?)?' class="form-control" id="validationServer06" required placeholder="Escriba el precio" name="precio" value="{{dicc_medicina['precio']}}">
                     <label for="validationServer06">Precio</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="number" min="0" step="1" class="form-control" id="validationServer07" required
-                           placeholder="Escriba la cantidad"
-                           name="stock" value="{{dicc_medicina['stock']}}">
+                    <input type="number" min="0" step="1" class="form-control" id="validationServer07" required placeholder="Escriba la cantidad" name="stock" value="{{dicc_medicina['stock']}}">
                     <label for="validationServer07">Cantidad en existencia</label>
                 </div>
                 <div class="contenedor_btns">
-                    <input class="btn boton_pie" type="submit" name="enviar" value="Guardar Cambios"> <h6
-                        style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
+                    <input class="btn boton_pie" type="submit" name="enviar" value="Guardar Cambios">
                 </div>
             </form>
         </div>
@@ -85,6 +75,4 @@
 </div>
 
 
-{% endblock %}
-{% block footer %}
-{% endblock %}
+{% endblock %} {% block footer %} {% endblock %}

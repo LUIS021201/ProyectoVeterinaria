@@ -1,36 +1,32 @@
-{% extends "base.html" %}
-{% set log = log %}
-{% block title %}Confirmar cita
-{% endblock %}
-
-{% block body %}
-
-{% include "navbar.html" %}
+{% extends "base.html" %} {% set log = log %} {% block title %}Confirmar cita {% endblock %} {% block body %} {% include "navbar.html" %}
 
 <div class="row">
-    {% with path="/agendar" %}
-    {% include "menu.html" %}
-    {% endwith %}
-    <div class="col-lg-6 container text-center my-5">
-        <h3 class="" style="padding: 1rem;">Agendar Cita</h3>
+    {% with path="/agendar" %} {% include "menu.html" %} {% endwith %}
+    <div class="col-lg-8 container text-center my-5">
+        <div class="d-flex mx-2 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h3 class="">Agendar cita</h3>
+
+        </div>
         <div class="container-sm">
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
             <form class="needs-validation" action="" method="POST">
                 {% if type=='cliente' %}
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="input_email" value="{{dicc_usuario['email']}}"
-                           readonly="true" required name="email">
+                    <input type="email" class="form-control" id="input_email" value="{{dicc_usuario['email']}}" readonly="true" required name="email">
                     <label class='floating-ph' for="validationServer01">Email</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" placeholder="Nombre del dueño" class="form-control" id="validationServer02"
-                           required name="nombre"
-                           value="{{dicc_usuario['name']}}" readonly="true">
+                    <input type="text" placeholder="Nombre del dueño" class="form-control" id="validationServer02" required name="nombre" value="{{dicc_usuario['name']}}" readonly="true">
                     <label class='floating-ph' for="validationServer02">Nombre del dueño</label>
                 </div>
 
                 <div id='input_mascota' class="mb-3">
-                    <input id="m_input" placeholder="Nombre de la mascota" 
-                           class="form-control" list="mascotas" name="mascota" onChange="get_data_masc(this)"/>
+                    <input id="m_input" placeholder="Nombre de la mascota" class="form-control" list="mascotas" name="mascota" onChange="get_data_masc(this)" />
                     <datalist id="mascotas">
                         {% for mascota in lista_mascotas %}
                         <option value="{{mascota['nombre_mascota']}}">{{mascota['nombre_mascota']}}</option>
@@ -43,8 +39,7 @@
                 <div class="mb-3" id='sel_email'>
 
 
-                    <input class="form-control" id='email' type="email" placeholder="Ingrese el email..."
-                           list="lista_email" name="email" required onchange="get_data(this)"/>
+                    <input class="form-control" id='email' type="email" placeholder="Ingrese el email..." list="lista_email" name="email" required onchange="get_data(this)" />
                     <datalist name="lista" id="lista_email">
                         {% for usr in lista_usuarios %}
                         <option value="{{usr['email']}}">{{usr['email']}}</option>
@@ -55,14 +50,12 @@
 
                 <div id='dueno' class="form-floating mb-3">
 
-                    <input type="text" style="text-transform: capitalize;" placeholder="Nombre del dueño"
-                           class="form-control" id="nombre" required name="nombre">
+                    <input type="text" style="text-transform: capitalize;" placeholder="Nombre del dueño" class="form-control" id="nombre" required name="nombre">
                     <label class="form-label" for="nombre">Nombre del dueño</label>
 
                 </div>
                 <div id='input_mascota' class="mb-3">
-                    <input id="m_input" placeholder="Nombre de la mascota" class="form-control"
-                            list="mascotas" name="mascota" onchange="get_data_masc(this)"/>
+                    <input id="m_input" placeholder="Nombre de la mascota" class="form-control" list="mascotas" name="mascota" onchange="get_data_masc(this)" />
 
 
                     <datalist id="mascotas">
@@ -74,8 +67,7 @@
                 {% endif %}
 
                 <div class="form-floating mb-3">
-                    <input type="text" placeholder="Tipo de mascota" class="form-control" id="tipo_mascota"
-                           name="tipo_mascota">
+                    <input type="text" placeholder="Tipo de mascota" class="form-control" id="tipo_mascota" name="tipo_mascota">
                     <label for="tipo_mascota">Tipo de mascota</label>
                 </div>
                 <!-- <div class="form-floating mb-3">
@@ -84,25 +76,19 @@
                     </div> -->
 
                 <div class="form-floating mb-3">
-                    <input type="date" class="form-control" id="validationServer04" required name="fecha"
-                           value="{{fecha}}"
-                           disabled>
+                    <input type="date" class="form-control" id="validationServer04" required name="fecha" value="{{fecha}}" disabled>
                     <label for="validationServer04">Fecha</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="validationServer04" required name="hora"
-                           value="{{hora}}"
-                           disabled>
+                    <input type="text" class="form-control" id="validationServer04" required name="hora" value="{{hora}}" disabled>
                     <label for="validationServer04">Hora</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="validationServer04" required name="servicio"
-                           value="{{tipo}}" disabled>
+                    <input type="text" class="form-control" id="validationServer04" required name="servicio" value="{{tipo}}" disabled>
                     <label for="validationServer04">Servicio</label>
                 </div>
                 <div class="contenedor_btns">
                     <input class="btn boton_pie" type="submit" name="enviar" value="Confirmar cita">
-                    <h6 style="color: #0d6efc;font-size: 1.2rem;">{{mensaje}}</h6>
                 </div>
             </form>
             <a href="/agendar">
@@ -113,8 +99,4 @@
 
     </div>
 </div>
-{% endblock %}
-{% block footer %}
-
-
-{% endblock %}
+{% endblock %} {% block footer %} {% endblock %}
