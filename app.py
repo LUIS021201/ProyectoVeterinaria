@@ -157,8 +157,8 @@ def forgot_password():
                 return redirect('/reset_code')
             # por email
             if usuario_existe('email', email) and email != 'PetVetReal@gmail.com':
-                correo = usr['email']
-                mensaje = f'Se envió un código para cambiar la contraseña a su correo ({correo})'
+
+                mensaje = f'Se envió un código para cambiar la contraseña a su correo ({email})'
                 codigo = ''
                 for i in range(4):
                     numero = randint(0, 9)
