@@ -7,6 +7,7 @@ link para probar la pagina: http://petvet.pythonanywhere.com
 
 
 """
+
 from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for, abort
 from citas import *
 import json 
