@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  db:
+    image: mysql:8.0.31
+    ports:
+      - "5500:3306"
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "123"
+      MYSQL_USER: "userdb"
+      MYSQL_PASSWORD: "userpw"
+      MYSQL_DATABASE: "petvet"
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./mysql-dump/petvet_script.sql:/docker-entrypoint-initdb.d/petvet_script.sql
+    networks:
+      mysql_network:
+        aliases:
+          - mysql_host
+  flask:
+    build: .
+    ports:
+      - "5000:5000"
+    networks:
+      mysql_network:
+        aliases:
+          - mysql_host
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+networks:
+  mysql_network:
+    name: mysql_net
+volumes:
+  dbdata:
+    driver: local
+  

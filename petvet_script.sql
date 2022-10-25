@@ -108,3 +108,13 @@ CREATE TABLE medicinas_receta (
 	FOREIGN KEY (receta_id) REFERENCES recetas (id),
 	FOREIGN KEY (medicinas_id) REFERENCES medicinas (id)
 )ENGINE=MyISAM default char set=latin1;
+
+INSERT INTO users (fecha_creacion,email,username,password,name,type) VALUES (CURDATE(),'luis@gmail.com','luis','$5$rounds=535000$656MRtarbYnV5bBM$1kwFoigovLgyRQz/Q/UL0wn61L34fFOhHPkKiZiig62' ,'Luis Hernández', 'admin');
+INSERT INTO medicinas (nombre,descripcion, presentacion, medida, stock, precio) VALUES('Acepromazine', 'Tranquilizante/sedante para perros, gatos, caballos y otros animales.',
+                      'Pastillas', 'mg', '10', '100');
+INSERT INTO medicinas (nombre,descripcion, presentacion, medida, stock, precio) VALUES('Codeine',
+                      'Usada para tratar el dolor leve a moderado en mascotas. También se puede usar como un supresor de la tos o como medicamento contra la diarrea.',
+                      'Pastillas', 'mg', '5', '250');
+INSERT INTO medicinas (nombre,descripcion, presentacion, medida, stock, precio) VALUES('Brosin',
+                      'Para el tratamiento de heridas simples o infectadas, llagas, quemaduras, dermatitis pústulas y eccema.',
+                      'Pomada', 'mg', '3', '125');  
